@@ -1,0 +1,5 @@
+item_id1  X11  X12  X13
+item_id2  X21  X22  X23
+item_id3  X31  X32  X33
+item_id4  X41  X42  X43
+item_id5  X51  X52  X53
