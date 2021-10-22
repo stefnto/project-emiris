@@ -33,7 +33,8 @@ void LSH_HashTable::insert(LSH_item){
 
 //gFunction Methods
 
-gFunction::gFunction(){
+gFunction::gFunction(int itemSize){
+    // for (int i = 0 ; i < itemSize; i++) linearCombinationElements.push_back(std::pair())
 
 }
 
@@ -41,8 +42,31 @@ int gFunction::operator()(LSH_item&){
 
 }
 
+//hFunction Methods
+
+hFunction::hFunction(int itemSize):w(4){
+    std::default_random_engine generator;
+    std::uniform_real_distribution<float> distribution(0.0,w*1.0);
+
+    t = distribution(generator);
+
+    std::normal_distribution<float> distributionN(0.0,4.5);
+
+    for (int i = 0 ; i < itemSize; i++) v.push_back(distributionN(generator));
+
+}
+
 //general methods
 
 double EuclidianDistance(std::vector<double> a , std::vector<double> b){
+        if (a.size() != b.size()) throw LSH_Exception();
+
+        double sum = 0;
+
+        for (int i = 0 ; i < a.size(); i++){
+            sum += pow((a.at(i) - b.at(i)),2); 
+        }
+
+        return sqrt(sum);
 
 }
