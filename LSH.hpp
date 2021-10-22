@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <list>
+#include <random>
 
 double EuclidianDistance(std::vector<double> a, std::vector<double> b);
 
@@ -55,7 +56,7 @@ public:
     void insert(LSH_item); 
 };
 
-class gFunction{                                                                                        //gFunction is a functor
+class gFunction{                                                                                      //gFunction is a functor
     private:
     class hFunction;                                                                            
 
@@ -63,10 +64,25 @@ class gFunction{                                                                
 
     public:
 
-        gFunction();
+        gFunction(int itemSize);
         int operator()(LSH_item&);                                                                      //Hashing function
 
 };
+
+class hFunction{
+    private:
+
+        std::vector<float> v;
+        float t;
+        const int w;
+
+    public:
+
+        hFunction(int itemSize);
+        int operator()(LSH_item&);
+};
+
+class LSH_Exception{};
 
 
 
