@@ -3,6 +3,7 @@
 #include <cmath>
 #include <list>
 
+double EuclidianDistance(std::vector<double> a, std::vector<double> b);
 
 class LSH_solver{
     private:
@@ -13,7 +14,6 @@ class LSH_solver{
         LSH_HashTable* hashTables;                                          //Hash tables using the G hash functions
         int N;                                                              //number of Nearest Neighbours we're looking for 
         int R;                                                              //the search is made inside the R Radius
-
 
     public:
 
@@ -31,7 +31,6 @@ class LSH_item{
         std::string item_id;
         std::vector<double> coordinates;
         int ID;
-
     public:
         LSH_item(std::string item_id,std::vector<double> coordinates);
         ~LSH_item() = default;
@@ -43,18 +42,33 @@ class LSH_item{
 class LSH_HashTable{
 private:
     int size;
+    int k;                                                                                            //Number of H functions used by hashingFunction
+
+    class gFunction;
+
     int (*hashingFunction)(LSH_item);
-    std::list<LSH_item &>* buckets;                                                             //Array of Lists Aka Hash Table;
+    std::list<LSH_item &>* buckets;                                                                   //Array of Lists Aka Hash Table;
 public:
-    LSH_HashTable(int size);                                                                    //Constructs H and G functions;
+    LSH_HashTable(int size,int k);                                                                    //Constructs H and G functions;
     ~LSH_HashTable() = default;
     LSH_HashTable(LSH_HashTable&) = default;
-    void insert(LSH_item&); 
+    void insert(LSH_item); 
+};
+
+class gFunction{                                                                                        //gFunction is a functor
+    private:
+    class hFunction;                                                                            
+
+    std::vector<std::pair<int,hFunction>> linearCombinationElements;                                    
+
+    public:
+
+        gFunction();
+        int operator()(LSH_item&);                                                                      //Hashing function
+
 };
 
 
 
 
 
-
-double EuclidianDistance(std::vector<double> a, std::vector<double> b);
