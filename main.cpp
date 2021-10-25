@@ -1,24 +1,27 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <getopt.h>
 #include <vector>
+#include <time.h>
 
 using namespace std;
 
 int main(int argc, char *argv[]){
 
+  double sttime, endtime;                                 // to compute total run time
   extern char *optarg;
   extern int optind;
   int opt;
-  vector<vector<string>> coordinates;                    // stores each vectors coordinates in each row
-  vector<string> ids;                                    // stores the id of each vector
+  int number;
+  vector<vector<int>> coordinates;                        // stores each vectors coordinates in each row
   ifstream datafile;
-  int counter = 0;                                       // counter used to loop through lines of input_file
+  int counter = 0;                                        // counter used to loop through lines of input_file
 
   string input_file, query_file, output_file;
   int iflag = 1, qflag = 1, oflag = 1;
-  int k = 4, l = 5, n = 1, r = 10000;                    // default values if not changed
+  int k = 4, l = 5, n = 1, r = 10000;                     // default values if not changed
 
 
 
@@ -67,32 +70,39 @@ int main(int argc, char *argv[]){
   cout << "N = " << n << "\n";
   cout << "R = " << r << "\n";
 
+  sttime=((double) clock())/CLOCKS_PER_SEC;
+
   // open input_file and get coordinates
   datafile.open(input_file);
   if (datafile.is_open()){
     string line;
     while (getline(datafile, line)){
-      ids.push_back(line.substr(0,8));                    // push id shmeiou
-
-      coordinates.push_back(vector<string>());            // push vector that will store the coordinates tou shmeiou
-
-      coordinates[counter].push_back(line.substr(10,3));  // push coordinates
-      coordinates[counter].push_back(line.substr(15,3));
-      coordinates[counter].push_back(line.substr(20,3));
+      istringstream ss(line);
+      while (ss >> number){
+        coordinates.push_back(vector<int>());             // push vector that will store the coordinates, coordinates[i][0] displays the id
+        coordinates[counter].push_back(number);           // push each coordinate
+      }
       counter++;
     }
     datafile.close();
   }
 
-  // display coordinates
-  for (int i=0; i< ids.size(); i++)
-    cout << ids[i] << "\n";
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+  cout << "time: " << endtime - sttime << endl;
 
-  for (int i=0; i< coordinates.size(); i++){
-    for (int j=0; j<coordinates[i].size(); j++){
-      cout << coordinates[i][j] << " ";
+  // display coordinates
+    for (int j=0; j<coordinates[0].size(); j++){
+      cout << coordinates[0][j] << " ";
     }
-    cout << "\n";
-  }
+    cout << endl;
+    //cout << "coordinates[0] size = " << coordinates[0].size() << endl;
+
+    for (int j=0; j<coordinates[999999].size(); j++){
+      cout << coordinates[999999][j] << " ";
+    }
+    cout << endl;
+    //cout << "coordinates[999999] size = " << coordinates[999999].size() << endl;
+
+    cout << "coordinates size = " << counter << endl;
 
 }

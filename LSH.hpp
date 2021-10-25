@@ -13,7 +13,7 @@ class LSH_solver{
         class LSH_HashTable;
 
         LSH_HashTable* hashTables;                                          //Hash tables using the G hash functions
-        int N;                                                              //number of Nearest Neighbours we're looking for 
+        int N;                                                              //number of Nearest Neighbours we're looking for
         int R;                                                              //the search is made inside the R Radius
 
     public:
@@ -37,7 +37,7 @@ class LSH_item{
         ~LSH_item() = default;
         LSH_item(LSH_item&) = default;
         void set_id(int ID);
-    
+
 };
 
 class LSH_HashTable{
@@ -53,14 +53,14 @@ public:
     LSH_HashTable(int size,int k);                                                                    //Constructs H and G functions;
     ~LSH_HashTable() = default;
     LSH_HashTable(LSH_HashTable&) = default;
-    void insert(LSH_item); 
+    void insert(LSH_item);
 };
 
 class gFunction{                                                                                      //gFunction is a functor
     private:
-    class hFunction;                                                                            
+    class hFunction;
 
-    std::vector<std::pair<int,hFunction>> linearCombinationElements;                                    
+    std::vector<std::pair<int,hFunction>> linearCombinationElements;
 
     public:
 
@@ -83,8 +83,3 @@ class hFunction{
 };
 
 class LSH_Exception{};
-
-
-
-
-

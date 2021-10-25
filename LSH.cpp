@@ -64,9 +64,11 @@ double EuclidianDistance(std::vector<double> a , std::vector<double> b){
         double sum = 0;
 
         for (int i = 0 ; i < a.size(); i++){
-            sum += pow((a.at(i) - b.at(i)),2); 
+            sum += pow((a.at(i) - b.at(i)),2);
+            //sum += pow((a.at(i) - b.at(i)),k);                    // initialize k for other metrics
         }
 
         return sqrt(sum);
+        // return pow(sum, 1/k)                                     // return when using other metrics
 
 }
