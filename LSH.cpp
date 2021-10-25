@@ -2,7 +2,7 @@
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(std::vector<double> a, std::vector<double> b) = EuclidianDistance){
+LSH_solver::LSH_solver(std::string dataset_path, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance){
 
 }
 
@@ -12,7 +12,7 @@ bool LSH_solver::solve(std::string query_path, std::string output_path){
 
 //LSH_item Methods;
 
-LSH_item::LSH_item(std::string item_id, std::vector<double> coordinates){
+LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates){
 
 }
 
@@ -26,6 +26,13 @@ LSH_HashTable::LSH_HashTable(int size, int k) : size(size), k(k){
 
     //Create k h functions
 }
+
+LSH_HashTable::~LSH_HashTable(){
+
+    delete[] this->buckets;
+
+}
+
 
 void LSH_HashTable::insert(LSH_item){
 
