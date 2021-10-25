@@ -19,7 +19,7 @@ class LSH_solver{
     public:
 
         //H functions are constructed inside the LSH_solver constructor and picked by the G functions with the expected way.
-        LSH_solver(std::string dataset_path,int k = 4,int L=5,int N = 1,int R = 10000,double (*distanceFunction)(std::vector<double> a, std::vector<double> b) = EuclidianDistance);
+        LSH_solver(std::string dataset_path,int k, int l, int n, int r, double (*distanceFunction)(std::vector<double> a, std::vector<double> b) = EuclidianDistance);
         bool solve(std::string query_path, std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
 
 
@@ -30,7 +30,7 @@ class LSH_solver{
 class LSH_item{
     private:
         std::string item_id;
-        std::vector<double> coordinates;
+        std::vector<int> coordinates;
         int ID;
     public:
         LSH_item(std::string item_id,std::vector<double> coordinates);
@@ -48,7 +48,9 @@ private:
     class gFunction;
 
     int (*hashingFunction)(LSH_item);
-    std::list<LSH_item &>* buckets;                                                                   //Array of Lists Aka Hash Table;
+
+    std::list<LSH_item *>* buckets;
+    //std::list<LSH_item &>* buckets;                                                                   //Array of Lists Aka Hash Table;
 public:
     LSH_HashTable(int size,int k);                                                                    //Constructs H and G functions;
     ~LSH_HashTable() = default;
