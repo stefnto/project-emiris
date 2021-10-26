@@ -47,13 +47,13 @@ private:
     int size;
     int k;                                                                                              //Number of H functions used by hashingFunction
     gFunction hashingFunction;
-    std::list<LSH_item>* buckets;                                                                       //Array of Lists Aka Hash Table;
+    std::list<LSH_item*>* buckets;                                                                       //Array of Lists Aka Hash Table;
     
 public:
-    LSH_HashTable(int size,int k);                                                                      //Constructs H and G functions;
+    LSH_HashTable(int itemDim,int tableSize,int k);                                                                      //Constructs H and G functions;
     ~LSH_HashTable();
     LSH_HashTable(LSH_HashTable&) = default;
-    void insert(LSH_item); 
+    void insert(LSH_item*); 
 };
 
 class hFunction{                            // floor( (p*v + t)/ w )
@@ -77,8 +77,8 @@ class gFunction{                                                                
         std::vector<std::pair<int,hFunction>> linearCombinationElements;                                    
 
     public:
-        gFunction(int itemDim,int k,int tableSize);                                                                        //gFunction is a functor
-        int operator()(const LSH_item&);                                                                        //Hashing function 
+        gFunction(int itemDim,int k,int tableSize);                                                             //itemDim = size of vector that contains the coordinates
+        int operator()(LSH_item&);                                                                       //Hashing Function
 
 };
 
