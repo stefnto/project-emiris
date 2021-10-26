@@ -6,15 +6,17 @@
 
 double EuclidianDistance(std::vector<double> a, std::vector<double> b);
 
+class LSH_HashTable;
+
 class LSH_solver{
     private:
 
-        class LSH_item;
-        class LSH_HashTable;
+        // class LSH_item;
+        // class LSH_HashTable;
 
         LSH_HashTable* hashTables;                                          //Hash tables using the G hash functions
-        int N;                                                              //number of Nearest Neighbours we're looking for
-        int R;                                                              //the search is made inside the R Radius
+        int n;                                                              //number of Nearest Neighbours we're looking for
+        int r;                                                              //the search is made inside the R Radius
 
     public:
 
@@ -33,10 +35,12 @@ class LSH_item{
         std::vector<int> coordinates;
         int ID;
     public:
-        LSH_item(std::string item_id,std::vector<double> coordinates);
+        LSH_item(std::string line);
         ~LSH_item() = default;
-        LSH_item(LSH_item&) = default;
+        //LSH_item(LSH_item&) = default;
         void set_id(int ID);
+        void print_coordinates();
+        int get_coordinates_size();
 
 };
 
@@ -45,7 +49,7 @@ private:
     int size;
     int k;                                                                                            //Number of H functions used by hashingFunction
 
-    class gFunction;
+    // class gFunction;
 
     int (*hashingFunction)(LSH_item);
 
@@ -56,19 +60,6 @@ public:
     ~LSH_HashTable() = default;
     LSH_HashTable(LSH_HashTable&) = default;
     void insert(LSH_item);
-};
-
-class gFunction{                                                                                      //gFunction is a functor
-    private:
-    class hFunction;
-
-    std::vector<std::pair<int,hFunction>> linearCombinationElements;
-
-    public:
-
-        gFunction(int itemSize);
-        int operator()(LSH_item&);                                                                      //Hashing function
-
 };
 
 class hFunction{
@@ -83,5 +74,20 @@ class hFunction{
         hFunction(int itemSize);
         int operator()(LSH_item&);
 };
+
+class gFunction{                                                                                      //gFunction is a functor
+    private:
+    // class hFunction;
+
+    std::vector<std::pair<int,hFunction>> linearCombinationElements;
+
+    public:
+
+        gFunction(int itemSize);
+        int operator()(LSH_item&);                                                                      //Hashing function
+
+};
+
+
 
 class LSH_Exception{};
