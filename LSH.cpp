@@ -1,23 +1,40 @@
 #include "LSH.hpp"
+#include <sstream>
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(std::vector<double> a, std::vector<double> b) = EuclidianDistance){
+LSH_solver::LSH_solver(std::string dataset_path, int k, int , int l, int r, double (*distanceFunction)(std::vector<double> a, std::vector<double> b)){
 
 }
 
 bool LSH_solver::solve(std::string query_path, std::string output_path){
-
+  return true;
 }
 
 //LSH_item Methods;
 
-LSH_item::LSH_item(std::string item_id, std::vector<double> coordinates){
+LSH_item::LSH_item(std::string line){
+  std::stringstream ss(line);
+  int number;
+  while (ss >> number){
+    this->coordinates.push_back(number);           // push each coordinate
+  }
 
 }
 
 void LSH_item::set_id(int ID){
 
+}
+
+void LSH_item::print_coordinates(){
+  for (int i = 0; i < this->coordinates.size(); i++){
+    std::cout << this->coordinates[i] << " " ;
+  }
+  std::cout << std::endl;
+}
+
+int LSH_item::get_coordinates_size(){
+  return this->coordinates.size();
 }
 
 //LSH_HashTable Methods
@@ -39,7 +56,7 @@ gFunction::gFunction(int itemSize){
 }
 
 int gFunction::operator()(LSH_item&){
-
+  return 0;
 }
 
 //hFunction Methods

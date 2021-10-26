@@ -1,27 +1,28 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <getopt.h>
 #include <vector>
 #include <time.h>
 
+#include "LSH.hpp"
+
 using namespace std;
 
 int main(int argc, char *argv[]){
 
-  double sttime, endtime;                                 // to compute total run time
+  double sttime, endtime;                                                       // to compute total run time
   extern char *optarg;
   extern int optind;
   int opt;
   int number;
-  vector<vector<int>> coordinates;                        // stores each vectors coordinates in each row
+  std::vector<LSH_item> points_coordinates;                                     // Stores each point in a vector<LSH_item>;
   ifstream datafile;
-  int counter = 0;                                        // counter used to loop through lines of input_file
+  int counter = 0;                                                              // counter used to loop through lines of input_file
 
   string input_file, query_file, output_file;
   int iflag = 1, qflag = 1, oflag = 1;
-  int k = 4, l = 5, n = 1, r = 10000;                     // default values if not changed
+  int k = 4, l = 5, n = 1, r = 10000;                                           // default values if not changed
 
 
 
@@ -72,16 +73,15 @@ int main(int argc, char *argv[]){
 
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
+
+
+
   // open input_file and get coordinates
   datafile.open(input_file);
   if (datafile.is_open()){
     string line;
     while (getline(datafile, line)){
-      istringstream ss(line);
-      while (ss >> number){
-        coordinates.push_back(vector<int>());             // push vector that will store the coordinates, coordinates[i][0] displays the id
-        coordinates[counter].push_back(number);           // push each coordinate
-      }
+      points_coordinates.emplace_back(line);                                    // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
       counter++;
     }
     datafile.close();
@@ -90,19 +90,11 @@ int main(int argc, char *argv[]){
   endtime=((double) clock())/CLOCKS_PER_SEC;
   cout << "time: " << endtime - sttime << endl;
 
+
   // display coordinates
-    for (int j=0; j<coordinates[0].size(); j++){
-      cout << coordinates[0][j] << " ";
-    }
-    cout << endl;
-    //cout << "coordinates[0] size = " << coordinates[0].size() << endl;
-
-    for (int j=0; j<coordinates[999999].size(); j++){
-      cout << coordinates[999999][j] << " ";
-    }
-    cout << endl;
-    //cout << "coordinates[999999] size = " << coordinates[999999].size() << endl;
-
-    cout << "coordinates size = " << counter << endl;
+  points_coordinates[0].print_coordinates();
+  cout << "points_coordinates size = " << points_coordinates[0].get_coordinates_size() << endl;
+  points_coordinates[points_coordinates.size() - 1].print_coordinates();
+  cout << "size = " << points_coordinates.size() << endl;
 
 }
