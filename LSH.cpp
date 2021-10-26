@@ -26,10 +26,8 @@ const std::vector<int>& LSH_item::getCoordinates() const {
 
     //LSH_HashTable Methods
 
-    LSH_HashTable::LSH_HashTable(int size, int k) : size(size), k(k)
-{
-
-    //Create k h functions
+LSH_HashTable::LSH_HashTable(int size, int k) : size(size), k(k){
+    this->hashingFunction = gFunction(10,k,size);
 }
 
 LSH_HashTable::~LSH_HashTable(){

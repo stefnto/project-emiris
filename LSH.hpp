@@ -46,7 +46,7 @@ class LSH_HashTable{
 private:
     int size;
     int k;                                                                                              //Number of H functions used by hashingFunction
-    int (*hashingFunction)(LSH_item);
+    gFunction hashingFunction;
     std::list<LSH_item>* buckets;                                                                       //Array of Lists Aka Hash Table;
     
 public:
