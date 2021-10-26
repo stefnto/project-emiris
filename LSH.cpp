@@ -2,12 +2,12 @@
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance){
+LSH_solver::LSH_solver(std::string dataset_path, int k , int L , int N , int R , double (*distanceFunction)(std::vector<int> a, std::vector<int> b) ){
 
 }
 
 bool LSH_solver::solve(std::string query_path, std::string output_path){
-
+    return true;
 }
 
 //LSH_item Methods;
@@ -20,9 +20,14 @@ void LSH_item::set_id(int ID){
 
 }
 
-//LSH_HashTable Methods
+const std::vector<int>& LSH_item::getCoordinates() const {
+    return this->coordinates;
+}
 
-LSH_HashTable::LSH_HashTable(int size, int k) : size(size), k(k){
+    //LSH_HashTable Methods
+
+    LSH_HashTable::LSH_HashTable(int size, int k) : size(size), k(k)
+{
 
     //Create k h functions
 }
@@ -34,18 +39,28 @@ LSH_HashTable::~LSH_HashTable(){
 }
 
 
-void LSH_HashTable::insert(LSH_item){
+void LSH_HashTable::insert(LSH_item item){
 
 }
 
 //gFunction Methods
 
-gFunction::gFunction(int itemSize){
-    // for (int i = 0 ; i < itemSize; i++) linearCombinationElements.push_back(std::pair())
+gFunction::gFunction(int itemDim,int k,int tableSize): k(k), tableSize(tableSize) {
+    for (int i = 0 ; i < k; i++) linearCombinationElements.push_back(std::pair<int,hFunction>(rGenerator(),hFunction(itemDim)));
 
 }
 
-int gFunction::operator()(LSH_item&){
+int gFunction::operator()(const LSH_item& item){
+
+    long M = 0xFFFFFFFF - 4;
+    long sum = 0 ;
+
+    for (std::pair<int,hFunction> elem : linearCombinationElements) sum +=( elem.first*elem.second(item) )%M;
+    sum %= M;
+        
+
+    return sum % this->tableSize;
+    
 
 }
 
@@ -57,23 +72,31 @@ hFunction::hFunction(int itemSize):w(4){
 
     t = distribution(generator);
 
-    std::normal_distribution<float> distributionN(0.0,4.5);
+    std::normal_distribution<float> distributionN(0.0,1.0);
 
     for (int i = 0 ; i < itemSize; i++) v.push_back(distributionN(generator));
 
 }
 
-//general methods
+int hFunction::operator()(const LSH_item& item){
 
-double EuclidianDistance(std::vector<double> a , std::vector<double> b){
-        if (a.size() != b.size()) throw LSH_Exception();
+    std::vector<int>::const_iterator it1 = item.getCoordinates().begin();
+    std::vector<float>::const_iterator it2 = v.begin();
 
-        double sum = 0;
+    if( item.getCoordinates().size() != v.size() ) throw LSH_Exception();
 
-        for (int i = 0 ; i < a.size(); i++){
-            sum += pow((a.at(i) - b.at(i)),2); 
-        }
+    float sum = 0;
+    while ( it2 != v.end() ){
+        sum += (*it1)*(*it2);
+        it1++;
+        it2++;
+    }
 
-        return sqrt(sum);
+    sum /= this->w;
+
+    return sum;
 
 }
+
+//general methods
+
