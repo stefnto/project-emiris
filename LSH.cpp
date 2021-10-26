@@ -12,11 +12,11 @@ bool LSH_solver::solve(std::string query_path, std::string output_path){
 
 //LSH_item Methods;
 
-LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates){
-
-}
+LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
 
 void LSH_item::set_id(int ID){
+
+    this->item_id = ID;
 
 }
 
@@ -26,8 +26,9 @@ const std::vector<int>& LSH_item::getCoordinates() const {
 
     //LSH_HashTable Methods
 
-LSH_HashTable::LSH_HashTable(int size, int k) : size(size), k(k){
-    this->hashingFunction = gFunction(10,k,size);
+LSH_HashTable::LSH_HashTable(int itemDim, int k,int tableSize) : size(tableSize), k(k),hashingFunction(itemDim,k,tableSize){
+
+    this->buckets = new std::list<LSH_item*>[tableSize];
 }
 
 LSH_HashTable::~LSH_HashTable(){
@@ -37,7 +38,11 @@ LSH_HashTable::~LSH_HashTable(){
 }
 
 
-void LSH_HashTable::insert(LSH_item item){
+void LSH_HashTable::insert(LSH_item* item){
+
+    int index = this->hashingFunction(*item);
+
+    this->buckets[index].push_back(item);
 
 }
 
@@ -48,14 +53,15 @@ gFunction::gFunction(int itemDim,int k,int tableSize): k(k), tableSize(tableSize
 
 }
 
-int gFunction::operator()(const LSH_item& item){
+int gFunction::operator()(LSH_item& item){
 
     long M = 0xFFFFFFFF - 4;
     long sum = 0 ;
 
     for (std::pair<int,hFunction> elem : linearCombinationElements) sum +=( elem.first*elem.second(item) )%M;
     sum %= M;
-        
+    
+    item.set_id(sum);   //setting id of the item 
 
     return sum % this->tableSize;
     
@@ -97,4 +103,3 @@ int hFunction::operator()(const LSH_item& item){
 }
 
 //general methods
-
