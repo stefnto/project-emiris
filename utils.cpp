@@ -18,3 +18,10 @@ double EuclidianDistance(std::vector<double> a, std::vector<double> b){
 
     return sqrt(sum);
 }
+
+int rGenerator(){
+
+
+      return rand() % 2000 - 999;
+
+}
