@@ -9,12 +9,14 @@
 #include "utils.hpp"
 
 
+class LSH_HashTable;
+
 class LSH_solver{
     private:
         class LSH_HashTable;                                               //Forward Declaration of LSH_HashTable
         LSH_HashTable* hashTables;                                          //Hash tables using the G hash functions
-        int N;                                                              //number of Nearest Neighbours we're looking for 
-        int R;                                                              //the search is made inside the R Radius
+        int n;                                                              //number of Nearest Neighbours we're looking for
+        int r;                                                              //the search is made inside the R Radius
 
     public:
 
@@ -34,12 +36,16 @@ class LSH_item{
         int ID;
     public:
         LSH_item(std::string item_id,std::vector<int> coordinates);
+        LSH_item(std::string line);
         ~LSH_item() = default;
-        LSH_item(LSH_item&) = default;
+        //LSH_item(LSH_item&) = default;
         void set_id(int ID);
         
         const std::vector<int>& getCoordinates() const;
     
+        void print_coordinates();
+        int get_coordinates_size();
+
 };
 
 class LSH_HashTable{
@@ -85,8 +91,6 @@ class gFunction{                                                                
 
 
 class LSH_Exception{};
-
-
 
 
 
