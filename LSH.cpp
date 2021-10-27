@@ -1,4 +1,5 @@
 #include "LSH.hpp"
+#include <sstream>
 
 //LSH_solver Methods
 
@@ -17,10 +18,15 @@ LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(it
 void LSH_item::set_id(int ID){
 
     this->item_id = ID;
-
 }
-
-const std::vector<int>& LSH_item::getCoordinates() const {
+LSH_item::LSH_item(std::string line){
+  std::stringstream ss(line);
+  int number;
+  while (ss >> number){
+    this->coordinates.push_back(number);           // push each coordinate
+  }
+}
+  const std::vector<int>& LSH_item::getCoordinates() const {
     return this->coordinates;
 }
 
@@ -32,10 +38,23 @@ LSH_HashTable::LSH_HashTable(int itemDim, int k,int tableSize) : size(tableSize)
 }
 
 LSH_HashTable::~LSH_HashTable(){
-
-    delete[] this->buckets;
-
+  delete[] this->buckets;
 }
+
+void LSH_item::print_coordinates(){
+  for (int i = 0; i < this->coordinates.size(); i++){
+    std::cout << this->coordinates[i] << " " ;
+  }
+  std::cout << std::endl;
+}
+
+int LSH_item::get_coordinates_size(){
+  return this->coordinates.size();
+}
+
+//LSH_HashTable Methods
+
+ 
 
 
 void LSH_HashTable::insert(LSH_item* item){

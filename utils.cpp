@@ -1,12 +1,11 @@
 #include "utils.hpp"
 
 int mod(int x, int y){
-    if (x < 0)
-        return y - ((-x) % y);
+    if (x < 0) return y - ((-x) % y);
     return x % y;
 }
 
-double EuclidianDistance(std::vector<double> a, std::vector<double> b){
+double EuclidianDistance(std::vector<int> a, std::vector<int> b){
     if (a.size() != b.size()) return 0;
 
     double sum = 0;
