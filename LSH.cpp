@@ -3,8 +3,18 @@
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path, int k , int L , int N , int R , double (*distanceFunction)(std::vector<int> a, std::vector<int> b) ){
+LSH_solver::LSH_solver(std::string dataset_path, int k , int L , int N , int r , double (*distanceFunction)(std::vector<int> a, std::vector<int> b) ):n(n),r(r),L(L){
 
+
+
+
+  this->hashTables = new LSH_HashTable[L];
+
+  for (int i = 0 ; i < L ; i++) hashTables[i].init(10,2,3);              //#placeholder values
+  std::vector<LSH_item*> items = itemGenerator(10,10);
+  for (int i = 0 ; i < L ; i++){
+    for (LSH_item* item : items) hashTables[i].insert(item);
+  }
 }
 
 bool LSH_solver::solve(std::string query_path, std::string output_path){
@@ -31,10 +41,17 @@ LSH_item::LSH_item(std::string line){
 }
 
     //LSH_HashTable Methods
-
 LSH_HashTable::LSH_HashTable(int itemDim, int k,int tableSize) : size(tableSize), k(k),hashingFunction(itemDim,k,tableSize){
 
     this->buckets = new std::list<LSH_item*>[tableSize];
+}
+
+void LSH_HashTable::init(int itemDim,int k,int tableSize){
+  std::cout << "I'm init " << std::endl;
+  this->size = tableSize;
+  this->buckets = new std::list<LSH_item*>[tableSize];
+  this->k = k;
+  this->hashingFunction.init(itemDim,k,tableSize);
 }
 
 LSH_HashTable::~LSH_HashTable(){
@@ -68,37 +85,55 @@ void LSH_HashTable::insert(LSH_item* item){
 //gFunction Methods
 
 gFunction::gFunction(int itemDim,int k,int tableSize): k(k), tableSize(tableSize) {
-    for (int i = 0 ; i < k; i++) linearCombinationElements.push_back(std::pair<int,hFunction>(rGenerator(),hFunction(itemDim)));
+    for (int i = 0 ; i < k; i++) linearCombinationElements.push_back(std::pair<int,hFunction>(rGenerator(),hFunction(itemDim,4)));
 
+}
+
+void gFunction::init(int itemDim,int k,int tableSize){
+    this->k = k;
+    this->tableSize = tableSize;
+    
+    for (int i = 0; i < k; i++) linearCombinationElements.push_back(std::pair<int, hFunction>(rGenerator(), hFunction(itemDim,4)));
 }
 
 int gFunction::operator()(LSH_item& item){
 
-    long M = 0xFFFFFFFF - 4;
+    long M = 0xFFFFFFFF - 4;    // 2^32 - 1 - 4
     long sum = 0 ;
 
-    for (std::pair<int,hFunction> elem : linearCombinationElements) sum +=( elem.first*elem.second(item) )%M;
-    sum %= M;
-    
-    item.set_id(sum);   //setting id of the item 
+    for (std::pair<int,hFunction> elem : linearCombinationElements) sum += mod((elem.first*elem.second(item)),M);
+    std::cout << "gFunction stats : " << std::endl;
+    sum = mod(sum,M);
+    std::cout << "sum is : " << sum << std::endl;
 
-    return sum % this->tableSize;
+    item.set_id(sum);   //setting id of the item
+
+    std::cout << "sum MOD tableSize is : " << mod(sum,this->tableSize) << std::endl;
+
+    return mod(sum,tableSize);
     
 
 }
 
 //hFunction Methods
 
-hFunction::hFunction(int itemSize):w(4){
-    std::default_random_engine generator;
-    std::uniform_real_distribution<float> distribution(0.0,w*1.0);
 
-    t = distribution(generator);
 
-    std::normal_distribution<float> distributionN(0.0,1.0);
+hFunction::hFunction(int itemSize,int w):w(w){
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  static std::default_random_engine generator(seed);
+  std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
 
-    for (int i = 0 ; i < itemSize; i++) v.push_back(distributionN(generator));
+  t = distribution(generator);
 
+  std::normal_distribution<float> distributionN(0.0, 1.0);
+
+  for (int i = 0; i < itemSize; i++) v.push_back(distributionN(generator));
+  
+  std::cout << "Randomly generated h is : " << std::endl;
+
+  for (float el : this->v) std::cout << el << " ";
+  std::cout << std::endl;
 }
 
 int hFunction::operator()(const LSH_item& item){
@@ -114,7 +149,7 @@ int hFunction::operator()(const LSH_item& item){
         it1++;
         it2++;
     }
-
+    std::cout <<"H sum is : " << sum << std::endl;
     sum /= this->w;
 
     return sum;
@@ -122,3 +157,16 @@ int hFunction::operator()(const LSH_item& item){
 }
 
 //general methods
+
+std::vector<LSH_item *> itemGenerator(int amount,int itemSize){
+
+  std::vector<LSH_item*> items;
+
+  for (int i = 0 ; i < amount; i++){
+    std::vector<int> co;
+    for (int j = 0; j < itemSize; j++) co.push_back(rand() % 201);
+    items.push_back( new LSH_item("x"+i,co));     
+  }
+  return items;
+
+}

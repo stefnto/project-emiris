@@ -6,17 +6,19 @@
 #include <cmath>
 #include <list>
 #include <random>
+#include <chrono>
 #include "utils.hpp"
 
 
 class LSH_HashTable;
+class LSH_gFunction;
 
 class LSH_solver{
     private:
-        class LSH_HashTable;                                               //Forward Declaration of LSH_HashTable
         LSH_HashTable* hashTables;                                          //Hash tables using the G hash functions
         int n;                                                              //number of Nearest Neighbours we're looking for
         int r;                                                              //the search is made inside the R Radius
+        const int L;                                                        //number of HashTables;
 
     public:
 
@@ -33,7 +35,7 @@ class LSH_item{
     private:
         std::string item_id;
         std::vector<int> coordinates;
-        int ID;
+        long ID;
     public:
         LSH_item(std::string item_id,std::vector<int> coordinates);
         LSH_item(std::string line);
@@ -48,20 +50,6 @@ class LSH_item{
 
 };
 
-class LSH_HashTable{
-private:
-    int size;
-    int k;                                                                                              //Number of H functions used by hashingFunction
-    gFunction hashingFunction;
-    std::list<LSH_item*>* buckets;                                                                       //Array of Lists Aka Hash Table;
-    
-public:
-    LSH_HashTable(int itemDim,int tableSize,int k);                                                                      //Constructs H and G functions;
-    ~LSH_HashTable();
-    LSH_HashTable(LSH_HashTable&) = default;
-    void insert(LSH_item*); 
-};
-
 class hFunction{                            // floor( (p*v + t)/ w )
 
     private:
@@ -70,10 +58,10 @@ class hFunction{                            // floor( (p*v + t)/ w )
         const int w;
 
     public:
-
-        hFunction(int itemSize);
+        hFunction(int itemSize,int w);
         int operator()(const LSH_item&);
 };
+
 
 class gFunction{                                                                                        //Σ r_i * h_i          
         private:
@@ -83,12 +71,34 @@ class gFunction{                                                                
         std::vector<std::pair<int,hFunction>> linearCombinationElements;                                    
 
     public:
-        gFunction(int itemDim,int k,int tableSize);                                                             //itemDim = size of vector that contains the coordinates
-        int operator()(LSH_item&);                                                                       //Hashing Function
+        gFunction() = default;
+        void init(int,int,int);
+        gFunction(int itemDim,int k,int tableSize);                                                         //itemDim = size of vector that contains the coordinates
+        int operator()(LSH_item&);                                                                          //Hashing Function
 
 };
 
+class LSH_HashTable{
+private:
+    int size;
+    int k;                                                                                                  //Number of H functions used by hashingFunction
+    gFunction hashingFunction;
+    std::list<LSH_item*>* buckets;                                                                          //Array of Lists Aka Hash Table;
+    
+public:
+    LSH_HashTable() = default;
+    void init(int,int,int);
+    LSH_HashTable(int itemDim, int tableSize, int k);                                                       //Constructs H and G functions;
+    ~LSH_HashTable();
+    LSH_HashTable(LSH_HashTable&) = default;
+    void insert(LSH_item*); 
+};
 
+
+
+
+
+std::vector<LSH_item*> itemGenerator(int amount,int itemSize);
 
 class LSH_Exception{};
 

@@ -6,7 +6,7 @@
 #include <cmath>
 #include <random>
 
-int mod(int x, int y);
+long mod(long x, long y);
 double EuclidianDistance(std::vector<int> a, std::vector<int> b);
 int rGenerator();
 

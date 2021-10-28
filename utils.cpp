@@ -1,11 +1,14 @@
 #include "utils.hpp"
 
-int mod(int x, int y){
-    if (x < 0) return y - ((-x) % y);
+inline long mod(long x, long y){
+    if (x < 0) {
+        long modulo = (-x) % y;
+        return modulo == 0 ? 0 : y - modulo ;
+    }
     return x % y;
 }
 
-double EuclidianDistance(std::vector<int> a, std::vector<int> b){
+inline double EuclidianDistance(std::vector<int> a, std::vector<int> b){
     if (a.size() != b.size()) return 0;
 
     double sum = 0;
@@ -18,7 +21,7 @@ double EuclidianDistance(std::vector<int> a, std::vector<int> b){
     return sqrt(sum);
 }
 
-int rGenerator(){
+inline int rGenerator(){
 
 
       return rand() % 2000 - 999;
