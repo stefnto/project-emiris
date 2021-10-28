@@ -6,36 +6,42 @@
 
 LSH_solver::LSH_solver(std::string dataset_path, int k , int L , int N , int r , double (*distanceFunction)(std::vector<int> a, std::vector<int> b) ):n(n),r(r),L(L){
 
-
-
-
   this->hashTables = new LSH_HashTable[L];
-
-  for (int i = 0 ; i < L ; i++) hashTables[i].init(10,2,3);              //#placeholder values
-  std::vector<LSH_item*> items = itemGenerator(10,10);
-  for (int i = 0 ; i < L ; i++){
-    for (LSH_item* item : items) hashTables[i].insert(item);
-  }
-  std::ifstream datafile;
-  datafile.open(dataset_path);
-  if (datafile.is_open()){
-    std::string line;
-    while (getline(datafile, line)){
-      this->points_coordinates.emplace_back(new LSH_item(line));                                    // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
-    }
-    datafile.close();
-  }
-  this->points_coordinates[0]->print_coordinates();
-  std::cout << "points_coordinates size = " << this->points_coordinates[0]->get_coordinates_size() << std::endl;
-  std::cout << "points_coordinates size = " << this->points_coordinates[points_coordinates.size() - 1]->get_coordinates_size() << std::endl;
-  this->points_coordinates[points_coordinates.size() - 1]->print_coordinates();
-  std::cout << "size = " << points_coordinates.size() << std::endl;
+  
+   int itemsRead = this->read_data(dataset_path);                                               //  reads and inserts items to points_coordinates
+   if ( itemsRead ) {                                                                           
+    int itemDim = points_coordinates.at(0)->get_coordinates_size();                             
+    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4);                    //initializing each hash table
+    for (LSH_item* item : points_coordinates){
+       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);                         
+     }
+   }else std::cout << "dataset_path is empty" << std::endl;
+  
 }
 
 bool LSH_solver::solve(std::string query_path, std::string output_path){
     return true;
 }
 
+int LSH_solver::read_data(std::string dataset_path){
+    std::ifstream datafile;
+    int counter = 0;
+    datafile.open(dataset_path);
+    if (datafile.is_open()){
+    std::string line;
+    while (getline(datafile, line)){
+      counter++;
+      this->points_coordinates.emplace_back(new LSH_item(line)); // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
+    }
+    datafile.close();
+   }
+  this->points_coordinates[0]->print_coordinates();
+  std::cout << "points_coordinates size = " << this->points_coordinates[0]->get_coordinates_size() << std::endl;
+  std::cout << "points_coordinates size = " << this->points_coordinates[points_coordinates.size() - 1]->get_coordinates_size() << std::endl;
+  this->points_coordinates[points_coordinates.size() - 1]->print_coordinates();
+  std::cout << "size = " << points_coordinates.size() << std::endl;
+  return counter;
+}
 //LSH_item Methods;
 
  LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}

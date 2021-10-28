@@ -77,14 +77,16 @@ class LSH_solver{
         int n;                                                              //number of Nearest Neighbours we're looking for
         int r;                                                              //the search is made inside the R Radius
         const int L;                                                        //number of HashTables;
-        std::vector<LSH_item*> points_coordinates; 
+        std::vector<LSH_item*> points_coordinates;
+
+        int read_data(std::string data_path);                               //returns lines read
 
     public:
 
         //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
         LSH_solver(std::string dataset_path,int k = 4,int L=5,int N = 1,int R = 10000,double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
         bool solve(std::string query_path, std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
-
+        
 
 
 
