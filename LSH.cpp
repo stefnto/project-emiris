@@ -19,6 +19,7 @@ void LSH_item::set_id(int ID){
 
     this->item_id = ID;
 }
+
 LSH_item::LSH_item(std::string line){
   std::stringstream ss(line);
   int number;
@@ -26,19 +27,9 @@ LSH_item::LSH_item(std::string line){
     this->coordinates.push_back(number);           // push each coordinate
   }
 }
-  const std::vector<int>& LSH_item::getCoordinates() const {
-    return this->coordinates;
-}
 
-    //LSH_HashTable Methods
-
-LSH_HashTable::LSH_HashTable(int itemDim, int k,int tableSize) : size(tableSize), k(k),hashingFunction(itemDim,k,tableSize){
-
-    this->buckets = new std::list<LSH_item*>[tableSize];
-}
-
-LSH_HashTable::~LSH_HashTable(){
-  delete[] this->buckets;
+const std::vector<int>& LSH_item::getCoordinates() const {
+  return this->coordinates;
 }
 
 void LSH_item::print_coordinates(){
@@ -54,7 +45,15 @@ int LSH_item::get_coordinates_size(){
 
 //LSH_HashTable Methods
 
- 
+LSH_HashTable::LSH_HashTable(int itemDim, int k,int tableSize) : size(tableSize), k(k),hashingFunction(itemDim,k,tableSize){
+
+    this->buckets = new std::list<LSH_item*>[tableSize];
+}
+
+
+LSH_HashTable::~LSH_HashTable(){
+  delete[] this->buckets;
+}
 
 
 void LSH_HashTable::insert(LSH_item* item){
@@ -79,11 +78,11 @@ int gFunction::operator()(LSH_item& item){
 
     for (std::pair<int,hFunction> elem : linearCombinationElements) sum +=( elem.first*elem.second(item) )%M;
     sum %= M;
-    
-    item.set_id(sum);   //setting id of the item 
+
+    item.set_id(sum);   //setting id of the item
 
     return sum % this->tableSize;
-    
+
 
 }
 
