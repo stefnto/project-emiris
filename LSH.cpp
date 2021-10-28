@@ -1,10 +1,24 @@
 #include "LSH.hpp"
 #include <sstream>
+#include <fstream>
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path, int k , int L , int N , int R , double (*distanceFunction)(std::vector<int> a, std::vector<int> b) ){
-
+LSH_solver::LSH_solver(std::string input_file, int k , int L , int N , int R , double (*distanceFunction)(std::vector<int> a, std::vector<int> b) ){
+  std::ifstream datafile;
+  datafile.open(input_file);
+  if (datafile.is_open()){
+    std::string line;
+    while (getline(datafile, line)){
+      this->points_coordinates.emplace_back(line);                                    // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
+    }
+    datafile.close();
+  }
+  this->points_coordinates[0].print_coordinates();
+  std::cout << "points_coordinates size = " << this->points_coordinates[0].get_coordinates_size() << std::endl;
+  std::cout << "points_coordinates size = " << this->points_coordinates[points_coordinates.size() - 1].get_coordinates_size() << std::endl;
+  this->points_coordinates[points_coordinates.size() - 1].print_coordinates();
+  std::cout << "size = " << points_coordinates.size() << std::endl;
 }
 
 bool LSH_solver::solve(std::string query_path, std::string output_path){
@@ -13,11 +27,15 @@ bool LSH_solver::solve(std::string query_path, std::string output_path){
 
 //LSH_item Methods;
 
-LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
+// LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
 
-void LSH_item::set_id(int ID){
+void LSH_item::set_id(long id){
 
-    this->item_id = ID;
+    this->item_id = id;
+}
+
+long LSH_item::get_id(){
+  return this->item_id;
 }
 
 LSH_item::LSH_item(std::string line){
@@ -76,11 +94,13 @@ int gFunction::operator()(LSH_item& item){
     long M = 0xFFFFFFFF - 4;
     long sum = 0 ;
 
-    for (std::pair<int,hFunction> elem : linearCombinationElements) sum +=( elem.first*elem.second(item) )%M;
-    sum %= M;
+    for (std::pair<int,hFunction> elem : linearCombinationElements) {
+      sum += mod((elem.first * elem.second(item)), M);
+    }
+    sum = mod(sum, M);
 
     item.set_id(sum);   //setting id of the item
-
+    // std::cout << "id = " << item.get_id() << std::endl;
     return sum % this->tableSize;
 
 
@@ -89,19 +109,20 @@ int gFunction::operator()(LSH_item& item){
 //hFunction Methods
 
 hFunction::hFunction(int itemSize):w(4){
-    std::default_random_engine generator;
+    std::random_device rd;
+    std::default_random_engine generator(rd());
     std::uniform_real_distribution<float> distribution(0.0,w*1.0);
 
     t = distribution(generator);
 
     std::normal_distribution<float> distributionN(0.0,1.0);
 
-    for (int i = 0 ; i < itemSize; i++) v.push_back(distributionN(generator));
+    for (int i = 0 ; i < itemSize; i++)
+      v.push_back(distributionN(generator));
 
 }
 
 int hFunction::operator()(const LSH_item& item){
-
     std::vector<int>::const_iterator it1 = item.getCoordinates().begin();
     std::vector<float>::const_iterator it2 = v.begin();
 

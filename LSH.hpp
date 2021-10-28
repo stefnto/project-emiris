@@ -10,21 +10,19 @@
 
 class LSH_item{
     private:
-        std::string item_id;
+        long item_id;
         std::vector<int> coordinates;
-        int ID;
     public:
-        LSH_item(std::string item_id,std::vector<int> coordinates);
+        // LSH_item(std::string item_id,std::vector<int> coordinates);
         LSH_item(std::string line);
         ~LSH_item() = default;
         //LSH_item(LSH_item&) = default;
-        void set_id(int ID);
+        void set_id(long id);
+        long get_id();
 
         const std::vector<int>& getCoordinates() const;
-
         void print_coordinates();
         int get_coordinates_size();
-
 };
 
 
@@ -72,14 +70,14 @@ class LSH_Exception{};
 
 class LSH_solver{
     private:
-        class LSH_HashTable;                                                      //Forward Declaration of LSH_HashTable
         LSH_HashTable* hashTables;                                                //Hash tables using the G hash functions
         int n;                                                                    //number of Nearest Neighbours we're looking for
         int r;                                                                    //the search is made inside the R Radius
+        std::vector<LSH_item> points_coordinates;                                 // Stores each point in a vector<LSH_item>
 
     public:
         //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
-        LSH_solver(std::string dataset_path,int k = 4,int L=5,int N = 1,int R = 10000,double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
+        LSH_solver(std::string dataset_path,int k, int l, int n, int r,double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
         bool solve(std::string query_path, std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
 };
 

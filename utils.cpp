@@ -1,9 +1,23 @@
 #include "utils.hpp"
 
-int mod(int x, int y){
-    if (x < 0) return y - ((-x) % y);
+// a % n = a – ( n * trunc( a/n ) ).
+
+long mod(long x, long y){
+    if (x < 0) {
+        long modulo = (-x) % y;
+        std::cout << "modulo = " << modulo << std::endl;
+        return modulo == 0 ? 0 : y - modulo ;
+    }
     return x % y;
 }
+
+// int mod(long x, long y){
+//     if (x < 0)
+//       return y - ((-x) % y);
+//     else
+//       return x % y;
+// }
+
 
 double EuclidianDistance(std::vector<int> a, std::vector<int> b){
     if (a.size() != b.size()) return 0;
@@ -19,7 +33,7 @@ double EuclidianDistance(std::vector<int> a, std::vector<int> b){
 }
 
 int rGenerator(){
-
+      srand( time (NULL) );
 
       return rand() % 2000 - 999;
 
