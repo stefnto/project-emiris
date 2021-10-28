@@ -5,9 +5,12 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <ctime>
 
-long mod(long x, long y);
-double EuclidianDistance(std::vector<int> a, std::vector<int> b);
-int rGenerator();
+ long mod(long x, long y);
+
+ double EuclidianDistance(std::vector<int> a, std::vector<int> b);
+
+ int rGenerator();
 
 #endif

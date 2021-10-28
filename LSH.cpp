@@ -1,5 +1,6 @@
 #include "LSH.hpp"
 #include <sstream>
+#include <fstream>
 
 //LSH_solver Methods
 
@@ -15,6 +16,20 @@ LSH_solver::LSH_solver(std::string dataset_path, int k , int L , int N , int r ,
   for (int i = 0 ; i < L ; i++){
     for (LSH_item* item : items) hashTables[i].insert(item);
   }
+  std::ifstream datafile;
+  datafile.open(dataset_path);
+  if (datafile.is_open()){
+    std::string line;
+    while (getline(datafile, line)){
+      this->points_coordinates.emplace_back(new LSH_item(line));                                    // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
+    }
+    datafile.close();
+  }
+  this->points_coordinates[0]->print_coordinates();
+  std::cout << "points_coordinates size = " << this->points_coordinates[0]->get_coordinates_size() << std::endl;
+  std::cout << "points_coordinates size = " << this->points_coordinates[points_coordinates.size() - 1]->get_coordinates_size() << std::endl;
+  this->points_coordinates[points_coordinates.size() - 1]->print_coordinates();
+  std::cout << "size = " << points_coordinates.size() << std::endl;
 }
 
 bool LSH_solver::solve(std::string query_path, std::string output_path){
@@ -23,21 +38,23 @@ bool LSH_solver::solve(std::string query_path, std::string output_path){
 
 //LSH_item Methods;
 
-LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
+ LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
 
-void LSH_item::set_id(int ID){
+void LSH_item::set_id(long id){
 
-    this->item_id = ID;
+    this->ID = id;
 }
+
+long LSH_item::get_id(){
+  return this->ID;
+}
+
 LSH_item::LSH_item(std::string line){
   std::stringstream ss(line);
   int number;
   while (ss >> number){
     this->coordinates.push_back(number);           // push each coordinate
   }
-}
-  const std::vector<int>& LSH_item::getCoordinates() const {
-    return this->coordinates;
 }
 
     //LSH_HashTable Methods
@@ -57,7 +74,9 @@ void LSH_HashTable::init(int itemDim,int k,int tableSize){
 LSH_HashTable::~LSH_HashTable(){
   delete[] this->buckets;
 }
-
+const std::vector<int>& LSH_item::getCoordinates() const {
+  return this->coordinates;
+}
 void LSH_item::print_coordinates(){
   for (int i = 0; i < this->coordinates.size(); i++){
     std::cout << this->coordinates[i] << " " ;
@@ -68,11 +87,6 @@ void LSH_item::print_coordinates(){
 int LSH_item::get_coordinates_size(){
   return this->coordinates.size();
 }
-
-//LSH_HashTable Methods
-
- 
-
 
 void LSH_HashTable::insert(LSH_item* item){
 
@@ -119,7 +133,7 @@ int gFunction::operator()(LSH_item& item){
 
 
 
-hFunction::hFunction(int itemSize,int w):w(w){
+hFunction::hFunction(int itemSize,int w):w(w){  
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -137,7 +151,6 @@ hFunction::hFunction(int itemSize,int w):w(w){
 }
 
 int hFunction::operator()(const LSH_item& item){
-
     std::vector<int>::const_iterator it1 = item.getCoordinates().begin();
     std::vector<float>::const_iterator it2 = v.begin();
 

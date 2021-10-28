@@ -11,20 +11,18 @@ using namespace std;
 
 int main(int argc, char *argv[]){
 
+
   double sttime, endtime;                                                       // to compute total run time
   extern char *optarg;
   extern int optind;
   int opt;
   int number;
-  std::vector<LSH_item> points_coordinates;                                     // Stores each point in a vector<LSH_item>;
   ifstream datafile;
   int counter = 0;                                                              // counter used to loop through lines of input_file
 
   string input_file, query_file, output_file;
   int iflag = 1, qflag = 1, oflag = 1;
   int k = 4, l = 5, n = 1, r = 10000;                                           // default values if not changed
-
-
 
 
 
@@ -74,27 +72,31 @@ int main(int argc, char *argv[]){
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
 
-
-
-  // open input_file and get coordinates
-  datafile.open(input_file);
-  if (datafile.is_open()){
-    string line;
-    while (getline(datafile, line)){
-      points_coordinates.emplace_back(line);                                    // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
-      counter++;
-    }
-    datafile.close();
-  }
+  LSH_solver solver1(input_file, k, l, n, r);
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
   cout << "time: " << endtime - sttime << endl;
 
 
   // display coordinates
-  points_coordinates[0].print_coordinates();
-  cout << "points_coordinates size = " << points_coordinates[0].get_coordinates_size() << endl;
-  points_coordinates[points_coordinates.size() - 1].print_coordinates();
-  cout << "size = " << points_coordinates.size() << endl;
+  // points_coordinates[0].print_coordinates();
+  // cout << "points_coordinates size = " << points_coordinates[0].get_coordinates_size() << endl;
+  // cout << "points_coordinates size = " << points_coordinates[points_coordinates.size() - 1].get_coordinates_size() << endl;
+  // points_coordinates[points_coordinates.size() - 1].print_coordinates();
+  // cout << "size = " << points_coordinates.size() << endl;
 
+
+  // hFunction h1(points_coordinates[0].get_coordinates_size());
+  // hFunction h2(points_coordinates[points_coordinates.size() - 1].get_coordinates_size());
+  //
+  // cout << "sum = " << h1(points_coordinates[0]) << endl;
+  // cout << "sum = " << h2(points_coordinates[points_coordinates.size() - 1]) << endl;
+
+  // gFunction g1(points_coordinates[0].get_coordinates_size(), k, points_coordinates.size()/4);
+  // gFunction g2(points_coordinates[0].get_coordinates_size(), k, points_coordinates.size()/4);
+  //
+  // int s = g1(points_coordinates[0]);
+  // int f = g2(points_coordinates[points_coordinates.size() - 1]);
+  // cout << "g1 = " << s << endl;
+  // cout << "g2 = " << f << endl;
 }
