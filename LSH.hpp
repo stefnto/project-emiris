@@ -1,33 +1,12 @@
+#ifndef __LSH__
+#define __LSH__
+
 #include <iostream>
 #include <vector>
 #include <cmath>
 #include <list>
 #include <random>
-
-double EuclidianDistance(std::vector<double> a, std::vector<double> b);
-
-class LSH_HashTable;
-
-class LSH_solver{
-    private:
-
-        // class LSH_item;
-        // class LSH_HashTable;
-
-        LSH_HashTable* hashTables;                                          //Hash tables using the G hash functions
-        int n;                                                              //number of Nearest Neighbours we're looking for
-        int r;                                                              //the search is made inside the R Radius
-
-    public:
-
-        //H functions are constructed inside the LSH_solver constructor and picked by the G functions with the expected way.
-        LSH_solver(std::string dataset_path,int k, int l, int n, int r, double (*distanceFunction)(std::vector<double> a, std::vector<double> b) = EuclidianDistance);
-        bool solve(std::string query_path, std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
-
-
-
-
-};
+#include "utils.hpp"
 
 class LSH_item{
     private:
@@ -35,59 +14,74 @@ class LSH_item{
         std::vector<int> coordinates;
         int ID;
     public:
+        LSH_item(std::string item_id,std::vector<int> coordinates);
         LSH_item(std::string line);
         ~LSH_item() = default;
         //LSH_item(LSH_item&) = default;
         void set_id(int ID);
+
+        const std::vector<int>& getCoordinates() const;
+
         void print_coordinates();
         int get_coordinates_size();
 
 };
 
-class LSH_HashTable{
-private:
-    int size;
-    int k;                                                                                            //Number of H functions used by hashingFunction
 
-    // class gFunction;
+class hFunction{                            // floor( (p*v + t)/ w )
 
-    int (*hashingFunction)(LSH_item);
-
-    std::list<LSH_item *>* buckets;
-    //std::list<LSH_item &>* buckets;                                                                   //Array of Lists Aka Hash Table;
-public:
-    LSH_HashTable(int size,int k);                                                                    //Constructs H and G functions;
-    ~LSH_HashTable() = default;
-    LSH_HashTable(LSH_HashTable&) = default;
-    void insert(LSH_item);
-};
-
-class hFunction{
     private:
-
-        std::vector<float> v;
+        std::vector<float> v;               //contains vector V
         float t;
         const int w;
 
     public:
-
         hFunction(int itemSize);
-        int operator()(LSH_item&);
+        int operator()(const LSH_item&);
 };
 
-class gFunction{                                                                                      //gFunction is a functor
+class gFunction{                                                                //Σ r_i * h_i
     private:
-    // class hFunction;
-
-    std::vector<std::pair<int,hFunction>> linearCombinationElements;
+        int tableSize;
+        int k;
+        std::vector<std::pair<int,hFunction>> linearCombinationElements;
 
     public:
-
-        gFunction(int itemSize);
-        int operator()(LSH_item&);                                                                      //Hashing function
+        gFunction(int itemDim,int k,int tableSize);                             //itemDim = size of vector that contains the coordinates
+        int operator()(LSH_item&);                                              //Hashing Function
 
 };
 
 
 
+class LSH_HashTable{
+    private:
+        int size;
+        int k;                                                                      //Number of H functions used by hashingFunction
+        gFunction hashingFunction;
+        std::list<LSH_item*>* buckets;                                              //Array of Lists Aka Hash Table;
+
+    public:
+        LSH_HashTable(int itemDim,int tableSize,int k);                             //Constructs H and G functions;
+        ~LSH_HashTable();
+        LSH_HashTable(LSH_HashTable&) = default;
+        void insert(LSH_item*);
+};
+
 class LSH_Exception{};
+
+class LSH_solver{
+    private:
+        class LSH_HashTable;                                                      //Forward Declaration of LSH_HashTable
+        LSH_HashTable* hashTables;                                                //Hash tables using the G hash functions
+        int n;                                                                    //number of Nearest Neighbours we're looking for
+        int r;                                                                    //the search is made inside the R Radius
+
+    public:
+        //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
+        LSH_solver(std::string dataset_path,int k = 4,int L=5,int N = 1,int R = 10000,double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
+        bool solve(std::string query_path, std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
+};
+
+
+#endif
