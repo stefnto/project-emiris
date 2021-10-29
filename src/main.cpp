@@ -4,7 +4,6 @@
 #include <getopt.h>
 #include <vector>
 #include <time.h>
-
 #include "LSH.hpp"
 
 using namespace std;

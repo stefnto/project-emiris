@@ -34,12 +34,7 @@ int LSH_solver::read_data(std::string dataset_path){
       this->points_coordinates.emplace_back(new LSH_item(line)); // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
     }
     datafile.close();
-   }
-  this->points_coordinates[0]->print_coordinates();
-  std::cout << "points_coordinates size = " << this->points_coordinates[0]->get_coordinates_size() << std::endl;
-  std::cout << "points_coordinates size = " << this->points_coordinates[points_coordinates.size() - 1]->get_coordinates_size() << std::endl;
-  this->points_coordinates[points_coordinates.size() - 1]->print_coordinates();
-  std::cout << "size = " << points_coordinates.size() << std::endl;
+    }
   return counter;
 }
 //LSH_item Methods;
@@ -70,7 +65,6 @@ LSH_HashTable::LSH_HashTable(int itemDim, int k,int tableSize) : size(tableSize)
 }
 
 void LSH_HashTable::init(int itemDim,int k,int tableSize){
-  std::cout << "I'm init " << std::endl;
   this->size = tableSize;
   this->buckets = new std::list<LSH_item*>[tableSize];
   this->k = k;
@@ -122,13 +116,8 @@ int gFunction::operator()(LSH_item& item){
     long sum = 0 ;
 
     for (std::pair<int,hFunction> elem : linearCombinationElements) sum += mod((elem.first*elem.second(item)),M);
-    std::cout << "gFunction stats : " << std::endl;
     sum = mod(sum,M);
-    std::cout << "sum is : " << sum << std::endl;
-
     item.set_id(sum);   //setting id of the item
-
-    std::cout << "sum MOD tableSize is : " << mod(sum,this->tableSize) << std::endl;
 
     return mod(sum,tableSize);
     
@@ -149,11 +138,6 @@ hFunction::hFunction(int itemSize,int w):w(w){
   std::normal_distribution<float> distributionN(0.0, 1.0);
 
   for (int i = 0; i < itemSize; i++) v.push_back(distributionN(generator));
-  
-  std::cout << "Randomly generated h is : " << std::endl;
-
-  for (float el : this->v) std::cout << el << " ";
-  std::cout << std::endl;
 }
 
 int hFunction::operator()(const LSH_item& item){
@@ -168,7 +152,6 @@ int hFunction::operator()(const LSH_item& item){
         it1++;
         it2++;
     }
-    std::cout <<"H sum is : " << sum << std::endl;
     sum /= this->w;
 
     return sum;
