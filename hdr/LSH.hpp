@@ -5,8 +5,11 @@
 #include <vector>
 #include <cmath>
 #include <list>
+#include <queue>
+#include <queue>
 #include <random>
 #include <chrono>
+#include <set>
 #include "utils.hpp"
 
 
@@ -18,17 +21,25 @@ class LSH_item{
         std::string item_id;
         std::vector<int> coordinates;
         long ID;
+        double distanceFromQuery = 0;
+
+        static double (*distanceFunction)(std::vector<int> a,std::vector<int> b);
     public:
         LSH_item(std::string item_id,std::vector<int> coordinates);
         LSH_item(std::string line);
         ~LSH_item() = default;
         LSH_item(LSH_item&) = default;
         void set_id(long id);
-        long get_id();
+        long get_id() const;
 
         const std::vector<int>& getCoordinates() const;
         void print_coordinates();
         int get_coordinates_size();
+        void setDistanceFromQuery(LSH_item* query);
+        float getDistanceFromQuery() const;
+        std::string getItemID() const;
+
+        static void setDistanceFunction(double (*distanceFunction)(std::vector<int> a, std::vector<int>b) );
 };
 class hFunction{                            // floor( (p*v + t)/ w )
 
@@ -68,7 +79,9 @@ public:
     LSH_HashTable(int itemDim, int tableSize, int k);                                                       //Constructs H and G functions;
     ~LSH_HashTable();
     LSH_HashTable(LSH_HashTable&) = default;
-    void insert(LSH_item*); 
+    void insert(LSH_item*);
+    template <typename comp>
+    void NearestNeighbours(LSH_item&,std::set<LSH_item*,comp>&);
 };
 
 class LSH_solver{
@@ -78,18 +91,17 @@ class LSH_solver{
         int r;                                                              //the search is made inside the R Radius
         const int L;                                                        //number of HashTables;
         std::vector<LSH_item*> points_coordinates;
+        std::vector<LSH_item*> queries;
 
-        int read_data(std::string data_path);                               //returns lines read
+        int getItems(std::string data_path,std::vector<LSH_item*>&);                               //returns lines read
 
     public:
 
         //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
-        LSH_solver(std::string dataset_path,int k = 4,int L=5,int N = 1,int R = 10000,double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
-        bool solve(std::string query_path, std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
-        
-
-
-
+        LSH_solver(std::string dataset_path,std::string query_path,int k = 4,int L=5,int N = 1,int R = 10000,double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
+        bool solve(std::string output_path);        //This function is called to solve NN , kNN and Approximate Range Search.
+        void NearestNeighbours(LSH_item& item);
+        void printQueries() const;
 };
 
 
