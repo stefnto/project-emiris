@@ -5,7 +5,6 @@
  long mod(long x, long y){
     if (x < 0) {
         long modulo = (-x) % y;
-        std::cout << "modulo = " << modulo << std::endl;
         return modulo == 0 ? 0 : y - modulo ;
     }
     return x % y;
