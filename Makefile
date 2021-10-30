@@ -13,9 +13,9 @@ LSH: $(BINS)
 $(BINS) : bin/%.o : src/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
+LSHdefault:
+	./LSH -i input/input_b_id -q input/query_b_id -k 2 -L 1 -o output_file.txt -N 3 -R 5
 
 clean:
-	rm -f  *.o
-	rm -f travelMonitorClient
-	rm -f utilobjs/*
-	
+	rm -f  bin/*
+	rm -f main	
