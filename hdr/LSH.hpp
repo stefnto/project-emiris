@@ -99,15 +99,15 @@ class LSH_solver{
 
         std::string output_filepath;
 
-        int readItems(std::string data_path,std::vector<LSH_item*>&);                               //returns lines read
-        void writeResult(LSH_Set*,LSH_item*);
+        int readItems(std::string data_path,std::vector<LSH_item*>&);                               //reads from data path and inserts to vector
+        void writeResult(LSH_Set*,LSH_item*);                                                       //given an ordered set,writes items to output path
 
     public :
         //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
         LSH_solver(std::string dataset_path, std::string query_path, std::string output_file, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
         ~LSH_solver();
         bool solve();                                                                //This function is called to solve NN , kNN and Approximate Range Search.
-        LSH_Set* NNandRS(LSH_item *item);       //1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbours
+        LSH_Set* NNandRS(LSH_item *item);                                           //1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbours
         void printQueries() const;
 };
 

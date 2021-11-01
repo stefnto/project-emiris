@@ -6,12 +6,13 @@
 //LSH_solver Methods
 
 LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::string output_filepath, int k, int L, int N, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b)) : n(N), r(r), L(L),output_filepath(output_filepath){
+ 
   this->hashTables = new LSH_HashTable[L];
 
-  LSH_item::setDistanceFunction(distanceFunction);
+  LSH_item::setDistanceFunction(distanceFunction);                                               //computing distance between LSH_items is handled by the class LSH_item
 
-  int itemsRead = this->readItems(dataset_path,points_coordinates);                              //  reads and inserts items to points_coordinates
-  int queriesRead = this->readItems(query_path,this->queries);
+  int itemsRead = this->readItems(dataset_path,points_coordinates);                              //reads and inserts items to points_coordinates
+  int queriesRead = this->readItems(query_path,queries);
   if ( itemsRead ) {                                                                           
     int itemDim = points_coordinates.at(0)->get_coordinates_size();                             
     for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4);                    //initializing each hash table
