@@ -19,9 +19,9 @@ class LSH_Exception{};
 
 class LSH_item{
     private:
-        std::string item_id;
+        std::string item_id;                                                    // is id from input_file
         std::vector<int> coordinates;
-        long ID;
+        long ID;                                                                // id computed from (Σ r * h) mod M
         double distanceFromQuery = 0;
 
         static double (*distanceFunction)(std::vector<int> a,std::vector<int> b);
@@ -57,7 +57,7 @@ class hFunction{                            // floor( (p*v + t)/ w )
         hFunction(int itemSize,int w = 4);
         int operator()(const LSH_item*);
 };
-class gFunction{                                                                                        //Σ r_i * h_i          
+class gFunction{                                                                                        //Σ r_i * h_i
         private:
 
         int tableSize;
@@ -77,7 +77,7 @@ private:
     int k;                                                                                                  //Number of H functions used by hashingFunction
     gFunction hashingFunction;
     std::list<LSH_item*>* buckets;                                                                          //Array of Lists Aka Hash Table;
-    
+
 public:
     LSH_HashTable() = default;
     void init(int,int,int);

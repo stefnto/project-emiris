@@ -6,18 +6,18 @@
 //LSH_solver Methods
 
 LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::string output_filepath, int k, int L, int N, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b)) : n(N), r(r), L(L),output_filepath(output_filepath){
- 
+
   this->hashTables = new LSH_HashTable[L];
 
   LSH_item::setDistanceFunction(distanceFunction);                                               //computing distance between LSH_items is handled by the class LSH_item
 
   int itemsRead = this->readItems(dataset_path,points_coordinates);                              //reads and inserts items to points_coordinates
   int queriesRead = this->readItems(query_path,queries);
-  if ( itemsRead ) {                                                                           
-    int itemDim = points_coordinates.at(0)->get_coordinates_size();                             
+  if ( itemsRead ) {
+    int itemDim = points_coordinates.at(0)->get_coordinates_size();
     for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4);                    //initializing each hash table
     for (LSH_item* item : points_coordinates){
-       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);                         
+       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);                               //insert a pointer pointing to the item on "points_coordinates" in each hashtable, in a bucket based on hashing with gFunction
     }
   }else std::cout << "dataset_path is empty" << std::endl;
 }
@@ -52,7 +52,7 @@ LSH_Set* LSH_solver::NNandRS(LSH_item* query){    //
   LSH_Set*  nn = new LSH_Set(comp);
 
   for (int i = 0; i < L; i++) this->hashTables[i].NearestNeighbours(query, nn);
-  
+
 
   // std::cout << "N is " << n << "and nn size is " << nn->size() << std::endl;
   LSH_Set::iterator it = nn->begin();
@@ -83,7 +83,7 @@ void LSH_solver::writeResult(LSH_Set* result,LSH_item* item){
       for (LSH_item* elem : *result){
         if (counter == this->n) break;
         output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
-        counter++; 
+        counter++;
       }
       output_file << std::endl;
       output_file << "Elements in radius " << this->r << " from query :" <<std::endl << std::endl;
@@ -92,7 +92,7 @@ void LSH_solver::writeResult(LSH_Set* result,LSH_item* item){
         if (dFromQuery < this->r) output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
         else break;
       }
-      
+
   }
   output_file << std::endl;
 }
@@ -143,7 +143,10 @@ void LSH_item::setDistanceFunction(double (*dFunction)(std::vector<int> a, std::
 }
 
 std::string LSH_item::getItemID()const{return this->item_id;}
-    //LSH_HashTable Methods
+
+
+//LSH_HashTable Methods
+
     LSH_HashTable::LSH_HashTable(int itemDim, int k, int tableSize) : size(tableSize), k(k), hashingFunction(itemDim, k, tableSize)
 {
 
@@ -202,7 +205,7 @@ gFunction::gFunction(int itemDim,int k,int tableSize): k(k), tableSize(tableSize
 void gFunction::init(int itemDim,int k,int tableSize){
     this->k = k;
     this->tableSize = tableSize;
-    
+
     for (int i = 0; i < k; i++) linearCombinationElements.push_back(std::pair<int, hFunction>(rGenerator(), hFunction(itemDim,4)));
 }
 
@@ -216,7 +219,7 @@ int gFunction::operator()(LSH_item* item){
     item->set_id(sum);   //setting id of the item
 
     return mod(sum,tableSize);
-    
+
 
 }
 
@@ -224,7 +227,7 @@ int gFunction::operator()(LSH_item* item){
 
 
 
-hFunction::hFunction(int itemSize,int w):w(33){  
+hFunction::hFunction(int itemSize,int w):w(33){
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -262,7 +265,7 @@ std::vector<LSH_item *> itemGenerator(int amount,int itemSize){
   for (int i = 0 ; i < amount; i++){
     std::vector<int> co;
     for (int j = 0; j < itemSize; j++) co.push_back(rand() % 201);
-    items.push_back( new LSH_item("x"+i,co));     
+    items.push_back( new LSH_item("x"+i,co));
   }
   return items;
 
