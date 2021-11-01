@@ -71,9 +71,9 @@ int main(int argc, char *argv[]){
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
 
-  LSH_solver solver1(input_file,query_file,k, l, n, r); 
+  LSH_solver solver1(input_file,query_file,output_file,k, l, n, r); 
   // solver1.printQueries();
-  solver1.solve("path");
+  solver1.solve();
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
   cout << "time: " << endtime - sttime << endl;

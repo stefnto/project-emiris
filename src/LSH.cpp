@@ -5,13 +5,13 @@
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path,std::string query_path, int k, int L, int N, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b)) : n(N), r(r), L(L){
+LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::string output_filepath, int k, int L, int N, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b)) : n(N), r(r), L(L),output_filepath(output_filepath){
   this->hashTables = new LSH_HashTable[L];
 
   LSH_item::setDistanceFunction(distanceFunction);
 
-  int itemsRead = this->getItems(dataset_path,points_coordinates);                              //  reads and inserts items to points_coordinates
-  int queriesRead = this->getItems(query_path,this->queries);
+  int itemsRead = this->readItems(dataset_path,points_coordinates);                              //  reads and inserts items to points_coordinates
+  int queriesRead = this->readItems(query_path,this->queries);
   if ( itemsRead ) {                                                                           
     int itemDim = points_coordinates.at(0)->get_coordinates_size();                             
     for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4);                    //initializing each hash table
@@ -21,13 +21,17 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path, int k, i
   }else std::cout << "dataset_path is empty" << std::endl;
 }
 
-bool LSH_solver::solve( std::string output_path){
-    std::cout << "trying to solve..." << std::endl;
-    NearestNeighbours(*queries.at(0));
+bool LSH_solver::solve(){
+    LSH_Set* result;
+    for (LSH_item* query : queries) {
+      result = NNandRS(query);
+      writeResult(result,query);
+      delete result;
+    }
     return true;
 }
 
-int LSH_solver::getItems(std::string dataset_path,std::vector<LSH_item*>& container){
+int LSH_solver::readItems(std::string dataset_path,std::vector<LSH_item*>& container){
     std::ifstream datafile;
     int counter = 0;
     datafile.open(dataset_path);
@@ -42,29 +46,62 @@ int LSH_solver::getItems(std::string dataset_path,std::vector<LSH_item*>& contai
   return counter;
 }
 
-void LSH_solver::NearestNeighbours(LSH_item& query){
-  auto comp = [](const LSH_item* a,const LSH_item* b) -> int {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
-  std::cout << "lambda created" << std::endl;
-  std::set<LSH_item*,decltype(comp)> nn(comp);
-  std::cout << "priority_queue created" << std::endl;
-  for (int i = 0; i < L; i++)
-  {
-    this->hashTables[i].NearestNeighbours(query, nn);
-    std::cout << "found NNs in hashtable " << i << std::endl;
-  }
+LSH_Set* LSH_solver::NNandRS(LSH_item* query){    //
+  auto comp = [](const LSH_item* a,const LSH_item* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
+  LSH_Set*  nn = new LSH_Set(comp);
 
-  std::cout << "N is " << n << "and nn size is " << nn.size() << std::endl;
-  std::set<LSH_item*,decltype(comp)>::iterator it = nn.begin();
+  for (int i = 0; i < L; i++) this->hashTables[i].NearestNeighbours(query, nn);
+  
+
+  // std::cout << "N is " << n << "and nn size is " << nn->size() << std::endl;
+  LSH_Set::iterator it = nn->begin();
+  // std::cout << "Nearest neighbours of query : " << query->getItemID() << std::endl;
   for (int i = 0; i < n; i++){
-    if (it == nn.end()) break;
-    std::cout <<"Nearest neighbour " << i << "  ID: " << (*it)->getItemID() << " Approximate distance from query: " << (*it)->getDistanceFromQuery() << std::endl;
+    if (it == nn->end()) break;
+    // std::cout <<"Nearest neighbour " << i << "  ID: " << (*it)->getItemID() << " Approximate distance from query: " << (*it)->getDistanceFromQuery() << std::endl;
     it++;
   }
+
+  return nn;
 }
 
 void LSH_solver::printQueries() const {
   int i = 1;
   for (LSH_item* item : queries) std::cout << "query" << i++ << " : " << item->getItemID() << std::endl;
+}
+
+void LSH_solver::writeResult(LSH_Set* result,LSH_item* item){
+  std::ofstream output_file;
+  output_file.open(output_filepath,std::ofstream::out | std::ofstream::app);
+  output_file << "Query : " << item->getItemID() << std::endl;
+  if (result->size() == 0 ) output_file << "No elements were found near this query" << std::endl;
+  else{
+      output_file << "Nearest neighbour : " << (*(result->begin()))->getItemID() << " Distance from query : " << (*(result->begin()))->getDistanceFromQuery() << std::endl << std::endl;
+      int counter = 0;
+      output_file << "Nearest Neighbours : " << std::endl;
+      for (LSH_item* elem : *result){
+        if (counter == this->n) break;
+        output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
+        counter++; 
+      }
+      output_file << std::endl;
+      output_file << "Elements in radius " << this->r << " from query :" <<std::endl << std::endl;
+      for (LSH_item* elem : *result){
+        float dFromQuery = elem->getDistanceFromQuery();
+        if (dFromQuery < this->r) output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
+        else break;
+      }
+      
+  }
+  output_file << std::endl;
+}
+
+LSH_solver::~LSH_solver(){
+  delete[] this->hashTables;
+  for (LSH_item* item : this->points_coordinates) delete item;
+  std::cout << "deleted points_coordinates" << std::endl;
+  for (LSH_item* item : this->queries) delete item;
+  std::cout << "deleted queries" << std::endl;
 }
 //LSH_item Methods;
 
@@ -138,19 +175,17 @@ int LSH_item::get_coordinates_size(){
 
 void LSH_HashTable::insert(LSH_item* item){
 
-    int index = this->hashingFunction(*item);
+    int index = this->hashingFunction(item);
     this->buckets[index].push_back(item);
 
 }
-template <typename comp>
-void LSH_HashTable::NearestNeighbours(LSH_item& query,std::set<LSH_item*,comp>& ordSet){
+void LSH_HashTable::NearestNeighbours(LSH_item* query,LSH_Set* ordSet){
 
   int index = this->hashingFunction(query);
-  std::cout << "index of query : " << query.getItemID() << " is " << index << std::endl;
   for (LSH_item* item : this->buckets[index]){
-       if (query.get_id() == item->get_id()){
-        item->setDistanceFromQuery(&query);
-        ordSet.insert(item);
+       if (query->get_id() == item->get_id()){
+        item->setDistanceFromQuery(query);
+        ordSet->insert(item);
        }
   }
 
@@ -170,14 +205,14 @@ void gFunction::init(int itemDim,int k,int tableSize){
     for (int i = 0; i < k; i++) linearCombinationElements.push_back(std::pair<int, hFunction>(rGenerator(), hFunction(itemDim,4)));
 }
 
-int gFunction::operator()(LSH_item& item){
+int gFunction::operator()(LSH_item* item){
 
     long M = 0xFFFFFFFF - 4;    // 2^32 - 1 - 4
     long sum = 0 ;
 
     for (std::pair<int,hFunction> elem : linearCombinationElements) sum += mod((elem.first*elem.second(item)),M);
     sum = mod(sum,M);
-    item.set_id(sum);   //setting id of the item
+    item->set_id(sum);   //setting id of the item
 
     return mod(sum,tableSize);
     
@@ -188,7 +223,7 @@ int gFunction::operator()(LSH_item& item){
 
 
 
-hFunction::hFunction(int itemSize,int w):w(w){  
+hFunction::hFunction(int itemSize,int w):w(33){  
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -200,13 +235,13 @@ hFunction::hFunction(int itemSize,int w):w(w){
   for (int i = 0; i < itemSize; i++) v.push_back(distributionN(generator));
 }
 
-int hFunction::operator()(const LSH_item& item){
-    std::vector<int>::const_iterator it1 = item.getCoordinates().begin();
+int hFunction::operator()(const LSH_item* item){
+    std::vector<int>::const_iterator it1 = item->getCoordinates().begin();
     std::vector<float>::const_iterator it2 = v.begin();
 
-    if( item.getCoordinates().size() != v.size() ) throw LSH_Exception();
+    if( item->getCoordinates().size() != v.size() ) throw LSH_Exception();
 
-    float sum = 0;
+    float sum = t;
     while ( it2 != v.end() ){
         sum += (*it1)*(*it2);
         it1++;
@@ -231,4 +266,8 @@ std::vector<LSH_item *> itemGenerator(int amount,int itemSize){
   }
   return items;
 
+}
+
+bool LSH_comperator(LSH_item* a, LSH_item* b){
+  return a->getDistanceFromQuery() < b->getDistanceFromQuery();
 }
