@@ -34,4 +34,4 @@
 test*
 LSH
 input/*
-*.txt
+output

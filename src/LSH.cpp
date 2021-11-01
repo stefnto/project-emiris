@@ -253,7 +253,6 @@ int hFunction::operator()(const LSH_item* item){
     return sum;
 
 }
-
 //general methods
 
 std::vector<LSH_item *> itemGenerator(int amount,int itemSize){
