@@ -4,7 +4,7 @@
 #include <getopt.h>
 #include <vector>
 #include <time.h>
-#include "LSH.hpp"
+// #include "LSH.hpp"
 
 using namespace std;
 
@@ -21,11 +21,11 @@ int main(int argc, char *argv[]){
 
   string input_file, query_file, output_file;
   int iflag = 1, qflag = 1, oflag = 1;
-  int k = 4, l = 5, n = 1, r = 10000;                                           // default values if not changed
+  int k = 14, m = 5, probes = 2, n = 1, r = 10000;                                           // default values if not changed
 
 
 
-  while ((opt = getopt(argc, argv, "i:q:k:L:o:N:R:")) != -1)
+  while ((opt = getopt(argc, argv, "i:q:k:M:p:o:N:R:")) != -1)
         switch (opt) {
           case 'i':
                   input_file = optarg;
@@ -38,8 +38,11 @@ int main(int argc, char *argv[]){
           case 'k':
                   k = atoi(optarg);
                   break;
-          case 'L':
-                  l = atoi(optarg);
+          case 'M':
+                  m = atoi(optarg);
+                  break;
+          case 'p':
+                  probes = atoi(optarg);
                   break;
           case 'o':
                   output_file = optarg;
@@ -64,19 +67,20 @@ int main(int argc, char *argv[]){
   cout << "query_file = " << query_file << "\n";
   cout << "output_file = " << output_file << "\n";
   cout << "k = " << k << "\n";
-  cout << "L = " << l << "\n";
+  cout << "M = " << m << "\n";
+  cout << "probes = " << probes << "\n";
   cout << "N = " << n << "\n";
   cout << "R = " << r << "\n";
 
-  sttime=((double) clock())/CLOCKS_PER_SEC;
-
-
-  LSH_solver solver1(input_file,query_file,output_file,k, l, n, r); 
-  // solver1.printQueries();
-  solver1.solve();
-
-  endtime=((double) clock())/CLOCKS_PER_SEC;
-  cout << "time: " << endtime - sttime << endl;
+  // sttime=((double) clock())/CLOCKS_PER_SEC;
+  //
+  //
+  // LSH_solver solver1(input_file,query_file,output_file,k, l, n, r);
+  // // solver1.printQueries();
+  // solver1.solve();
+  //
+  // endtime=((double) clock())/CLOCKS_PER_SEC;
+  // cout << "time: " << endtime - sttime << endl;
 
 
   // display coordinates

@@ -1,4 +1,81 @@
 #include "utils.hpp"
+#include <sstream>
+
+
+//Data_item Methods
+
+double (*Data_item::distanceFunction)(std::vector<int> a,std::vector<int> b ) = nullptr;
+
+Data_item::Data_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
+
+void Data_item::set_id(long id){
+
+    this->ID = id;
+}
+
+long Data_item::get_id() const{
+  return this->ID;
+}
+
+Data_item::Data_item(std::string line){
+  std::stringstream ss(line);
+  int number;
+  std::string itmID;
+  ss >> itmID;
+  this->item_id = itmID;
+  while (ss >> number){
+    this->coordinates.emplace_back(number);           // push each coordinate
+  }
+}
+
+void Data_item::setDistanceFromQuery(Data_item* query){
+  this->distanceFromQuery = Data_item::distanceFunction(this->coordinates,query->coordinates);
+}
+
+float Data_item::getDistanceFromQuery() const{
+  return this->distanceFromQuery;
+}
+
+void Data_item::setDistanceFunction(double (*dFunction)(std::vector<int> a, std::vector<int> b)){
+      distanceFunction = dFunction;
+}
+
+std::string Data_item::getItemID()const{return this->item_id;}
+
+
+//hFunction Methods
+
+hFunction::hFunction(int itemSize,int w):w(33){
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  static std::default_random_engine generator(seed);
+  std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
+
+  t = distribution(generator);
+
+  std::normal_distribution<float> distributionN(0.0, 1.0);
+
+  for (int i = 0; i < itemSize; i++) v.push_back(distributionN(generator));
+}
+
+int hFunction::operator()(const Data_item* item){
+    std::vector<int>::const_iterator it1 = item->getCoordinates().begin();
+    std::vector<float>::const_iterator it2 = v.begin();
+
+    if( item->getCoordinates().size() != v.size() ) throw Exception();
+
+    float sum = t;
+    while ( it2 != v.end() ){
+        sum += (*it1)*(*it2);
+        it1++;
+        it2++;
+    }
+    sum /= this->w;
+
+    return sum;
+
+}
+
+//          General functions
 
 // a % n = a – ( n * trunc( a/n ) ).
 

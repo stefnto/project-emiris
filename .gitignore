@@ -33,5 +33,11 @@
 
 test*
 LSH
+cube
 input/*
 output
+output.txt
+query_b_id
+query_small_id
+input_b_id
+input_small_id
