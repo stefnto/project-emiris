@@ -43,6 +43,22 @@ void Data_item::setDistanceFunction(double (*dFunction)(std::vector<int> a, std:
 std::string Data_item::getItemID()const{return this->item_id;}
 
 
+void Data_item::print_coordinates(){
+  for (int i = 0; i < this->coordinates.size(); i++){
+    std::cout << this->coordinates[i] << " " ;
+  }
+  std::cout << std::endl;
+}
+
+int Data_item::get_coordinates_size(){
+  return this->coordinates.size();
+}
+
+const std::vector<int>& Data_item::getCoordinates() const {
+  return this->coordinates;
+}
+
+
 //hFunction Methods
 
 hFunction::hFunction(int itemSize,int w):w(33){
@@ -61,7 +77,7 @@ int hFunction::operator()(const Data_item* item){
     std::vector<int>::const_iterator it1 = item->getCoordinates().begin();
     std::vector<float>::const_iterator it2 = v.begin();
 
-    if( item->getCoordinates().size() != v.size() ) throw Exception();
+    if( item->getCoordinates().size() != v.size() ) throw item_Exception();
 
     float sum = t;
     while ( it2 != v.end() ){

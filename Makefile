@@ -16,8 +16,8 @@ all: LSH cube
 LSH: src/LSHmain.cpp src/LSH.cpp src/utils.cpp
 	$(CC) $(FLAGZ) -I $(INCLUDE) -o LSH src/LSHmain.cpp src/LSH.cpp src/utils.cpp
 
-cube: src/Cubemain.cpp
-	$(CC) $(FLAGZ) -I $(INCLUDE) -o cube src/Cubemain.cpp
+cube: src/Cubemain.cpp src/Cube.cpp src/utils.cpp
+	$(CC) $(FLAGZ) -I $(INCLUDE) -o cube src/Cubemain.cpp src/Cube.cpp src/utils.cpp
 
 # LSHdefault:
 # 	./LSH -i input/input_b_id -q input/query_b_id -k 5 -L 5 -o output  -N 3 -R 10000

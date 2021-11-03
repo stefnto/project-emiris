@@ -126,21 +126,6 @@ LSH_HashTable::~LSH_HashTable(){
   delete[] this->buckets;
 }
 
-const std::vector<int>& Data_item::getCoordinates() const {
-  return this->coordinates;
-}
-
-void Data_item::print_coordinates(){
-  for (int i = 0; i < this->coordinates.size(); i++){
-    std::cout << this->coordinates[i] << " " ;
-  }
-  std::cout << std::endl;
-}
-
-int Data_item::get_coordinates_size(){
-  return this->coordinates.size();
-}
-
 void LSH_HashTable::insert(Data_item* item){
   int index = this->hashingFunction(item);
   this->buckets[index].push_back(item);

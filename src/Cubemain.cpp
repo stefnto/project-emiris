@@ -4,6 +4,7 @@
 #include <getopt.h>
 #include <vector>
 #include <time.h>
+#include "Cube.hpp"
 // #include "LSH.hpp"
 
 using namespace std;
@@ -72,6 +73,18 @@ int main(int argc, char *argv[]){
   cout << "N = " << n << "\n";
   cout << "R = " << r << "\n";
 
+  std::vector<Data_item*> points_coordinates;
+
+  datafile.open(input_file);
+  if (datafile.is_open()){
+  std::string line;
+  while (getline(datafile, line)){
+    counter++;
+    points_coordinates.emplace_back(new Data_item(line)); // creates a 'Data_item' and puts it at the end of the vector 'points_coordinates'
+  }
+  datafile.close();
+  }
+
   // sttime=((double) clock())/CLOCKS_PER_SEC;
   //
   //
@@ -85,8 +98,8 @@ int main(int argc, char *argv[]){
 
   // display coordinates
   // points_coordinates[0].print_coordinates();
-  // cout << "points_coordinates size = " << points_coordinates[0].get_coordinates_size() << endl;
-  // cout << "points_coordinates size = " << points_coordinates[points_coordinates.size() - 1].get_coordinates_size() << endl;
+  cout << "points_coordinates size = " << points_coordinates[0]->get_coordinates_size() << endl;
+  // cout << "points_coordinates size = " << points_coordinates[points_coordinates.size() - 1]->get_coordinates_size() << endl;
   // points_coordinates[points_coordinates.size() - 1].print_coordinates();
   // cout << "size = " << points_coordinates.size() << endl;
 
@@ -104,4 +117,13 @@ int main(int argc, char *argv[]){
   // int f = g2(points_coordinates[points_coordinates.size() - 1]);
   // cout << "g1 = " << s << endl;
   // cout << "g2 = " << f << endl;
+
+
+  Vertex_point ver[5];
+
+  for (int i=0; i<5; i++){
+    ver[i].init(k, points_coordinates[0]->get_coordinates_size());
+    unsigned long long f = ver[i](points_coordinates[i], k);
+    cout << f << endl;
+  }
 }

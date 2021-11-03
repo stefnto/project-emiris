@@ -1,5 +1,5 @@
-#ifndef __LSH__UTILS__
-#define __LSH__UTILS__
+#ifndef __UTILS__HPP__
+#define __UTILS__HPP__
 
 #include <vector>
 #include <iostream>
@@ -8,7 +8,7 @@
 #include <ctime>
 #include <chrono>
 
-class Exception{};
+class item_Exception{};
 
 class Data_item{
     private:
