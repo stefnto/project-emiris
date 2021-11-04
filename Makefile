@@ -14,7 +14,7 @@ $(BINS) : bin/%.o : src/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
 LSHdefault:
-	./LSH -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output  -N 3 -R 10000
+	./LSH -i input/input_b_id -q input/query_b_id -k 5 -L 5 -o output  -N 3 -R 10000
 
 clean:
 	rm -f  bin/*

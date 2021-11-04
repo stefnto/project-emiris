@@ -42,7 +42,7 @@ int LSH_solver::readItems(std::string dataset_path,std::vector<LSH_item*>& conta
     sttime = ((double)clock()) / CLOCKS_PER_SEC;
     while (getline(datafile, line)){
       counter++;
-      container.emplace_back(line);                                                                     // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
+      container.emplace_back(new LSH_item(line));                                                                     // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
     }
     endtime = ((double)clock()) / CLOCKS_PER_SEC;
     datafile.close();
@@ -225,7 +225,7 @@ int gFunction::operator()(LSH_item* item){
 
 
 
-hFunction::hFunction(int itemSize,int w):w(33){
+hFunction::hFunction(int itemSize,int w):w(23){
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
