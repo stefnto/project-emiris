@@ -25,8 +25,8 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
 bool LSH_solver::solve(){
     LSH_Set* result;
     for (LSH_item* query : queries) {
-      result = NNandRS(query);
-      writeResult(result,query);
+      result = NNandRS(query);          //returns sorted set with the nearest elements to the query
+      writeResult(result,query);        //filters & writes elements to the output file 
       delete result;
     }
     return true;
@@ -38,11 +38,15 @@ int LSH_solver::readItems(std::string dataset_path,std::vector<LSH_item*>& conta
     datafile.open(dataset_path);
     if (datafile.is_open()){
     std::string line;
+    double sttime, endtime; // to compute total run time
+    sttime = ((double)clock()) / CLOCKS_PER_SEC;
     while (getline(datafile, line)){
       counter++;
-      container.emplace_back(new LSH_item(line)); // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
+      container.emplace_back(line);                                                                     // creates a 'LSH_item' and puts it at the end of the vector 'points_coordinates'
     }
+    endtime = ((double)clock()) / CLOCKS_PER_SEC;
     datafile.close();
+    std::cout << "time needed to read elements : " << endtime - sttime << std::endl;
     }
   return counter;
 }
@@ -53,13 +57,9 @@ LSH_Set* LSH_solver::NNandRS(LSH_item* query){    //
 
   for (int i = 0; i < L; i++) this->hashTables[i].NearestNeighbours(query, nn);
 
-
-  // std::cout << "N is " << n << "and nn size is " << nn->size() << std::endl;
   LSH_Set::iterator it = nn->begin();
-  // std::cout << "Nearest neighbours of query : " << query->getItemID() << std::endl;
   for (int i = 0; i < n; i++){
     if (it == nn->end()) break;
-    // std::cout <<"Nearest neighbour " << i << "  ID: " << (*it)->getItemID() << " Approximate distance from query: " << (*it)->getDistanceFromQuery() << std::endl;
     it++;
   }
 
@@ -68,28 +68,28 @@ LSH_Set* LSH_solver::NNandRS(LSH_item* query){    //
 
 void LSH_solver::printQueries() const {
   int i = 1;
-  for (LSH_item* item : queries) std::cout << "query" << i++ << " : " << item->getItemID() << std::endl;
+  for (LSH_item* item : queries) std::cout << "query" << i++ << " : " << item->getName() << std::endl;
 }
 
 void LSH_solver::writeResult(LSH_Set* result,LSH_item* item){
   std::ofstream output_file;
   output_file.open(output_filepath,std::ofstream::out | std::ofstream::app);
-  output_file << "Query : " << item->getItemID() << std::endl;
+  output_file << "Query : " << item->getName() << std::endl;
   if (result->size() == 0 ) output_file << "No elements were found near this query" << std::endl;
   else{
-      output_file << "Nearest neighbour : " << (*(result->begin()))->getItemID() << " Distance from query : " << (*(result->begin()))->getDistanceFromQuery() << std::endl << std::endl;
+      output_file << "Nearest neighbour : " << (*(result->begin()))->getName() << " Distance from query : " << (*(result->begin()))->getDistanceFromQuery() << std::endl << std::endl;
       int counter = 0;
       output_file << "Nearest Neighbours : " << std::endl;
       for (LSH_item* elem : *result){
         if (counter == this->n) break;
-        output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
+        output_file << elem->getName() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
         counter++;
       }
       output_file << std::endl;
       output_file << "Elements in radius " << this->r << " from query :" <<std::endl << std::endl;
       for (LSH_item* elem : *result){
         float dFromQuery = elem->getDistanceFromQuery();
-        if (dFromQuery < this->r) output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
+        if (dFromQuery < this->r) output_file << elem->getName() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
         else break;
       }
 
@@ -108,7 +108,7 @@ LSH_solver::~LSH_solver(){
 
 double (*LSH_item::distanceFunction)(std::vector<int> a,std::vector<int> b ) = nullptr;
 
-LSH_item::LSH_item(std::string item_id, std::vector<int> coordinates):item_id(item_id),coordinates(coordinates){}
+LSH_item::LSH_item(std::string name, std::vector<int> coordinates):name(name),coordinates(coordinates){}
 
 void LSH_item::set_id(long id){
 
@@ -122,9 +122,7 @@ long LSH_item::get_id() const{
 LSH_item::LSH_item(std::string line){
   std::stringstream ss(line);
   int number;
-  std::string itmID;
-  ss >> itmID;
-  this->item_id = itmID;
+  ss >> this->name;
   while (ss >> number){
     this->coordinates.push_back(number);           // push each coordinate
   }
@@ -142,7 +140,7 @@ void LSH_item::setDistanceFunction(double (*dFunction)(std::vector<int> a, std::
       distanceFunction = dFunction;
 }
 
-std::string LSH_item::getItemID()const{return this->item_id;}
+std::string LSH_item::getName()const{return this->name;}
 
 
 //LSH_HashTable Methods

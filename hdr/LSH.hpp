@@ -19,7 +19,7 @@ class LSH_Exception{};
 
 class LSH_item{
     private:
-        std::string item_id;                                                    // is id from input_file
+        std::string name;                                                       // is id from input_file
         std::vector<int> coordinates;
         long ID;                                                                // id computed from (Σ r * h) mod M
         double distanceFromQuery = 0;
@@ -27,7 +27,7 @@ class LSH_item{
         static double (*distanceFunction)(std::vector<int> a,std::vector<int> b);
     public:
 
-        LSH_item(std::string item_id, std::vector<int> coordinates);
+        LSH_item(std::string name, std::vector<int> coordinates);
         LSH_item(std::string line);
         ~LSH_item() = default;
         LSH_item(LSH_item&) = default;
@@ -39,7 +39,7 @@ class LSH_item{
         int get_coordinates_size();
         void setDistanceFromQuery(LSH_item* query);
         float getDistanceFromQuery() const;
-        std::string getItemID() const;
+        std::string getName() const;
 
         static void setDistanceFunction(double (*distanceFunction)(std::vector<int> a, std::vector<int>b) );
 };
