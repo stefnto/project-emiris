@@ -19,7 +19,7 @@ class Data_item{
 
         static double (*distanceFunction)(std::vector<int> a,std::vector<int> b);
     public:
-
+        Data_item(){};
         Data_item(std::string item_id, std::vector<int> coordinates);
         Data_item(std::string line);
         ~Data_item() = default;

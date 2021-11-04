@@ -2,6 +2,7 @@
 #define __CUBE__HPP__
 
 #include <list>
+#include <fstream>
 #include <unordered_map>
 #include "utils.hpp"
 
@@ -25,14 +26,20 @@ class Vertex_point {
 
 class Cube_HashTable {
   private:
-    const int size;
+    int size;
     int k;
-    hFunction *hFunc;
+    int itemDim;
 
+    std::vector<Vertex_point>* hcube_points;                                      // will be size of number of points from input
     std::list<Data_item*>* buckets;
 
   public:
-    Cube_HashTable();
+    Cube_HashTable(){};
+    Cube_HashTable(int k, int dim, int tableSize, int points_no);
+    void init(int, int, int, int);
+    ~Cube_HashTable();
+    void insert(Data_item* item);
+    void search();
 };
 
 
@@ -49,6 +56,7 @@ class Cube_Solver {
 
     std::string output_filepath;
 
+    int readItems(std::string data_path,std::vector<Data_item*>&);                               //reads from data path and inserts to vector
   public:
     Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
     ~Cube_Solver();
