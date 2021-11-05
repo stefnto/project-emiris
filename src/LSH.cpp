@@ -53,7 +53,17 @@ LSH_Set* LSH_solver::NNandRS(Data_item* query){    //
   auto comp = [](const Data_item* a,const Data_item* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
   LSH_Set*  nn = new LSH_Set(comp);
 
-  for (int i = 0; i < L; i++) this->hashTables[i].NearestNeighbours(query, nn);
+  double sttime, endtime;                                                       // to compute total run time
+
+  sttime=((double) clock())/CLOCKS_PER_SEC;
+
+  for (int i = 0; i < L; i++)
+    this->hashTables[i].NearestNeighbours(query, nn);
+
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+
+  query->setAlgorithmTime( endtime - sttime );
+
 
 
   // std::cout << "N is " << n << "and nn size is " << nn->size() << std::endl;
@@ -77,26 +87,35 @@ void LSH_solver::writeResult(LSH_Set* result,Data_item* item){
   std::ofstream output_file;
   output_file.open(output_filepath,std::ofstream::out | std::ofstream::app);
   output_file << "Query : " << item->getItemID() << std::endl;
-  if (result->size() == 0 ) output_file << "No elements were found near this query" << std::endl;
+  if (result->size() == 0 )
+    output_file << "No elements were found near this query" << std::endl;
   else{
-      output_file << "Nearest neighbour : " << (*(result->begin()))->getItemID() << " Distance from query : " << (*(result->begin()))->getDistanceFromQuery() << std::endl << std::endl;
+
       int counter = 0;
-      output_file << "Nearest Neighbours : " << std::endl;
       for (Data_item* elem : *result){
-        if (counter == this->n) break;
-        output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
+        if (counter == this->n)
+          break;
+        output_file << "Nearest neighbor-" << counter << " : " << elem->getItemID() << std::endl;
+        output_file << "distanceLSH : " << elem->getDistanceFromQuery() << std::endl;
+        output_file << "distanceTrue : " << std::endl;
+        output_file << "tHypercube : " << item->getAlgorithmTime() << std::endl;
+        output_file << "tTrue : " << std::endl << std::endl;
+        // output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
         counter++;
       }
+
       output_file << std::endl;
-      output_file << "Elements in radius " << this->r << " from query :" <<std::endl << std::endl;
+      // output_file << "Elements in radius " << this->r << " from query :" <<std::endl << std::endl;
+      output_file << "Checking in radius " << this->r << " from query :" << std::endl << std::endl;
       for (Data_item* elem : *result){
         float dFromQuery = elem->getDistanceFromQuery();
-        if (dFromQuery < this->r) output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
-        else break;
+        if (dFromQuery < this->r)
+        output_file << "  Element : " << elem->getItemID() << ", distance from query : " << elem->getDistanceFromQuery() << std::endl;
+          // output_file << elem->getItemID() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
       }
 
   }
-  output_file << std::endl;
+  output_file << std::endl << "===============================================================================" << std::endl << std::endl;
 }
 
 LSH_solver::~LSH_solver(){
