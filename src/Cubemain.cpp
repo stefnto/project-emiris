@@ -75,6 +75,9 @@ int main(int argc, char *argv[]){
 
 
   Cube_Solver solver1(input_file, query_file, output_file, k, k, probes, n, r);
+
+  solver1.solve();
+
   // std::vector<Data_item*> points_coordinates;
   //
   // datafile.open(input_file);

@@ -58,6 +58,22 @@ const std::vector<int>& Data_item::getCoordinates() const {
   return this->coordinates;
 }
 
+double Data_item::getAlgorithmTime(){
+  return this->algorithmTime;
+}
+
+double Data_item::getBruteForceTime(){
+  return this->bruteforceTime;
+}
+
+void Data_item::setAlgorithmTime(double time){
+  this->algorithmTime = time;
+}
+
+void Data_item::setBruteForcetime(double time){
+  this->bruteforceTime = time;
+}
+
 
 //hFunction Methods
 
@@ -121,4 +137,38 @@ int hFunction::operator()(const Data_item* item){
 
       return rand() % 2000 - 999;
 
+}
+
+// fills the referenced set with numbers that have 'hamming_distance' from 'number' that was given
+void getNumbersWithHammingDistance(int k, unsigned long long number, int hamming_distance, std::set<unsigned long long>& set){
+  //set.clear()
+
+  for (int i = 0; i < k; i++){
+    // cout << i+1 << " enapalhpsh" << endl;
+    unsigned long long mask = 1 << i;
+
+    if (hamming_distance > 1){
+      // cout <<"klhsh ksana"<< endl;
+      // cout << (number & ~mask) << endl;
+      // cout << std::bitset<9>(number & ~mask) << endl;
+      getNumbersWithHammingDistance(k, (number & ~mask), hamming_distance-1, set);
+
+      continue;
+    }
+
+    else if (hamming_distance == 1)
+
+      // cout <<"    " << std::bitset<9>(~mask) << endl;
+      // cout <<"    " << std::bitset<9>(number) << endl;
+      // cout <<"-------------- (AND)" << endl;
+      //
+      // cout <<"    " << std::bitset<9>(number & ~mask) << " = " << (number & ~mask) << endl;
+      set.insert(number & ~mask);
+
+  }
+
+  // cout <<"set size = " << set.size() << endl;
+  // for (auto it = set.begin(); it !=
+  //                              set.end(); ++it)
+  //         cout << ' ' << *it;
 }

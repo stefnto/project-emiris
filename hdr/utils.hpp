@@ -7,6 +7,7 @@
 #include <random>
 #include <ctime>
 #include <chrono>
+#include <set>
 
 class item_Exception{};
 
@@ -16,6 +17,8 @@ class Data_item{
         std::vector<int> coordinates;
         long ID;                                                                // id computed from (Σ r * h) mod M
         double distanceFromQuery = 0;
+        double algorithmTime = 0;
+        double bruteforceTime = 0;
 
         static double (*distanceFunction)(std::vector<int> a,std::vector<int> b);
     public:
@@ -33,6 +36,10 @@ class Data_item{
         void setDistanceFromQuery(Data_item* query);
         float getDistanceFromQuery() const;
         std::string getItemID() const;
+        void setAlgorithmTime(double time);
+        void setBruteForcetime(double time);
+        double getAlgorithmTime();
+        double getBruteForceTime();
 
         static void setDistanceFunction(double (*distanceFunction)(std::vector<int> a, std::vector<int>b) );
 };
@@ -55,5 +62,8 @@ long mod(long x, long y);
 double EuclidianDistance(std::vector<int> a, std::vector<int> b);
 
 int rGenerator();
+
+void getNumbersWithHammingDistance(int k, unsigned long long number, int hamming_distance, std::set<unsigned long long>& set);
+
 
 #endif

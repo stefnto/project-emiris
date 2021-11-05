@@ -3,15 +3,8 @@
 // Vertex_point methods
 
 Vertex_point::Vertex_point(int k, int itemDim): binary_hash(0) {
-  for (int i = 0; i < k; i++)
-    hFunc.emplace_back(hFunction(itemDim));
+  // std::cout << "in vp constructor" << std::endl;
 
-     std::cout << "Done!" << std::endl;
-}
-
-void Vertex_point::init(int k, int itemDim){
-  std::cout << "inited" << std::endl;
-  this->binary_hash = 0;
   for (int i = 0; i < k; i++)
     hFunc.emplace_back(hFunction(itemDim));
 }
@@ -27,10 +20,6 @@ void Vertex_point::bit_concat(int value){
 
 unsigned long long Vertex_point::operator()(Data_item* item, int k) {
   srand(time(NULL));
-
-  // char buf[k+1];
-  // int index = k;
-  // buf[index] = '\0';
 
   int count = 0;
   for (hFunction h_i : hFunc){
@@ -56,43 +45,122 @@ unsigned long long Vertex_point::operator()(Data_item* item, int k) {
   return binary_hash;
 }
 
+int Vertex_point::getBH(){
+  return this->binary_hash;
+}
+
 
 // Cube_HashTable Methods
 
-Cube_HashTable::Cube_HashTable(int k, int dim, int tableSize, int points_no): size(tableSize), k(k), itemDim(dim){
-  std::cout << "size = " << tableSize << std::endl;
+Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates): size(buckets_no), k(k), itemDim(dim){
+  std::cout << "in HT constructor " << std::endl;
+  pts_coordinates = coordinates;
+  std::cout << "size1 = " << pts_coordinates->size() << std::endl;
+  std::cout << "size2 = " << points_no<< std::endl;
   this->buckets = new std::list<Data_item *>[this->size];
-  this->hcube_points = new std::vector<Vertex_point>[points_no];
-  for (int i = 0; i < this->hcube_points->size(); i++)
-    (*hcube_points)[i].init(k, dim);
-  std::cout << "buckets size = " << buckets->size() << std::endl;
-  std::cout << "done!" << std::endl;
-}
 
-void Cube_HashTable::init(int k, int dim, int tableSize, int points_no){
-  this->size = tableSize;
-  this->k = k;
-  this->buckets = new std::list<Data_item *>[tableSize];
-  this->buckets[0].push_back(new Data_item());
-  this->buckets[0].push_back(new Data_item());
-  std::cout << "buckets size = " << buckets[1].size() << std::endl;
-  std::cout << "buckets size = " << buckets[0].size() << std::endl;
-  this->hcube_points = new std::vector<Vertex_point>[points_no];
-  for (int i = 0; i < this->hcube_points->size(); i++)
-    (*hcube_points)[i].init(k, dim);
+  // for (int i = 0; i < points_no; i++){
+  //   if (i % 100000 == 0)
+  //   std::cout << i << std::endl;
+  //
+  //   hcube_points.emplace_back(Vertex_point(k, dim));
+  // }
+    // (*hcube_points)[i].init(k, dim);
+  std::cout << "done!" << std::endl;
 }
 
 Cube_HashTable::~Cube_HashTable(){
   delete[] this->buckets;
-  delete[] this->hcube_points;
 }
 
-void Cube_HashTable::insert(Data_item* item){
-  // unsigned long long index = this->hcube_points;
+void Cube_HashTable::insertV_points(std::vector<Data_item*> & points_coordinates, int k){
+  std::cout << "in insert" << std::endl;
+  int counter = 0;
+  for (int i = 0; i < points_coordinates.size(); i++){
+    if (i % 100000 == 0)
+      std::cout << i << std::endl;
+
+    hcube_points.emplace_back(Vertex_point(k, itemDim));
+
+    unsigned long long index = this->hcube_points[i]( points_coordinates[i], k);
+
+    this->buckets[index].emplace_back(points_coordinates[i]);
+  }
+  std::cout << "size = " << sizeof(buckets)/sizeof(buckets[1]) << std::endl;
 }
 
-void Cube_HashTable::search(){
+void Cube_HashTable::empty_buckets(int buckets_no){
+  int k=0,j=0;
+  for (int i = 0; i < buckets_no; i++){
+    if (buckets[i].size() != 0)
+      k++;
+    else
+      j++;
+  }
+  std::cout << "empty buckets = " << j << std::endl;
+  std::cout << "non empty buckets = " << k << std::endl;
+}
 
+Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
+  auto comp = [](const Data_item* a,const Data_item* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
+  Cube_Set *ordered_set = new Cube_Set(comp);
+
+  double sttime, endtime;                                                       // to compute total run time
+
+
+  int counter = 0;                                                              // if counter == M, NN search is stopped
+  bool m_points_checked = false;                                                // flag to see if m points where checked
+
+  std::set<unsigned long long> ham_dist_numbers;                                // holds the numbers with hamming_distance x from 'index'
+
+  Vertex_point v(this->k, this->itemDim);                                       // initialize Vertex_point for the query
+  unsigned long long index = v(query, this->k);                                 // get binary_hash of query
+
+  sttime=((double) clock())/CLOCKS_PER_SEC;
+  for (Data_item* item: buckets[index]){                                        // check all items in bucket that query was projected into
+    if (counter > m){                                                           // if you checked more than M points for NN stop
+      m_points_checked = true;
+      break;
+    }
+    item->setDistanceFromQuery(query);
+    ordered_set->insert(item);
+    counter++;
+  }
+
+  if (m_points_checked){                                                        // checked M points in total
+    endtime=((double) clock())/CLOCKS_PER_SEC;
+    query->setAlgorithmTime( endtime - sttime );
+    return ordered_set;
+  }
+  else {                                                                        // bucket that query was projected into had less than M points
+    getNumbersWithHammingDistance(this->k, index, probes, ham_dist_numbers);    // determine buckets to check using Hamming Distance
+
+    for (int i = 0; i < probes-1; i++){                                         // check 'probes-1' vertices because 1 vertex has already been checked
+
+      unsigned long long tmp_index = ( rand() % ham_dist_numbers.size() ) + 1;  // takes a random index that exists in 'ham_dist_numbers' set
+
+      for (Data_item* item: buckets[tmp_index]){                                // hashes buckets with 'tmp_index' and check all items in said bucket
+        if (counter > m){                                                       // if you checked more than M points for NN stop
+          m_points_checked = true;
+          break;
+        }
+        item->setDistanceFromQuery(query);
+        ordered_set->insert(item);
+        counter++;
+      }
+      ham_dist_numbers.erase(tmp_index);                                        // erase hash from set, so a bucket is not checked twice
+
+      if (m_points_checked){
+        endtime=((double) clock())/CLOCKS_PER_SEC;
+        query->setAlgorithmTime( endtime - sttime );
+        return ordered_set;
+      }
+    }
+  }
+
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+  query->setAlgorithmTime( endtime - sttime );
+  return ordered_set;
 }
 
 
@@ -110,14 +178,23 @@ Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::
     endtime=((double) clock())/CLOCKS_PER_SEC;
     std::cout << "time: " << endtime - sttime << std::endl;
     int queriesRead = this->readItems(query_path,queries);
-    std::cout << "i = " << itemsRead << std::endl << "q = " << queriesRead << std::endl;
-    this->hashTable = new Cube_HashTable();
-    this->hashTable->init(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size());
+    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), &points_coordinates);
+
+    sttime=((double) clock())/CLOCKS_PER_SEC;
+    hashTable->insertV_points(points_coordinates, k);
+    endtime=((double) clock())/CLOCKS_PER_SEC;
+    std::cout << "insertv time: " << endtime - sttime << std::endl;
+
+    // sttime=((double) clock())/CLOCKS_PER_SEC;
+    // hashTable->empty_buckets(pow(2,k));
+    // endtime=((double) clock())/CLOCKS_PER_SEC;
+    // std::cout << "bucket_check time: " << endtime - sttime << std::endl;
+
 
 }
 
 Cube_Solver::~Cube_Solver(){
-  delete[] this->hashTable;
+  delete this->hashTable;
   for (Data_item* item : this->points_coordinates) delete item;
   std::cout << "deleted points_coordinates" << std::endl;
   for (Data_item* item : this->queries) delete item;
@@ -125,6 +202,8 @@ Cube_Solver::~Cube_Solver(){
 }
 
 int Cube_Solver::readItems(std::string dataset_path,std::vector<Data_item*>& container){
+  std::cout << "in readItems" << std::endl;
+
   std::ifstream datafile;
   int counter = 0;
   datafile.open(dataset_path);
@@ -138,4 +217,47 @@ int Cube_Solver::readItems(std::string dataset_path,std::vector<Data_item*>& con
   }
 
   return counter;
+}
+
+bool Cube_Solver::solve(){
+  Cube_Set* result;
+  for (Data_item* query: queries){
+    result = this->hashTable->NN(query, this->m, this->probes);
+    //write result
+    writeResult(result, query);
+    delete result;
+  }
+  return true;
+}
+
+void Cube_Solver::writeResult(Cube_Set* result, Data_item* item){
+  std::ofstream output_file;
+  output_file.open(output_filepath, std::ofstream::out | std::ofstream::app);
+  output_file << "Query : " << item->getItemID() << std::endl;
+  if (result->size() == 0)
+    output_file << "Nο elements were found near this query" << std::endl;
+  else {
+
+    int counter = 0;
+    for (Data_item* elem : *result){
+      if (counter == this->n)
+        break;
+      output_file << "Nearest neighbor-" << counter << " : " << elem->getItemID() << std::endl;
+      output_file << "distanceHypercube : " << elem->getDistanceFromQuery() << std::endl;
+      output_file << "distanceTrue : " << std::endl;
+      output_file << "tHypercube : " << item->getAlgorithmTime() << std::endl;
+      output_file << "tTrue : " << std::endl << std::endl;
+      counter++;
+    }
+
+    output_file << std::endl;
+    output_file << "Checking in radius " << this->r << " from query :" << std::endl << std::endl;
+    for (Data_item* elem : *result){
+      float dFromQuery = elem->getDistanceFromQuery();
+      if (dFromQuery < this->r)
+      output_file << "  Element : " << elem->getItemID() << ", distance from query : " << elem->getDistanceFromQuery() << std::endl;
+    }
+  }
+
+  output_file << std::endl << "===============================================================================" << std::endl << std::endl;
 }
