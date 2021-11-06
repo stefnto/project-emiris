@@ -60,7 +60,7 @@ class LSH_solver{
     std::string output_filepath;
 
     int readItems(std::string data_path,std::vector<Data_item*>&);                               //reads from data path and inserts to vector
-    void writeResult(LSH_Set*,Data_item*);                                                       //given an ordered set,writes items to output path
+    void writeResult(LSH_Set* , Data_item* , std::set<double>&);                                                       //given an ordered set,writes items to output path
 
   public :
     //H functions are constructed inside the LSH_solver constructor and picked by the G functions.

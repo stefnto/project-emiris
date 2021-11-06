@@ -14,7 +14,7 @@ all: LSH cube
 # 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
 LSH: src/LSHmain.cpp src/LSH.cpp src/utils.cpp
-	$(CC) $(FLAGZ) -I $(INCLUDE) -o LSH src/LSHmain.cpp src/LSH.cpp src/utils.cpp
+	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o LSH src/LSHmain.cpp src/LSH.cpp src/utils.cpp
 
 cube: src/Cubemain.cpp src/Cube.cpp src/utils.cpp
 	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o cube src/Cubemain.cpp src/Cube.cpp src/utils.cpp

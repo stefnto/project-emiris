@@ -19,6 +19,7 @@ class Data_item{
         double distanceFromQuery = 0;
         double algorithmTime = 0;
         double bruteforceTime = 0;
+        double shorterDistance = 0;                                             // used in brute force method
 
         static double (*distanceFunction)(std::vector<int> a,std::vector<int> b);
     public:
@@ -38,10 +39,13 @@ class Data_item{
         std::string getItemID() const;
         void setAlgorithmTime(double time);
         void setBruteForcetime(double time);
+        void setShorterDistance(double value);
         double getAlgorithmTime();
         double getBruteForceTime();
+        double getShorterDistance();
 
         static void setDistanceFunction(double (*distanceFunction)(std::vector<int> a, std::vector<int>b) );
+        double (*getDistanceFunction())(std::vector<int> a,std::vector<int> b);
 };
 
 
@@ -65,5 +69,6 @@ int rGenerator();
 
 void getNumbersWithHammingDistance(int k, unsigned long long number, int hamming_distance, std::set<unsigned long long>& set);
 
+void bruteForceSearch(Data_item *item, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances);
 
 #endif
