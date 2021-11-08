@@ -5,19 +5,16 @@
 //LSH_solver Methods
 
 LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::string output_filepath, int k, int L, int N, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b)) : n(N), r(r), L(L),output_filepath(output_filepath){
-  // double sttime, endtime;                                                                         // to compute total run time
   this->hashTables = new LSH_HashTable[L];
 
   Data_item::setDistanceFunction(distanceFunction);                                               //computing distance between Data_items is handled by the class Data_item
 
-  // sttime=((double) clock())/CLOCKS_PER_SEC;
   int itemsRead = this->readItems(dataset_path,points_coordinates);                              //reads and inserts items to points_coordinates
-  // endtime=((double) clock())/CLOCKS_PER_SEC;
-  // std::cout << "Read/saved points_coordinates in " << endtime - sttime << " seconds" << std::endl;
+
   int queriesRead = this->readItems(query_path,queries);
 
-  this->w = avgDistance();
-  std::cout << "w = " << w << std::endl;
+  this->w = avgDistance(this->points_coordinates);                                                                      // use avgDistance() to generate a 'w' for the 'h' functions
+  // std::cout << "w = " << w << std::endl;
 
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();
@@ -105,6 +102,10 @@ void LSH_solver::writeResult(LSH_Set* result,Data_item* item, std::set<double>& 
         output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) <<std::endl;
         output_file << "tLSH : " << item->getAlgorithmTime() << std::endl;
         output_file << "tTrue : " << item->getBruteForceTime() << std::endl;
+        if (elem->getDistanceFromQuery() == *std::next(true_nn.begin(), counter)){
+          std::cout << "yes" << std::endl;
+          output_file << "Same" << std::endl;
+        }
         counter++;
       }
 
@@ -121,28 +122,28 @@ void LSH_solver::writeResult(LSH_Set* result,Data_item* item, std::set<double>& 
   output_file << std::endl << "===============================================================================" << std::endl << std::endl;
 }
 
-int LSH_solver::avgDistance(){
-  srand(time(NULL));
-  std::set<int> set;
-  double dist = 0;
-  int num = ( 5 * points_coordinates.size() ) / 1000;                           // for 1000 points check 5 vectors to find mean distance
-                                                                                // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
-  for (int i = 0; i < num; i++){
-    int tmp = rand() % points_coordinates.size();
-
-    auto search = set.find(tmp);
-    if (search == set.end()){
-      set.insert(tmp);
-    }
-
-    for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){
-      dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
-    }
-    dist = dist / set.size();
-  }
-  std::cout << "dist = " << dist << std::endl;
-  return dist;
-}
+// int LSH_solver::avgDistance(){
+//   srand(time(NULL));
+//   std::set<int> set;
+//   double dist = 0;
+//   int num = ( 5 * points_coordinates.size() ) / 1000;                           // for 1000 points check 5 vectors to find mean distance
+//                                                                                 // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
+//   for (int i = 0; i < num; i++){
+//     int tmp = rand() % points_coordinates.size();
+//
+//     auto search = set.find(tmp);
+//     if (search == set.end()){
+//       set.insert(tmp);
+//     }
+//
+//     for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){
+//       dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
+//     }
+//     dist = dist / set.size();
+//   }
+//   std::cout << "dist = " << dist << std::endl;
+//   return dist;
+// }
 
 LSH_solver::~LSH_solver(){
   delete[] this->hashTables;

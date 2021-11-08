@@ -20,7 +20,7 @@ class Vertex_point {
     std::vector<hFunction> hFunc;                                               // vector that holds each h_i for the specific point
   public:
     Vertex_point(){};
-    Vertex_point(int k, int itemDim);
+    Vertex_point(int k, int itemDim, int w);
     ~Vertex_point(){};
     unsigned long long operator()(Data_item*, int);
     void bit_concat(int);
@@ -33,12 +33,12 @@ class Cube_HashTable {
     unsigned long long size;
     int k;
     int itemDim;
-
+    int w;
     std::vector<Vertex_point> hcube_points;                                     // will be size of number of points from input
     std::list<Data_item*>* buckets;
     std::vector<Data_item*>* pts_coordinates;                                   // points to the points_coordinates vector in Cube_Solver
   public:
-    Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates);
+    Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates, int w);
     ~Cube_HashTable();
     void insertV_points(std::vector<Data_item*> & points_coordinates, int k);
     void empty_buckets(int );
@@ -48,7 +48,6 @@ class Cube_HashTable {
 
 class Cube_Solver {
   private:
-    Cube_HashTable* hashTable;
     int k;
     int m;
     int probes;
@@ -56,6 +55,7 @@ class Cube_Solver {
     int r;
     std::vector<Data_item*> points_coordinates;
     std::vector<Data_item*> queries;
+    Cube_HashTable* hashTable;
 
     std::string output_filepath;
 

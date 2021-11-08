@@ -91,7 +91,6 @@ double Data_item::getShorterDistance(){
 //hFunction Methods
 
 hFunction::hFunction(int itemSize,int w):w(w){
-  std::cout << "w = " << w << std::endl;
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -154,10 +153,12 @@ int hFunction::operator()(const Data_item* item){
 }
 
 // fills the referenced set with numbers that have 'hamming_distance' from 'number' that was given
-void getNumbersWithHammingDistance(int k, unsigned long long number, int hamming_distance, std::set<unsigned long long>& set){
+void getNumbersWithHammingDistance(int k, unsigned long long number, int probes, std::set<unsigned long long>& set){
 
   for (int i = 0; i < k; i++){
     unsigned long long mask = 1 << i;
+
+    int hamming_distance = 1 + ((probes-1) / k);                                // cieling of probes/k
 
     if (hamming_distance > 1){
       getNumbersWithHammingDistance(k, (number & ~mask), hamming_distance-1, set);
@@ -198,4 +199,27 @@ void bruteForceSearch(Data_item *query, std::vector<Data_item*>& points_coordina
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
   query->setBruteForcetime( endtime - sttime);
+}
+
+
+int avgDistance(std::vector<Data_item*>& points_coordinates){
+  srand(time(NULL));
+  std::set<int> set;
+  double dist = 0;
+  int num = ( 5 * points_coordinates.size() ) / 1000;                           // for 1000 points check 5 vectors to find mean distance
+                                                                                // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
+  for (int i = 0; i < num; i++){
+    int tmp = rand() % points_coordinates.size();
+
+    auto search = set.find(tmp);
+    if (search == set.end()){
+      set.insert(tmp);
+    }
+
+    for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){  // compute each distance of first point to the other 'set.size() - 1' points
+      dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
+    }
+    dist = dist / set.size();                                                   // get the mean distance
+  }
+  return dist;
 }

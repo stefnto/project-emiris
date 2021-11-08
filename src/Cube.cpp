@@ -2,10 +2,10 @@
 
 // Vertex_point methods
 
-Vertex_point::Vertex_point(int k, int itemDim): binary_hash(0) {
+Vertex_point::Vertex_point(int k, int itemDim, int w): binary_hash(0) {
 
   for (int i = 0; i < k; i++)
-    hFunc.emplace_back(hFunction(itemDim, 100));
+    hFunc.emplace_back(hFunction(itemDim, w));
 }
 
 void Vertex_point::bit_concat(int value){                                       // adds a bit { 0,1 } at the end of the number
@@ -47,7 +47,9 @@ int Vertex_point::getBH(){
 
 // Cube_HashTable Methods
 
-Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates): size(buckets_no), k(k), itemDim(dim){
+Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates, int w): size(buckets_no), k(k), itemDim(dim), w(w){
+
+  // std::cout << "w = " << w << std::endl;
   pts_coordinates = coordinates;
 
   this->buckets = new std::list<Data_item *>[this->size];
@@ -62,7 +64,7 @@ void Cube_HashTable::insertV_points(std::vector<Data_item*> & points_coordinates
   int counter = 0;
   for (int i = 0; i < points_coordinates.size(); i++){
 
-    hcube_points.emplace_back(Vertex_point(k, itemDim));
+    hcube_points.emplace_back(Vertex_point(k, itemDim, this->w));
 
     unsigned long long index = this->hcube_points[i]( points_coordinates[i], k );
 
@@ -94,7 +96,7 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
 
   std::set<unsigned long long> ham_dist_numbers;                                // holds the numbers with hamming_distance x from 'index'
 
-  Vertex_point v(this->k, this->itemDim);                                       // initialize Vertex_point for the query
+  Vertex_point v(this->k, this->itemDim, this->w);                                       // initialize Vertex_point for the query
   unsigned long long index = v(query, this->k);                                 // get binary_hash of query
 
   sttime=((double) clock())/CLOCKS_PER_SEC;
@@ -111,15 +113,16 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
   if (m_points_checked){                                                        // checked M points in total, so stop
     endtime=((double) clock())/CLOCKS_PER_SEC;
     query->setAlgorithmTime( endtime - sttime );                                // set time that algorithm run for the specific query
+    // std::cout << "pts checked1 = " << counter << std::endl;
     return ordered_set;
   }
   else {                                                                        // bucket that query was projected into had less than M points
     getNumbersWithHammingDistance(this->k, index, probes, ham_dist_numbers);    // determine buckets to check using Hamming Distance
 
     for (int i = 0; i < probes-1; i++){                                         // check 'probes-1' vertices because 1 vertex has already been checked
-
-      unsigned long long tmp_index = ( rand() % ham_dist_numbers.size() ) + 1;  // takes a random index that exists in 'ham_dist_numbers' set
-
+      int ham_dist_numbers_index = ( rand() % ham_dist_numbers.size() ) + 1;
+      unsigned long long tmp_index = *std::next(ham_dist_numbers.begin(), ham_dist_numbers_index);  // takes a random index that exists in 'ham_dist_numbers' set
+      // std::cout << "index = " << tmp_index << std::endl;
       for (Data_item* item: buckets[tmp_index]){                                // hashes buckets with 'tmp_index' and check all items in said bucket
         if (counter > m){                                                       // if you checked more than M points for NN stop
           m_points_checked = true;
@@ -134,6 +137,7 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
       if (m_points_checked){
         endtime=((double) clock())/CLOCKS_PER_SEC;
         query->setAlgorithmTime( endtime - sttime );
+        // std::cout << "pts checked2 = " << counter << std::endl;
         return ordered_set;
       }
     }
@@ -141,6 +145,7 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
   query->setAlgorithmTime( endtime - sttime );
+  // std::cout << "pts checked3 = " << counter << std::endl;
   return ordered_set;
 }
 
@@ -156,11 +161,11 @@ Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::
 
     int queriesRead = this->readItems(query_path,queries);
 
-    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), &points_coordinates);
+    int w = avgDistance(this->points_coordinates);
+
+    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), &points_coordinates, w);
 
     hashTable->insertV_points(points_coordinates, k);
-
-
 }
 
 Cube_Solver::~Cube_Solver(){
@@ -225,6 +230,8 @@ void Cube_Solver::writeResult(Cube_Set* result, Data_item* item, std::set<double
       output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) << std::endl;
       output_file << "tHypercube : " << item->getAlgorithmTime() << std::endl;
       output_file << "tTrue : " << item->getBruteForceTime() << std::endl;
+      if (elem->getDistanceFromQuery() == *std::next(true_nn.begin(), counter))
+        output_file << "Same" << std::endl;
       counter++;
     }
 

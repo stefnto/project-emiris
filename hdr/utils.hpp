@@ -67,8 +67,9 @@ double EuclidianDistance(std::vector<int> a, std::vector<int> b);
 
 int rGenerator();
 
-void getNumbersWithHammingDistance(int k, unsigned long long number, int hamming_distance, std::set<unsigned long long>& set);
+void getNumbersWithHammingDistance(int k, unsigned long long number, int probes, std::set<unsigned long long>& set);
 
 void bruteForceSearch(Data_item *item, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances);
 
+int avgDistance(std::vector<Data_item*>& points_coordinates);
 #endif

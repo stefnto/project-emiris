@@ -70,7 +70,6 @@ class LSH_solver{
     bool solve();                                                                //This function is called to solve NN , kNN and Approximate Range Search.
     LSH_Set* NNandRS(Data_item *item);                                           //1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbours
     void printQueries() const;
-    int avgDistance();
 };
 
 

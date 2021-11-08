@@ -5,7 +5,6 @@
 #include <vector>
 #include <time.h>
 #include "Cube.hpp"
-// #include "LSH.hpp"
 
 using namespace std;
 
@@ -22,7 +21,7 @@ int main(int argc, char *argv[]){
 
   string input_file, query_file, output_file;
   int iflag = 1, qflag = 1, oflag = 1;
-  int k = 14, m = 5, probes = 2, n = 1, r = 10000;                              // default values if not changed
+  int k = 14, m = 10, probes = 2, n = 1, r = 10000;                              // default values if not changed
 
 
 
@@ -76,7 +75,7 @@ int main(int argc, char *argv[]){
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
 
-  Cube_Solver solver1(input_file, query_file, output_file, k, k, probes, n, r);
+  Cube_Solver solver1(input_file, query_file, output_file, k, m, probes, n, r);
 
   solver1.solve();
 
