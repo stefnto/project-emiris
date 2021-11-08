@@ -16,7 +16,7 @@ class Data_item{
         std::string item_id;                                                    // is id from input_file
         std::vector<int> coordinates;
         long ID;                                                                // id computed from (Σ r * h) mod M
-        double distanceFromQuery = 0;
+        double distanceFromQuery = 0;                                           // distance of item from each query checked at a time
         double algorithmTime = 0;
         double bruteforceTime = 0;
         double shorterDistance = 0;                                             // used in brute force method
@@ -49,10 +49,10 @@ class Data_item{
 };
 
 
-class hFunction{                            // floor( (p*v + t)/ w )
+class hFunction{                                                                // floor( (p*v + t)/ w )
 
     private:
-        std::vector<float> v;               //contains vector V
+        std::vector<float> v;                                                   //contains vector V
         float t;
         const int w;
 

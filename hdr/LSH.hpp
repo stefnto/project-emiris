@@ -24,11 +24,11 @@ class gFunction{                                                                
     int tableSize;
     int k;
     std::vector<std::pair<int,hFunction>> linearCombinationElements;
-
+    int w;
   public:
     gFunction() = default;
-    void init(int,int,int);
-    gFunction(int itemDim,int k,int tableSize);                                                         //itemDim = size of vector that contains the coordinates
+    void init(int,int,int, int);
+    gFunction(int itemDim,int k,int tableSize, int w);                                                         //itemDim = size of vector that contains the coordinates
     int operator()(Data_item*);                                                                          //Hashing Function
 };
 
@@ -41,8 +41,8 @@ class LSH_HashTable{
 
   public:
     LSH_HashTable() = default;
-    void init(int,int,int);
-    LSH_HashTable(int itemDim, int tableSize, int k);                                                       //Constructs H and G functions;
+    void init(int,int,int, int);
+    LSH_HashTable(int itemDim, int tableSize, int k, int w);                                                       //Constructs H and G functions;
     ~LSH_HashTable();
     LSH_HashTable(LSH_HashTable&) = default;
     void insert(Data_item*);
@@ -58,6 +58,7 @@ class LSH_solver{
     std::vector<Data_item*> points_coordinates;
     std::vector<Data_item*> queries;
     std::string output_filepath;
+    int w;
 
     int readItems(std::string data_path,std::vector<Data_item*>&);                               //reads from data path and inserts to vector
     void writeResult(LSH_Set* , Data_item* , std::set<double>&);                                                       //given an ordered set,writes items to output path
@@ -69,6 +70,7 @@ class LSH_solver{
     bool solve();                                                                //This function is called to solve NN , kNN and Approximate Range Search.
     LSH_Set* NNandRS(Data_item *item);                                           //1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbours
     void printQueries() const;
+    int avgDistance();
 };
 
 

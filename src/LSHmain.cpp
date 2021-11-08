@@ -72,32 +72,8 @@ int main(int argc, char *argv[]){
 
 
   LSH_solver solver1(input_file,query_file,output_file,k, l, n, r);
-  // solver1.printQueries();
   solver1.solve();
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
-  cout << "time: " << endtime - sttime << endl;
-
-
-  // display coordinates
-  // points_coordinates[0].print_coordinates();
-  // cout << "points_coordinates size = " << points_coordinates[0].get_coordinates_size() << endl;
-  // cout << "points_coordinates size = " << points_coordinates[points_coordinates.size() - 1].get_coordinates_size() << endl;
-  // points_coordinates[points_coordinates.size() - 1].print_coordinates();
-  // cout << "size = " << points_coordinates.size() << endl;
-
-
-  // hFunction h1(points_coordinates[0].get_coordinates_size());
-  // hFunction h2(points_coordinates[points_coordinates.size() - 1].get_coordinates_size());
-  //
-  // cout << "sum = " << h1(points_coordinates[0]) << endl;
-  // cout << "sum = " << h2(points_coordinates[points_coordinates.size() - 1]) << endl;
-
-  // gFunction g1(points_coordinates[0].get_coordinates_size(), k, points_coordinates.size()/4);
-  // gFunction g2(points_coordinates[0].get_coordinates_size(), k, points_coordinates.size()/4);
-  //
-  // int s = g1(points_coordinates[0]);
-  // int f = g2(points_coordinates[points_coordinates.size() - 1]);
-  // cout << "g1 = " << s << endl;
-  // cout << "g2 = " << f << endl;
+  cout << "LSH run in " << endtime - sttime << " seconds" << endl;
 }

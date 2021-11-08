@@ -40,6 +40,11 @@ void Data_item::setDistanceFunction(double (*dFunction)(std::vector<int> a, std:
       distanceFunction = dFunction;
 }
 
+double (* Data_item::getDistanceFunction())(std::vector<int> a,std::vector<int> b){
+  return this->distanceFunction;
+}
+
+
 std::string Data_item::getItemID()const{return this->item_id;}
 
 
@@ -74,10 +79,19 @@ void Data_item::setBruteForcetime(double time){
   this->bruteforceTime = time;
 }
 
+void Data_item::setShorterDistance(double value){
+  this->shorterDistance = value;
+}
+
+
+double Data_item::getShorterDistance(){
+  return this->shorterDistance;
+}
 
 //hFunction Methods
 
-hFunction::hFunction(int itemSize,int w):w(33){
+hFunction::hFunction(int itemSize,int w):w(w){
+  std::cout << "w = " << w << std::endl;
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -141,34 +155,47 @@ int hFunction::operator()(const Data_item* item){
 
 // fills the referenced set with numbers that have 'hamming_distance' from 'number' that was given
 void getNumbersWithHammingDistance(int k, unsigned long long number, int hamming_distance, std::set<unsigned long long>& set){
-  //set.clear()
 
   for (int i = 0; i < k; i++){
-    // cout << i+1 << " enapalhpsh" << endl;
     unsigned long long mask = 1 << i;
 
     if (hamming_distance > 1){
-      // cout <<"klhsh ksana"<< endl;
-      // cout << (number & ~mask) << endl;
-      // cout << std::bitset<9>(number & ~mask) << endl;
       getNumbersWithHammingDistance(k, (number & ~mask), hamming_distance-1, set);
 
       continue;
     }
 
     else if (hamming_distance == 1)
-
-      // cout <<"    " << std::bitset<9>(~mask) << endl;
-      // cout <<"    " << std::bitset<9>(number) << endl;
-      // cout <<"-------------- (AND)" << endl;
-      //
-      // cout <<"    " << std::bitset<9>(number & ~mask) << " = " << (number & ~mask) << endl;
       set.insert(number & ~mask);
 
   }
+}
 
-  // cout <<"set size = " << set.size() << endl;
-  // for (auto it = set.begin(); it !=
-  //                              set.end(); ++it)
-  //         cout << ' ' << *it;
+
+
+
+void bruteForceSearch(Data_item *query, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances){
+  double sttime, endtime;                                                       // to compute total run time
+
+
+  sttime=((double) clock())/CLOCKS_PER_SEC;
+
+  for (Data_item* point: points_coordinates){
+
+    double (* ptr) (std::vector<int> a,std::vector<int> b) = query->getDistanceFunction();
+    double distance = ptr(query->getCoordinates(), point->getCoordinates());
+
+    if (true_nn_distances.size() < n){                                          // if size of set less than n, add the distance
+      true_nn_distances.insert(distance);
+    }
+    else if (true_nn_distances.size() >= n){                                    // if distance is less than biggest distance in set
+      if (distance < *true_nn_distances.rbegin() ){
+        true_nn_distances.erase( *true_nn_distances.rbegin() );                 // erase the biggest distance that is saved on set
+        true_nn_distances.insert(distance);                                     // insert new distance
+      }
+    }
+  }
+
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+  query->setBruteForcetime( endtime - sttime);
 }

@@ -21,7 +21,6 @@ class Vertex_point {
   public:
     Vertex_point(){};
     Vertex_point(int k, int itemDim);
-    // void init(int k, int itemDim);
     ~Vertex_point(){};
     unsigned long long operator()(Data_item*, int);
     void bit_concat(int);
@@ -35,16 +34,15 @@ class Cube_HashTable {
     int k;
     int itemDim;
 
-    std::vector<Vertex_point> hcube_points;                                      // will be size of number of points from input
+    std::vector<Vertex_point> hcube_points;                                     // will be size of number of points from input
     std::list<Data_item*>* buckets;
     std::vector<Data_item*>* pts_coordinates;                                   // points to the points_coordinates vector in Cube_Solver
   public:
     Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates);
-    // void init(int, int, int, int);
     ~Cube_HashTable();
     void insertV_points(std::vector<Data_item*> & points_coordinates, int k);
     void empty_buckets(int );
-    Cube_Set* NN(Data_item* item, int m, int probes);                                       // m is the numebr of NN that will be checked for the query
+    Cube_Set* NN(Data_item* item, int m, int probes);                           // m is the numebr of NN that will be checked for the query
 };
 
 
@@ -61,12 +59,12 @@ class Cube_Solver {
 
     std::string output_filepath;
 
-    int readItems(std::string data_path,std::vector<Data_item*>&);                               //reads from data path and inserts to vector
+    int readItems(std::string data_path,std::vector<Data_item*>&);              //reads from data path and inserts to vector
   public:
     Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b) = EuclidianDistance);
     ~Cube_Solver();
     bool solve();
-    void writeResult(Cube_Set* result, Data_item* item);
+    void writeResult(Cube_Set* result, Data_item* item, std::set<double>& true_nn);
 };
 
 
