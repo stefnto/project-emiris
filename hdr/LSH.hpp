@@ -59,7 +59,6 @@ class LSH_solver{
     std::vector<Data_item*> queries;
     std::string output_filepath;
 
-    int readItems(std::string data_path,std::vector<Data_item*>&);                               //reads from data path and inserts to vector
     void writeResult(LSH_Set*,Data_item*);                                                       //given an ordered set,writes items to output path
 
   public :

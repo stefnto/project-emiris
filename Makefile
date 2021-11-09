@@ -6,9 +6,12 @@ LSHSOURCES=$(wildcard src/lsh/*.cpp)
 LSHBINS=$(patsubst src/lsh/%.cpp,bin/lsh/%.o,$(LSHSOURCES))
 CUBESOURCES=$(wildcard src/cube/*.cpp)
 CUBEBINS=$(patsubst src/cube/%.cpp,bin/cube/%.o,$(CUBESOURCES))
+CLUSTERSOURCES = $(wildcard src/clustering/*.cpp)
+CLUSTERBINS=$(patsubst src/clustering/%.cpp,bin/clustering/%.o,$(CLUSTERSOURCES))
 
 
-all: lsh cube
+
+all: lsh cube clustering
 
 lsh: $(LSHBINS) bin/utils/utils.o
 	$(CC) -o lsh $^
@@ -25,7 +28,11 @@ cube: $(CUBEBINS) bin/utils/utils.o
 $(CUBEBINS) : bin/cube/%.o : src/cube/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
+clustering: $(CLUSTERBINS) bin/utils/utils.o
+	$(CC) -o clustering $^
 
+$(CLUSTERBINS) : bin/clustering/%.o : src/clustering/%.cpp
+	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
 #LSH: src/LSHmain.cpp src/LSH.cpp src/utils.cpp
 #	$(CC) $(FLAGZ) -I $(INCLUDE) -o LSH src/LSHmain.cpp src/LSH.cpp src/utils.cpp
@@ -34,8 +41,8 @@ $(CUBEBINS) : bin/cube/%.o : src/cube/%.cpp
 #	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o cube src/Cubemain.cpp src/Cube.cpp src/utils.cpp
 
 LSHdefault:
-	./LSH -i input/input_b_id -q input/query_b_id -k 5 -L 5 -o output  -N 3 -R 10000
+	./LSH -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output  -N 3 -R 10000
 
 clean:
-	rm -f  bin/*
-	rm -f main
+	rm -f bin/utils/* bin/cube/* bin/lsh/*
+	rm -f lsh cube
