@@ -21,11 +21,12 @@ class clustering{
         std::vector<clustering_data_item*> input_data;
         int k = 10;                                                                             //for k means++
         double (*distanceFunction)(std::vector<int> a, std::vector<int> b);
+        void lloyd();
 
 
 
 
-        std::list<centeroid>* initpp();
+        centeroid* initpp();
 
 
 };

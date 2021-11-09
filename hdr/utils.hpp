@@ -40,8 +40,17 @@ class Data_item{
 
 class clustering_data_item : public Data_item {
     public:
-        
-        clustering_data_item(std::string line):Data_item(line){}
+        clustering_data_item(std::string line):Data_item(line),cluster(-1){}
+        void setCluster(int cluster){
+            this->cluster = cluster;
+        };
+        int getCluster() const {return cluster;}
+        void setDistance1st(float dist){this->dist1 = dist;}
+        void setDistance2nd(float dist){this->dist2 = dist;}
+    private:
+        int cluster;
+        float dist1;                    //distance from first closest cluster
+        float dist2;                    //distance from second closest cluster
        
 };
 

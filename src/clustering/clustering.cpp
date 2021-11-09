@@ -6,10 +6,10 @@ clustering::clustering(std::string input_file, std::string config_file, std::str
 }
 
 void clustering::solve(){
-    this->initpp();
+    this->lloyd();
 }
 
-std::list<centeroid>* clustering::initpp(){
+centeroid* clustering::initpp(){
     unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator1(seed1);
     std::uniform_int_distribution<int> distribution(0,input_data.size());
@@ -22,11 +22,11 @@ std::list<centeroid>* clustering::initpp(){
 
     std::set<std::string> centeroid_ids;                                //set containing ids of already chosens points
 
-    std::list<centeroid>* centeroids = new std::list<centeroid>();
+    centeroid* centeroids = new centeroid[k];
     
-    centeroid_ids.emplace(input_data.at(pos)->getName());               //placing first elements id to the set of the centeroid ids
+    centeroid_ids.emplace(input_data.at(pos)->getName());                       //placing first elements id to the set of the centeroid ids
 
-    centeroids->emplace_back(input_data.at(pos)->getCoordinates());      //placing first centeroid to the set of the centeroids
+    centeroids[0]= input_data.at(pos)->getCoordinates();                        //placing first centeroid to the set of the centeroids
     while (t != k){
     
         float prev_sum = 0;                 
@@ -42,11 +42,11 @@ std::list<centeroid>* clustering::initpp(){
 
             if ( centeroid_ids.find(item->getName()) == centeroid_ids.end() ){                      //checking if current point has already been chosen as centeroid
 
-                std::list<centeroid>::iterator it = centeroids->begin();
+                int it = 0;
                 const std::vector<int> coordinates = item->getCoordinates();
-                float minD = distanceFunction(*it,coordinates);
-                while ( ++it != centeroids->end() ) {
-                    float dist = distanceFunction(*it,coordinates);
+                float minD = distanceFunction(centeroids[0],coordinates);
+                while ( ++it < t ) {
+                    float dist = distanceFunction(centeroids[it],coordinates);
                     if (dist < minD) minD = dist;
                 }
                 prev_sum += minD*minD;
@@ -67,7 +67,7 @@ std::list<centeroid>* clustering::initpp(){
         while (current != partial_sums.end()){
             if ( (*current).first >= x ){                                                 //new centeroid found
                 centeroid_ids.emplace(((*current).second)->getName());                    //adding new centeroid's id to the set of the centeroid_ids
-                centeroids->emplace_back(((*current).second)->getCoordinates());          //adding new centeroid to the set of centeroids
+                centeroids[t]= ((*current).second)->getCoordinates();                     //adding new centeroid to the set of centeroids
                 break;
             }
             current++;
@@ -77,4 +77,62 @@ std::list<centeroid>* clustering::initpp(){
     for (std::string name : centeroid_ids) std::cout << name << std::endl;
     return centeroids;
 
+}
+
+void clustering::lloyd(){
+    float sum[k];
+    int elems[k];
+    for (int i = 0; i < k; i++){ sum[i] = 0;elems[i] = 0;}
+     
+    centeroid* centeroids = this->initpp();
+    int iterations = 0 ;
+    int limit = 10;
+    int vector_size = centeroids[0].size();
+
+    while (iterations < limit){
+        centeroid* nextCenteroids = new centeroid[k];                           //next iteration will use
+        int changes = 0;
+        for (int i = 0; i < k; i++) nextCenteroids[i].assign(vector_size,0);
+    
+        for (clustering_data_item* item : input_data){
+            float minD1 = distanceFunction(item->getCoordinates(),centeroids[0]);
+            float minD2 = distanceFunction(item->getCoordinates(),centeroids[1]);
+            int c1 = 0,c2 = 1;
+            if (minD1 > minD2){
+                std::swap(minD1,minD2);
+                std::swap(c1, c2);
+            }
+            int c = 0;
+            for (int i = 1 ; i < k ; i++){
+                float dist = distanceFunction(item->getCoordinates(), centeroids[i]);
+                if (dist < minD1){                                                //distance from nearest
+                    minD1 = dist;
+                    c1 = i;                                                       //centeroid with least distance from current element 
+                }else if (dist < minD2){                                          //distance from second nearest
+                    minD2 = dist;
+                    c2 = i;
+                }
+            }
+            if (item->getCluster() != c1) changes++;
+            item->setCluster(c1);
+            item->setDistance1st(minD1);
+            item->setDistance2nd(minD2);
+            elems[c1]++;
+            for (int j = 0 ; j < vector_size; j++) {
+                nextCenteroids[c1][j] += item->getCoordinates()[j];   
+            }
+        }
+        if (++iterations == limit) break;
+        for (int i = 0; i < k; i++){                                             //creating next gen of centeroids
+            for (int j = 0 ; j < vector_size; j++) {nextCenteroids[i][j] /= elems[i];}
+            sum[i] = 0;
+            elems[i] = 0;
+        }
+        delete[] centeroids;
+        centeroids = nextCenteroids;
+    }
+    std::ofstream output_file;
+    output_file.open("clustering.txt", std::ofstream::out | std::ofstream::app);
+    for (clustering_data_item* item : input_data) output_file << item->getName() << " belongs to cluster : " << item->getCluster() << std::endl;
+    output_file.close();
 }
