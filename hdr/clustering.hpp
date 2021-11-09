@@ -8,7 +8,7 @@
 #include <utils.hpp>
 
 enum method {classic = 0,lsh,hypercube};
-using centeroid = std::vector<int>;
+using centroid = std::vector<int>;
 
 class clustering{
     public:
@@ -22,11 +22,12 @@ class clustering{
         int k = 10;                                                                             //for k means++
         double (*distanceFunction)(std::vector<int> a, std::vector<int> b);
         void lloyd();
+        void silhouette(centroid* centroids);
 
 
 
 
-        centeroid* initpp();
+        centroid* initpp();
 
 
 };

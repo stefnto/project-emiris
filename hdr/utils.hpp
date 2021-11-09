@@ -47,6 +47,9 @@ class clustering_data_item : public Data_item {
         int getCluster() const {return cluster;}
         void setDistance1st(float dist){this->dist1 = dist;}
         void setDistance2nd(float dist){this->dist2 = dist;}
+        float getDistance1st() const { return this->dist1;}
+        float getDistance2nd() const { return this->dist2; }
+
     private:
         int cluster;
         float dist1;                    //distance from first closest cluster
