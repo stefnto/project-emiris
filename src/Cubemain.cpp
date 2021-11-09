@@ -4,7 +4,7 @@
 #include <getopt.h>
 #include <vector>
 #include <time.h>
-#include "LSH.hpp"
+#include "Cube.hpp"
 
 using namespace std;
 
@@ -21,11 +21,11 @@ int main(int argc, char *argv[]){
 
   string input_file, query_file, output_file;
   int iflag = 1, qflag = 1, oflag = 1;
-  int k = 4, l = 5, n = 1, r = 10000;                                           // default values if not changed
+  int k = 14, m = 10, probes = 2, n = 1, r = 10000;                              // default values if not changed
 
 
 
-  while ((opt = getopt(argc, argv, "i:q:k:L:o:N:R:")) != -1)
+  while ((opt = getopt(argc, argv, "i:q:k:M:p:o:N:R:")) != -1)
         switch (opt) {
           case 'i':
                   input_file = optarg;
@@ -38,8 +38,11 @@ int main(int argc, char *argv[]){
           case 'k':
                   k = atoi(optarg);
                   break;
-          case 'L':
-                  l = atoi(optarg);
+          case 'M':
+                  m = atoi(optarg);
+                  break;
+          case 'p':
+                  probes = atoi(optarg);
                   break;
           case 'o':
                   output_file = optarg;
@@ -64,40 +67,19 @@ int main(int argc, char *argv[]){
   cout << "query_file = " << query_file << "\n";
   cout << "output_file = " << output_file << "\n";
   cout << "k = " << k << "\n";
-  cout << "L = " << l << "\n";
+  cout << "M = " << m << "\n";
+  cout << "probes = " << probes << "\n";
   cout << "N = " << n << "\n";
   cout << "R = " << r << "\n";
 
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
 
-  LSH_solver solver1(input_file,query_file,output_file,k, l, n, r); 
-  // solver1.printQueries();
+  Cube_Solver solver1(input_file, query_file, output_file, k, m, probes, n, r);
+
   solver1.solve();
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
-  cout << "time: " << endtime - sttime << endl;
 
-
-  // display coordinates
-  // points_coordinates[0].print_coordinates();
-  // cout << "points_coordinates size = " << points_coordinates[0].get_coordinates_size() << endl;
-  // cout << "points_coordinates size = " << points_coordinates[points_coordinates.size() - 1].get_coordinates_size() << endl;
-  // points_coordinates[points_coordinates.size() - 1].print_coordinates();
-  // cout << "size = " << points_coordinates.size() << endl;
-
-
-  // hFunction h1(points_coordinates[0].get_coordinates_size());
-  // hFunction h2(points_coordinates[points_coordinates.size() - 1].get_coordinates_size());
-  //
-  // cout << "sum = " << h1(points_coordinates[0]) << endl;
-  // cout << "sum = " << h2(points_coordinates[points_coordinates.size() - 1]) << endl;
-
-  // gFunction g1(points_coordinates[0].get_coordinates_size(), k, points_coordinates.size()/4);
-  // gFunction g2(points_coordinates[0].get_coordinates_size(), k, points_coordinates.size()/4);
-  //
-  // int s = g1(points_coordinates[0]);
-  // int f = g2(points_coordinates[points_coordinates.size() - 1]);
-  // cout << "g1 = " << s << endl;
-  // cout << "g2 = " << f << endl;
+  cout << "HyperCube run in " << endtime - sttime << " seconds" << endl;
 }
