@@ -2,10 +2,7 @@
 
 // Vertex_point methods
 
-Vertex_point::Vertex_point(int k, int itemDim, int w): binary_hash(0) {
-
-  for (int i = 0; i < k; i++)
-    hFunc.emplace_back(hFunction(itemDim, w));
+Vertex_point::Vertex_point(int itemDim): binary_hash(0) {
 }
 
 void Vertex_point::bit_concat(int value){                                       // adds a bit { 0,1 } at the end of the number
@@ -17,26 +14,25 @@ void Vertex_point::bit_concat(int value){                                       
     this->binary_hash = this->binary_hash << 1;
 }
 
-unsigned long long Vertex_point::operator()(Data_item* item, int k) {
+unsigned long long Vertex_point::operator()(Data_item* item, std::vector<hFunction>& hFunc, std::unordered_map<int, int>*& sets) {
   srand(time(NULL));
 
   int count = 0;
   for (hFunction h_i : hFunc){
-
     int tmp = h_i(item);                                                        // h_i(p)
-    auto search = set.find(tmp);
+    auto search = sets[count].find(tmp);                                        // search in the set for the specific h_i
 
-    if (search == set.end()){                                                   // an h_i(p) with value 'tmp' doesn't exist
+    if (search == sets[count].end()){                                           // an h_i(p) with value 'tmp' doesn't exist
       int bit = mod(rand()*tmp, 2);                                             // randomly generate 0 or 1
-      set.insert( {tmp, bit} );                                                 // and then map it to the h_i(p) value
+      sets[count].insert( {tmp, bit} );                                         // and then map it to the h_i(p) value
       bit_concat(bit);
     }
-    else {
-      bit_concat(search->second);
+    else {                                                                      // h_i(p) with value 'tmp' exists
+      bit_concat(search->second);                                               // concat the already generated f_i( h_i(p) ) to the binary_hash
     }
 
+    count++;
   }
-
   return binary_hash;
 }
 
@@ -47,26 +43,29 @@ int Vertex_point::getBH(){
 
 // Cube_HashTable Methods
 
-Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, std::vector<Data_item*>* coordinates, int w): size(buckets_no), k(k), itemDim(dim), w(w){
+Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w): size(buckets_no), k(k), itemDim(dim), w(w){
 
-  // std::cout << "w = " << w << std::endl;
-  pts_coordinates = coordinates;
+  this->sets = new std::unordered_map<int, int>[this->k];                       // initialize k unordered_map sets
 
   this->buckets = new std::list<Data_item *>[this->size];
+
+  for (int i = 0; i < k; i++)
+    hFunc.emplace_back(hFunction(this->itemDim, this->w));                      // generate k hFunctions to use on hashing process
 
 }
 
 Cube_HashTable::~Cube_HashTable(){
   delete[] this->buckets;
+  delete[] this->sets;
 }
 
-void Cube_HashTable::insertV_points(std::vector<Data_item*> & points_coordinates, int k){
+void Cube_HashTable::insertV_points(std::vector<Data_item*>& points_coordinates){
   int counter = 0;
   for (int i = 0; i < points_coordinates.size(); i++){
 
-    hcube_points.emplace_back(Vertex_point(k, itemDim, this->w));
+    hcube_points.emplace_back(Vertex_point(this->itemDim));
 
-    unsigned long long index = this->hcube_points[i]( points_coordinates[i], k );
+    unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
 
     this->buckets[index].emplace_back(points_coordinates[i]);
   }
@@ -96,8 +95,8 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
 
   std::set<unsigned long long> ham_dist_numbers;                                // holds the numbers with hamming_distance x from 'index'
 
-  Vertex_point v(this->k, this->itemDim, this->w);                                       // initialize Vertex_point for the query
-  unsigned long long index = v(query, this->k);                                 // get binary_hash of query
+  Vertex_point v(this->itemDim);                                                // initialize Vertex_point for the query
+  unsigned long long index = v(query, this->hFunc, this->sets);                 // get binary_hash of query
 
   sttime=((double) clock())/CLOCKS_PER_SEC;
   for (Data_item* item: buckets[index]){                                        // check all items in bucket that query was projected into
@@ -113,7 +112,6 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
   if (m_points_checked){                                                        // checked M points in total, so stop
     endtime=((double) clock())/CLOCKS_PER_SEC;
     query->setAlgorithmTime( endtime - sttime );                                // set time that algorithm run for the specific query
-    // std::cout << "pts checked1 = " << counter << std::endl;
     return ordered_set;
   }
   else {                                                                        // bucket that query was projected into had less than M points
@@ -122,7 +120,7 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
     for (int i = 0; i < probes-1; i++){                                         // check 'probes-1' vertices because 1 vertex has already been checked
       int ham_dist_numbers_index = ( rand() % ham_dist_numbers.size() ) + 1;
       unsigned long long tmp_index = *std::next(ham_dist_numbers.begin(), ham_dist_numbers_index);  // takes a random index that exists in 'ham_dist_numbers' set
-      // std::cout << "index = " << tmp_index << std::endl;
+
       for (Data_item* item: buckets[tmp_index]){                                // hashes buckets with 'tmp_index' and check all items in said bucket
         if (counter > m){                                                       // if you checked more than M points for NN stop
           m_points_checked = true;
@@ -137,7 +135,6 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
       if (m_points_checked){
         endtime=((double) clock())/CLOCKS_PER_SEC;
         query->setAlgorithmTime( endtime - sttime );
-        // std::cout << "pts checked2 = " << counter << std::endl;
         return ordered_set;
       }
     }
@@ -145,7 +142,7 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
   query->setAlgorithmTime( endtime - sttime );
-  // std::cout << "pts checked3 = " << counter << std::endl;
+
   return ordered_set;
 }
 
@@ -163,9 +160,9 @@ Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::
 
     int w = avgDistance(this->points_coordinates);
 
-    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), &points_coordinates, w);
+    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), w);
 
-    hashTable->insertV_points(points_coordinates, k);
+    hashTable->insertV_points(points_coordinates);
 }
 
 Cube_Solver::~Cube_Solver(){
@@ -229,9 +226,7 @@ void Cube_Solver::writeResult(Cube_Set* result, Data_item* item, std::set<double
       output_file << "distanceHypercube : " << elem->getDistanceFromQuery() << std::endl;
       output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) << std::endl;
       output_file << "tHypercube : " << item->getAlgorithmTime() << std::endl;
-      output_file << "tTrue : " << item->getBruteForceTime() << std::endl;
-      if (elem->getDistanceFromQuery() == *std::next(true_nn.begin(), counter))
-        output_file << "Same" << std::endl;
+      output_file << "tTrue : " << item->getBruteForceTime() << std::endl << std::endl;
       counter++;
     }
 

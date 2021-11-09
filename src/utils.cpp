@@ -91,6 +91,7 @@ double Data_item::getShorterDistance(){
 //hFunction Methods
 
 hFunction::hFunction(int itemSize,int w):w(w){
+
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -99,7 +100,8 @@ hFunction::hFunction(int itemSize,int w):w(w){
 
   std::normal_distribution<float> distributionN(0.0, 1.0);
 
-  for (int i = 0; i < itemSize; i++) v.push_back(distributionN(generator));
+  for (int i = 0; i < itemSize; i++)
+    v.push_back(distributionN(generator));
 }
 
 int hFunction::operator()(const Data_item* item){
@@ -115,9 +117,12 @@ int hFunction::operator()(const Data_item* item){
         it2++;
     }
     sum /= this->w;
-
     return sum;
 
+}
+
+std::vector<float>& hFunction::getv(){
+  return this->v;
 }
 
 //          General functions

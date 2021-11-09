@@ -59,6 +59,7 @@ class hFunction{                                                                
     public:
         hFunction(int itemSize,int w = 4);
         int operator()(const Data_item*);
+        std::vector<float>& getv();
 };
 
 long mod(long x, long y);

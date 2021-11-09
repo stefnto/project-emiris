@@ -7,20 +7,21 @@
 LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::string output_filepath, int k, int L, int N, int r, double (*distanceFunction)(std::vector<int> a, std::vector<int> b)) : n(N), r(r), L(L),output_filepath(output_filepath){
   this->hashTables = new LSH_HashTable[L];
 
-  Data_item::setDistanceFunction(distanceFunction);                                               //computing distance between Data_items is handled by the class Data_item
+  Data_item::setDistanceFunction(distanceFunction);                                              // computing distance between Data_items is handled by the class Data_item
 
-  int itemsRead = this->readItems(dataset_path,points_coordinates);                              //reads and inserts items to points_coordinates
+  int itemsRead = this->readItems(dataset_path,points_coordinates);                              // reads and inserts items to points_coordinates
 
   int queriesRead = this->readItems(query_path,queries);
 
-  this->w = avgDistance(this->points_coordinates);                                                                      // use avgDistance() to generate a 'w' for the 'h' functions
+  this->w = avgDistance(this->points_coordinates);                                               // use avgDistance() to generate a 'w' for the 'h' functions
   // std::cout << "w = " << w << std::endl;
 
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();
-    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4, w);                    //initializing each hash table
+    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4, w);                  // initializing each hash table
     for (Data_item* item : points_coordinates){
-       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);                               //insert a pointer pointing to the item on "points_coordinates" in each hashtable, in a bucket based on hashing with gFunction
+       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);                                // insert a pointer pointing to the item on "points_coordinates" in each hashtable,
+                                                                                                 // in a bucket based on hashing with gFunction
     }
   }
   else
@@ -101,11 +102,7 @@ void LSH_solver::writeResult(LSH_Set* result,Data_item* item, std::set<double>& 
         output_file << "distanceLSH : " << elem->getDistanceFromQuery() << std::endl;
         output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) <<std::endl;
         output_file << "tLSH : " << item->getAlgorithmTime() << std::endl;
-        output_file << "tTrue : " << item->getBruteForceTime() << std::endl;
-        if (elem->getDistanceFromQuery() == *std::next(true_nn.begin(), counter)){
-          std::cout << "yes" << std::endl;
-          output_file << "Same" << std::endl;
-        }
+        output_file << "tTrue : " << item->getBruteForceTime() << std::endl << std::endl;
         counter++;
       }
 
@@ -121,29 +118,6 @@ void LSH_solver::writeResult(LSH_Set* result,Data_item* item, std::set<double>& 
   }
   output_file << std::endl << "===============================================================================" << std::endl << std::endl;
 }
-
-// int LSH_solver::avgDistance(){
-//   srand(time(NULL));
-//   std::set<int> set;
-//   double dist = 0;
-//   int num = ( 5 * points_coordinates.size() ) / 1000;                           // for 1000 points check 5 vectors to find mean distance
-//                                                                                 // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
-//   for (int i = 0; i < num; i++){
-//     int tmp = rand() % points_coordinates.size();
-//
-//     auto search = set.find(tmp);
-//     if (search == set.end()){
-//       set.insert(tmp);
-//     }
-//
-//     for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){
-//       dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
-//     }
-//     dist = dist / set.size();
-//   }
-//   std::cout << "dist = " << dist << std::endl;
-//   return dist;
-// }
 
 LSH_solver::~LSH_solver(){
   delete[] this->hashTables;
@@ -208,7 +182,9 @@ int gFunction::operator()(Data_item* item){
     long M = 0xFFFFFFFF - 4;                                                    // 2^32 - 1 - 4
     long sum = 0 ;
 
-    for (std::pair<int,hFunction> elem : linearCombinationElements) sum += mod((elem.first*elem.second(item)),M);
+    for (std::pair<int,hFunction> elem : linearCombinationElements){
+      sum += mod((elem.first*elem.second(item)),M);
+    }
     sum = mod(sum,M);
     item->set_id(sum);                                                          //setting id of the item
 
