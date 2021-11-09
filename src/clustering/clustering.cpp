@@ -1,12 +1,12 @@
 #include <clustering.hpp>
 
-clustering::clustering(std::string input_file, std::string config_file, std::string output_file, char method,double (*distanceFunction)(std::vector<int> a, std::vector<int> b)){
+clustering::clustering(std::string input_file, std::string config_file, std::string output_file, char method,double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b)){
     readItems("input/input_small_id.txt",input_data);
     this->distanceFunction = distanceFunction;
 }
 
 void clustering::solve(){
-    this->lloyd();
+    this->reverseAssignment();
 }
 
 centroid* clustering::initpp(){
@@ -90,9 +90,9 @@ void clustering::lloyd(){
     int vector_size = centroids[0].size();
 
     while (iterations < limit){
-        centroid* nextCenteroids = new centroid[k];                           //next iteration will use different centroids
+        centroid* nextCentroids = new centroid[k];                           //next iteration will use different centroids
         int changes = 0;
-        for (int i = 0; i < k; i++) nextCenteroids[i].assign(vector_size,0);
+        for (int i = 0; i < k; i++) nextCentroids[i].assign(vector_size,0);
     
         for (clustering_data_item* item : input_data){
             float minD1 = distanceFunction(item->getCoordinates(),centroids[0]);
@@ -118,29 +118,148 @@ void clustering::lloyd(){
             item->setDistance2nd(minD2);
             elems[c1]++;
             for (int j = 0 ; j < vector_size; j++) {
-                nextCenteroids[c1][j] += item->getCoordinates()[j];   
+                nextCentroids[c1][j] += item->getCoordinates()[j];   
             }
         }
         std::cout <<"changes : " << changes << std::endl;
         if (++iterations == limit) break;
         for (int i = 0; i < k; i++){                                             //creating next gen of centroids
-            for (int j = 0 ; j < vector_size; j++) {nextCenteroids[i][j] /= elems[i];}
+            for (int j = 0 ; j < vector_size; j++) {nextCentroids[i][j] /= elems[i];}
             sum[i] = 0;
             elems[i] = 0;
         }
         delete[] centroids;
-        centroids = nextCenteroids;
+        centroids = nextCentroids;
     }
-    this->silhouette(centroids);
     std::ofstream output_file;
     output_file.open("clustering.txt", std::ofstream::out | std::ofstream::app);
     for (clustering_data_item* item : input_data) output_file << item->getName() << " belongs to cluster : " << item->getCluster() << std::endl;
     output_file.close();
 }
 
-void clustering::silhouette(centroid* centroids){
-    float sil = 0;
-    for (clustering_data_item* item : input_data) sil += (item->getDistance2nd() - item->getDistance1st()) / std::max(item->getDistance2nd(),item->getDistance1st());
-    sil /= this->input_data.size();
-    std::cout << "silhouette is " << sil << std::endl;
+float clustering::silhouette(centroid* centroids){
+    std::list<clustering_data_item*> clusters[k];
+    float total = 0;
+    for (clustering_data_item* item : input_data) clusters[item->getCluster()].push_back(item);     // firstly we put each element to its cluster
+
+    for (int i = 0 ; i <k; i++){                                                                    //we're doing this for all elements but we're iterating through clusters
+        std::cout << i << " i is " << std::endl;
+        float distances[clusters[i].size()][clusters[i].size()];                                    //we're storing the distances we've already found in order not to double calc
+        int counter1 = 0 ;
+        std::list<clustering_data_item *>::iterator it1 = clusters[i].begin();
+        while ( it1 != clusters[i].end() ){
+            int counter2 = 0;
+            std::list<clustering_data_item *>::iterator it2 = clusters[i].begin();
+            float ai = 0;                                                                          //sum of distances from same cluster
+            while (it2 != it1){                                                                    //adding to the sum already calculated dists
+                ai+=distances[counter2][counter1];
+                it2++;
+            }
+
+            it2++;
+            counter2++;
+            
+            while ( it2 != clusters[i].end() ){
+                float dist = (*it1)->calculateDistance(*it2);
+                distances[counter1][counter2] = dist;
+                ai+=dist;
+                it2++;
+            }
+
+            ai /= clusters[i].size();      //average distance from his neighborhood
+            float minD;
+            int sec;
+            //finding second nearest centroid
+            if (i == 0 ) {
+                minD = (*it1)->calculateDistance(centroids[1]);
+                sec=1;
+            }else{
+                minD = (*it1)->calculateDistance(centroids[i-1]);
+                sec = i-1;
+            }
+            for (int j = 0 ; j < k ; j++){
+                if (j != i) {
+                    float dist = (*it1)->calculateDistance(centroids[j]);
+                    if (dist < minD) {
+                        minD = dist;
+                        sec = j;
+                    }
+                }
+            }
+
+            float bi = 0;
+            for (clustering_data_item* item : clusters[sec]) bi += (*it1)->calculateDistance(item);
+            
+            bi /= clusters[sec].size();
+            float max = bi;
+            if (ai > bi) max = ai;
+            float sil = (bi-ai)/max;
+            (*it1)->setSilhouette(sil);
+            total +=sil;
+            it1++;
+        }
+    }
+    total /= input_data.size();
+    return total;
 }
+
+void clustering::reverseAssignment(){
+    LSH_solver solver(&input_data);
+    int population[k];
+    centroid *centroids = this->initpp();
+    for (int i = 0; i < k; i++)population[i] = 0;
+    int vector_size = centroids->size();
+    int iterations = 0;
+    std::list<clustering_data_item*> clusters[k];
+    centroid *nextCentroids = new centroid[k];
+    while (true){
+        float radius = minCentroidDistance(centroids)/2;
+        while (true){
+            int sum = 0;
+            for (int i = 0 ; i < k; i++) sum += solver.clusteringRangeSearch(radius,centroids[i],i);
+            if (sum < input_data.size() / 100) break;
+        }
+        int changes = 0;
+            for (int i = 0; i < k; i++)nextCentroids[i].assign(vector_size, 0);
+        for (clustering_data_item* item : input_data){
+            if (item->isSetRadius() == false) item->findNearestCentroid(centroids, k);
+            else item->unsetRadius();
+            int index = item->getCluster();
+            population[index]++;
+            for (int j = 0; j < vector_size; j++) {
+                const std::vector<int>& coors = item->getCoordinates();
+                nextCentroids[index][j] += coors[j];
+            }
+        } 
+        for (int i = 0 ; i < k ; i++) std::cout <<"population[" << i << "] = " << population[i] << std::endl;
+           
+
+        if (++iterations == 10 ) break;
+        for (int i = 0 ; i < k ; i++){
+            for (int j = 0 ; j < vector_size; j++) nextCentroids[i][j] /= population[i];
+            population[i] = 0;
+        }
+        delete[] centroids;
+        centroids = nextCentroids;
+        nextCentroids = new centroid[k];
+    }
+    delete[] nextCentroids;
+    float totalSil = silhouette(centroids);
+    std::ofstream output_file;
+    output_file.open("reverseAssignment.txt", std::ofstream::out | std::ofstream::app);
+    for (clustering_data_item *item : input_data)output_file << item->getName() << " belongs to cluster : " << item->getCluster() << std::endl;
+    for (clustering_data_item* item : input_data) output_file << "silhouette " << item->getName() << " " << item->getSilhouette() << std::endl;
+    output_file << "total silhouette " << totalSil << std::endl;
+    output_file.close();
+}
+
+float clustering::minCentroidDistance(centroid* centroids){
+    float minDist = this->distanceFunction(centroids[0],centroids[1]);
+    for (int i = 0 ; i < k; i++){
+        for (int j = i+1 ; j < k; j++){
+            float dist = distanceFunction(centroids[i], centroids[j]);
+            if (dist < minDist) minDist = dist;
+        }
+    }
+    return minDist;
+};

@@ -28,7 +28,7 @@ cube: $(CUBEBINS) bin/utils/utils.o
 $(CUBEBINS) : bin/cube/%.o : src/cube/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
-clustering: $(CLUSTERBINS) bin/utils/utils.o
+clustering: $(CLUSTERBINS) bin/utils/utils.o $(LSHBINS) 
 	$(CC) -o clustering $^
 
 $(CLUSTERBINS) : bin/clustering/%.o : src/clustering/%.cpp
@@ -44,5 +44,5 @@ LSHdefault:
 	./LSH -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output  -N 3 -R 10000
 
 clean:
-	rm -f bin/utils/* bin/cube/* bin/lsh/*
-	rm -f lsh cube
+	rm -f bin/utils/* bin/cube/* bin/lsh/* bin/clustering/*
+	rm -f lsh cube clustering 

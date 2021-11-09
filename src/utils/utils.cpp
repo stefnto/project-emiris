@@ -4,7 +4,7 @@
 
 //Data_item Methods
 
-double (*Data_item::distanceFunction)(std::vector<int> a,std::vector<int> b ) = nullptr;
+double (*Data_item::distanceFunction)(const std::vector<int>& a,const std::vector<int>& b ) = nullptr;
 
 Data_item::Data_item(std::string name, std::vector<int> coordinates):name(name),coordinates(coordinates){}
 
@@ -36,7 +36,7 @@ float Data_item::getDistanceFromQuery() const{
   return this->distanceFromQuery;
 }
 
-void Data_item::setDistanceFunction(double (*dFunction)(std::vector<int> a, std::vector<int> b)){
+void Data_item::setDistanceFunction(double (*dFunction)(const std::vector<int>& a, const std::vector<int>& b)){
       distanceFunction = dFunction;
 }
 
@@ -49,19 +49,37 @@ void Data_item::print_coordinates(){
   }
   std::cout << std::endl;
 }
+void Data_item::setDistanceFromQuery(float distanceFromQuery){
+  std::cout << " giauto" << std::endl;
+  this->distanceFromQuery = distanceFromQuery;
+}
 
-int Data_item::get_coordinates_size(){
+    int Data_item::get_coordinates_size()
+{
   return this->coordinates.size();
 }
 
 const std::vector<int>& Data_item::getCoordinates() const {
   return this->coordinates;
 }
+//clustering_data_item
+void clustering_data_item::findNearestCentroid(centroid* centroids,int size){
+  float minD = this->calculateDistance(centroids[0]);
+  int cent = 0;
+  for (int i = 0; i < size; i++ ){
+    float dist = this->calculateDistance(centroids[i]);
+    if (dist < minD){
+        cent = i;
+        minD = dist;
+    }
+  }
+  this->setCluster(cent);
+}
 
 
 //hFunction Methods
 
-hFunction::hFunction(int itemSize,int w):w(33){
+hFunction::hFunction(int itemSize,int w):w(133){
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine generator(seed);
   std::uniform_real_distribution<float> distribution(0.0, w * 1.0);
@@ -103,16 +121,15 @@ int hFunction::operator()(const Data_item* item){
     return x % y;
 }
 
- double EuclidianDistance(std::vector<int> a, std::vector<int> b){
-    if (a.size() != b.size()) return 0;
+ double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b){
+    if (a.size() != b.size())return 0;
 
     double sum = 0;
 
     for (int i = 0; i < a.size(); i++)
     {
-        sum += pow((a.at(i) - b.at(i)), 2);
+        sum += pow((a[i] - b[i]), 2);
     }
-
     return sqrt(sum);
 }
 
@@ -122,5 +139,7 @@ int hFunction::operator()(const Data_item* item){
       return rand() % 2000 - 999;
 
 }
+
+
 
 
