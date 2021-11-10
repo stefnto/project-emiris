@@ -156,6 +156,7 @@ std::vector<float>& hFunction::getv(){
     if (a.size() != b.size())return 0;
 
     double sum = 0;
+
     for (int i = 0; i < a.size(); i++)
     {
         sum += pow((a[i] - b[i]), 2);
@@ -196,12 +197,14 @@ void getNumbersWithHammingDistance(int k, unsigned long long number, int probes,
 void bruteForceSearch(Data_item *query, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances){
   double sttime, endtime;                                                       // to compute total run time
 
-
   sttime=((double) clock())/CLOCKS_PER_SEC;
-
   for (Data_item* point: points_coordinates){
+<<<<<<< HEAD:src/utils/utils.cpp
 
     double (* ptr) (const std::vector<int>& a,const std::vector<int>& b) = query->getDistanceFunction();
+=======
+    double (* ptr) (std::vector<int> a,std::vector<int> b) = query->getDistanceFunction();
+>>>>>>> ccef070b52b64ebc185fa1d9f861edd6b144eecc:src/utils.cpp
     double distance = ptr(query->getCoordinates(), point->getCoordinates());
 
     if (true_nn_distances.size() < n){                                          // if size of set less than n, add the distance
@@ -228,16 +231,15 @@ int avgDistance(std::vector<Data_item*>& points_coordinates){
                                                                                 // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
   for (int i = 0; i < num; i++){
     int tmp = rand() % points_coordinates.size();
-
     auto search = set.find(tmp);
     if (search == set.end()){
       set.insert(tmp);
     }
-
-    for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){  // compute each distance of first point to the other 'set.size() - 1' points
-      dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
-    }
-    dist = dist / set.size();                                                   // get the mean distance
   }
+  for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){  // compute each distance of first point to the other 'set.size() - 1' points
+    dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
+  }
+    dist = dist / set.size();                                                   // get the mean distance
+
   return dist;
 }

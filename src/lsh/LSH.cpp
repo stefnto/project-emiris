@@ -43,28 +43,36 @@ int LSH_solver::clusteringRangeSearch(float radius,Data_item* cent,int id){
   return sum;
 }
 
-bool LSH_solver::solve(){
-    LSH_Set* result;
-    for (Data_item* query : queries) {
-      result = NNandRS(query);
-      writeResult(result,query);
-      delete result;
-    }
-    return true;
+bool LSH_solver::solve()
+{
+  LSH_Set *result_approx_NN;
+  std::set<double> result_true_NN;
+
+  for (Data_item *query : queries)
+  {
+    result_approx_NN = NNandRS(query);
+    bruteForceSearch(query, this->points_coordinates, this->n, result_true_NN);
+    writeResult(result_approx_NN, query, result_true_NN);
+    delete result_approx_NN;
+    result_true_NN.clear();
+  }
+  return true;
 }
 
-
-LSH_Set* LSH_solver::NNandRS(Data_item* query){    //
+LSH_Set* LSH_solver::NNandRS(Data_item* query){
   auto comp = [](const Data_item* a,const Data_item* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
-  LSH_Set*  nn = new LSH_Set(comp);
+  LSH_Set*  nn = new LSH_Set(comp);                                             // ordered_set that contains NNs
 
-  for (int i = 0; i < L; i++) this->hashTables[i].NearestNeighbours(query, nn);
+  double sttime, endtime;                                                       // to compute total run time
 
-  LSH_Set::iterator it = nn->begin();
-  for (int i = 0; i < n; i++){
-    if (it == nn->end()) break;
-    it++;
-  }
+  sttime=((double) clock())/CLOCKS_PER_SEC;
+
+  for (int i = 0; i < L; i++)
+    this->hashTables[i].NearestNeighbours(query, nn);                           // search NN of query for each hashTable
+
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+
+  query->setAlgorithmTime( endtime - sttime );
 
   return nn;
 }
@@ -74,30 +82,45 @@ void LSH_solver::printQueries() const {
   for (Data_item* item : queries) std::cout << "query" << i++ << " : " << item->getName() << std::endl;
 }
 
-void LSH_solver::writeResult(LSH_Set* result,Data_item* item){
+void LSH_solver::writeResult(LSH_Set *result, Data_item *item, std::set<double> &true_nn){
   std::ofstream output_file;
-  output_file.open(output_filepath,std::ofstream::out | std::ofstream::app);
+  output_file.open(output_filepath, std::ofstream::out | std::ofstream::app);
   output_file << "Query : " << item->getName() << std::endl;
-  if (result->size() == 0 ) output_file << "No elements were found near this query" << std::endl;
-  else{
-      output_file << "Nearest neighbour : " << (*(result->begin()))->getName() << " Distance from query : " << (*(result->begin()))->getDistanceFromQuery() << std::endl << std::endl;
-      int counter = 0;
-      output_file << "Nearest Neighbours : " << std::endl;
-      for (Data_item* elem : *result){
-        if (counter == this->n) break;
-        output_file << elem->getName() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
-        counter++;
-      }
-      output_file << std::endl;
-      output_file << "Elements in radius " << this->r << " from query :" <<std::endl << std::endl;
-      for (Data_item* elem : *result){
-        float dFromQuery = elem->getDistanceFromQuery();
-        if (dFromQuery < this->r) output_file << elem->getName() << " Distance from query : " << elem->getDistanceFromQuery() << std::endl;
-        else break;
-      }
+  if (result->size() == 0){
+    output_file << "No elements were found near this query using LSH" << std::endl;
+    output_file << "distanceTrue : " << *std::next(true_nn.begin(), 0) << std::endl;
+    output_file << "tTrue : " << item->getBruteForceTime() << std::endl;
+  }else{
+    auto it = true_nn.begin();
+    int counter = 0;
+    for (Data_item *elem : *result)
+    {
+      if (counter == this->n)
+        break;
 
+      output_file << "Nearest neighbor-" << counter << " : " << elem->getName() << std::endl;
+      output_file << "distanceLSH : " << elem->getDistanceFromQuery() << std::endl;
+      output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) << std::endl;
+      output_file << "tLSH : " << item->getAlgorithmTime() << std::endl;
+      output_file << "tTrue : " << item->getBruteForceTime() << std::endl
+                  << std::endl;
+      counter++;
+    }
+
+    output_file << std::endl;
+
+    output_file << "Checking in radius " << this->r << " from query :" << std::endl
+                << std::endl;
+    for (Data_item *elem : *result)
+    {
+      float dFromQuery = elem->getDistanceFromQuery();
+      if (dFromQuery < this->r)
+        output_file << "  Element : " << elem->getName() << ", distance from query : " << elem->getDistanceFromQuery() << std::endl;
+    }
   }
-  output_file << std::endl;
+  output_file << std::endl
+              << "===============================================================================" << std::endl
+              << std::endl;
 }
 
 LSH_solver::~LSH_solver(){
@@ -150,15 +173,14 @@ int LSH_HashTable::clusteringRangeSearch(Data_item* query,float radius){
     if ( query->get_id() == item->get_id() ){
       float distanceFromQuery;
       clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
-      if ( c_d_item->isSetRadius() ){
-        if ( radius < c_d_item->getRadius() ){
-          distanceFromQuery = item->calculateDistance(query);
-          c_d_item->setCluster(std::stoi(query->getName()));
-          c_d_item->setRadius(radius);
-          sum++;
-        }else if (radius == c_d_item->getRadius() && std::stoi(query->getName()) != c_d_item->getCluster() ){
-          distanceFromQuery = item->calculateDistance(query);
-          if (distanceFromQuery < c_d_item->getDistanceFromQuery()) {c_d_item->setDistanceFromQuery(distanceFromQuery); c_d_item->setCluster(std::stoi(query->getName()));sum++;}
+      if ( c_d_item->getRadius() ){                                               //if radius is set 
+        if (radius == c_d_item->getRadius() && std::stoi(query->getName()) != c_d_item->getCluster() ){
+          distanceFromQuery = item->calculateDistance(query);                     //calculating distance from current centroid to item
+          if ( distanceFromQuery < c_d_item->getDistanceFromQuery() ) {
+            c_d_item->setDistanceFromQuery(distanceFromQuery); 
+            c_d_item->setCluster(std::stoi(query->getName()));
+            sum++;                                                                //new change made
+          }
         }
       }else{
         sum++;

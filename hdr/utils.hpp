@@ -51,7 +51,7 @@ class Data_item{
         double getShorterDistance();
         std::string getName() const;
 
-        float calculateDistance(Data_item *item) const { return distanceFunction(item->getCoordinates(), coordinates); }
+        float calculateDistance(Data_item *item) const {return distanceFunction(item->coordinates, coordinates); }
         float calculateDistance(const centroid &cent) const { return distanceFunction(coordinates, cent); }
         static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
         double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
@@ -60,28 +60,17 @@ class Data_item{
 class clustering_data_item : public Data_item {
     public:
         clustering_data_item(std::string line):Data_item(line),cluster(-1){}
-        void setCluster(int cluster){
-            this->cluster = cluster;
-        };
+        void setCluster(int cluster){this->cluster = cluster;}
         int getCluster() const {return cluster;}
-        void setDistance1st(float dist){this->dist1 = dist;}
-        void setDistance2nd(float dist){this->dist2 = dist;}
-        float getDistance1st() const {  return this->dist1;}
-        float getDistance2nd() const { return this->dist2;}
-        void setRadius(float rad){this->radius = radius; radiusIsSet = true;}
-        float getRadius() const { return this->radius;}
-        bool isSetRadius() const { return radiusIsSet;}
-        void unsetRadius() { radiusIsSet = false;}
+        float getRadius() const  {return radius;}
+        void setRadius(float radius) { this->radius = radius;}
         void findNearestCentroid(centroid* centroids,int size);
         void setSilhouette(float silhouette){this->silhouette = silhouette;}
         float getSilhouette() const {return this->silhouette;}
 
     private:
         int cluster;
-        float radius;                   //what was the radius of the range-search when the cluster was assigned 
-        float dist1;                    //distance from first closest cluster
-        float dist2;                    //distance from second closest cluster
-        bool radiusIsSet = false;
+        float radius= 0 ;
         float silhouette = 0;
 };
 

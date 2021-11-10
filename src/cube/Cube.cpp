@@ -209,7 +209,7 @@ bool Cube_Solver::solve(){
 void Cube_Solver::writeResult(Cube_Set* result, Data_item* item, std::set<double>& true_nn){
   std::ofstream output_file;
   output_file.open(output_filepath, std::ofstream::out | std::ofstream::app);
-  output_file << "Query : " << item->getItemID() << std::endl;
+  output_file << "Query : " << item->getName() << std::endl;
   if (result->size() == 0){
     output_file << "Nο elements were found near this query using hyperCube" << std::endl;
     output_file << "distanceTrue : " << *std::next(true_nn.begin(), 0) <<std::endl;
@@ -222,7 +222,7 @@ void Cube_Solver::writeResult(Cube_Set* result, Data_item* item, std::set<double
       if (counter == this->n)
         break;
 
-      output_file << "Nearest neighbor-" << counter << " : " << elem->getItemID() << std::endl;
+      output_file << "Nearest neighbor-" << counter << " : " << elem->getName() << std::endl;
       output_file << "distanceHypercube : " << elem->getDistanceFromQuery() << std::endl;
       output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) << std::endl;
       output_file << "tHypercube : " << item->getAlgorithmTime() << std::endl;
@@ -235,7 +235,7 @@ void Cube_Solver::writeResult(Cube_Set* result, Data_item* item, std::set<double
     for (Data_item* elem : *result){
       float dFromQuery = elem->getDistanceFromQuery();
       if (dFromQuery < this->r)
-      output_file << "  Element : " << elem->getItemID() << ", distance from query : " << elem->getDistanceFromQuery() << std::endl;
+      output_file << "  Element : " << elem->getName() << ", distance from query : " << elem->getDistanceFromQuery() << std::endl;
     }
   }
 

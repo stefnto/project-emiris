@@ -66,7 +66,6 @@ class LSH_solver{
     std::vector<clustering_data_item*>* clusteringData;
 
 
-    void writeResult(LSH_Set*,Data_item*);                                                       //given an ordered set,writes items to output path
     void writeResult(LSH_Set* , Data_item* , std::set<double>&);                                //given an ordered set,writes items to output path
 
   public :

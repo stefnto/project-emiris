@@ -26,7 +26,10 @@ bin/utils/utils.o : src/utils/utils.cpp
 bin/mains/LSHmain.o: src/mains/LSHmain.cpp
 	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
 
-cube: $(CUBEBINS) bin/utils/utils.o
+bin/mains/Cubemain.o: src/mains/Cubemain.cpp
+	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
+
+cube: $(CUBEBINS) bin/utils/utils.o bin/mains/Cubemain.o
 	$(CC) -o cube $^
 
 $(CUBEBINS) : bin/cube/%.o : src/cube/%.cpp
@@ -45,7 +48,10 @@ $(CLUSTERBINS) : bin/clustering/%.o : src/clustering/%.cpp
 #	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o cube src/Cubemain.cpp src/Cube.cpp src/utils.cpp
 
 LSHdefault:
-	./lsh -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output  -N 3 -R 10000
+	./lsh -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output2  -N 3 -R 10000
+
+CUBEdefault:
+	./cube -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o outputC  -N 3 -R 10000
 
 clean:
 	rm -f bin/utils/* bin/cube/* bin/lsh/* bin/clustering/*

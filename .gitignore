@@ -32,8 +32,6 @@
 *.app
 
 test*
-LSH
-cube
 input/*
 output
 output.txt

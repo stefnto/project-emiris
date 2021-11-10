@@ -1,0 +1,3600 @@
+Query : 1
+Nearest neighbor-0 : 125
+distanceHypercube : 336.497
+distanceTrue : 276.782
+tHypercube : 5.7e-05
+tTrue : 0.04009
+
+Nearest neighbor-1 : 137
+distanceHypercube : 367.282
+distanceTrue : 277.496
+tHypercube : 5.7e-05
+tTrue : 0.04009
+
+Nearest neighbor-2 : 126
+distanceHypercube : 410.957
+distanceTrue : 282.315
+tHypercube : 5.7e-05
+tTrue : 0.04009
+
+
+Checking in radius 10000 from query :
+
+  Element : 125, distance from query : 336.497
+  Element : 137, distance from query : 367.282
+  Element : 126, distance from query : 410.957
+  Element : 100, distance from query : 419.237
+  Element : 82, distance from query : 424.022
+  Element : 69, distance from query : 447.013
+  Element : 144, distance from query : 617.858
+  Element : 143, distance from query : 621.451
+  Element : 117, distance from query : 632.867
+  Element : 113, distance from query : 652.998
+  Element : 135, distance from query : 656.059
+
+===============================================================================
+
+Query : 2
+Nearest neighbor-0 : 156
+distanceHypercube : 322.354
+distanceTrue : 256.852
+tHypercube : 7.3e-05
+tTrue : 0.046356
+
+Nearest neighbor-1 : 229
+distanceHypercube : 327.342
+distanceTrue : 259.913
+tHypercube : 7.3e-05
+tTrue : 0.046356
+
+Nearest neighbor-2 : 121
+distanceHypercube : 333.198
+distanceTrue : 262.895
+tHypercube : 7.3e-05
+tTrue : 0.046356
+
+
+Checking in radius 10000 from query :
+
+  Element : 156, distance from query : 322.354
+  Element : 229, distance from query : 327.342
+  Element : 121, distance from query : 333.198
+  Element : 123, distance from query : 335.012
+  Element : 127, distance from query : 337.778
+  Element : 172, distance from query : 344.978
+  Element : 151, distance from query : 368.813
+  Element : 130, distance from query : 376.794
+  Element : 170, distance from query : 380.141
+  Element : 140, distance from query : 411.44
+  Element : 68, distance from query : 523.99
+
+===============================================================================
+
+Query : 3
+Nearest neighbor-0 : 72
+distanceHypercube : 283.584
+distanceTrue : 206.737
+tHypercube : 5.7e-05
+tTrue : 0.040522
+
+Nearest neighbor-1 : 56
+distanceHypercube : 309.016
+distanceTrue : 219.461
+tHypercube : 5.7e-05
+tTrue : 0.040522
+
+Nearest neighbor-2 : 101
+distanceHypercube : 352.473
+distanceTrue : 222.551
+tHypercube : 5.7e-05
+tTrue : 0.040522
+
+
+Checking in radius 10000 from query :
+
+  Element : 72, distance from query : 283.584
+  Element : 56, distance from query : 309.016
+  Element : 101, distance from query : 352.473
+  Element : 89, distance from query : 358.165
+  Element : 57, distance from query : 395.405
+  Element : 22, distance from query : 399.659
+  Element : 31, distance from query : 407.468
+  Element : 80, distance from query : 426.348
+  Element : 59, distance from query : 439.683
+  Element : 73, distance from query : 447.825
+  Element : 34, distance from query : 465.574
+
+===============================================================================
+
+Query : 4
+Nearest neighbor-0 : 108
+distanceHypercube : 265.633
+distanceTrue : 215.177
+tHypercube : 5.5e-05
+tTrue : 0.040319
+
+Nearest neighbor-1 : 103
+distanceHypercube : 296.648
+distanceTrue : 216.843
+tHypercube : 5.5e-05
+tTrue : 0.040319
+
+Nearest neighbor-2 : 46
+distanceHypercube : 465.365
+distanceTrue : 236.138
+tHypercube : 5.5e-05
+tTrue : 0.040319
+
+
+Checking in radius 10000 from query :
+
+  Element : 108, distance from query : 265.633
+  Element : 103, distance from query : 296.648
+  Element : 46, distance from query : 465.365
+  Element : 50, distance from query : 467.801
+  Element : 85, distance from query : 507.244
+  Element : 42, distance from query : 528.838
+  Element : 39, distance from query : 534.888
+  Element : 91, distance from query : 649.166
+  Element : 55, distance from query : 653.768
+  Element : 104, distance from query : 659.045
+  Element : 105, distance from query : 672.378
+
+===============================================================================
+
+Query : 5
+Nearest neighbor-0 : 21
+distanceHypercube : 357.277
+distanceTrue : 250.509
+tHypercube : 6.6e-05
+tTrue : 0.050548
+
+Nearest neighbor-1 : 1
+distanceHypercube : 361.787
+distanceTrue : 257.538
+tHypercube : 6.6e-05
+tTrue : 0.050548
+
+Nearest neighbor-2 : 30
+distanceHypercube : 374.416
+distanceTrue : 265.068
+tHypercube : 6.6e-05
+tTrue : 0.050548
+
+
+Checking in radius 10000 from query :
+
+  Element : 21, distance from query : 357.277
+  Element : 1, distance from query : 361.787
+  Element : 30, distance from query : 374.416
+  Element : 9, distance from query : 375.996
+  Element : 19, distance from query : 384.814
+  Element : 10, distance from query : 388.179
+  Element : 11, distance from query : 403.593
+  Element : 2, distance from query : 441.648
+  Element : 13, distance from query : 442.219
+  Element : 15, distance from query : 450.77
+  Element : 4, distance from query : 459.552
+
+===============================================================================
+
+Query : 6
+Nearest neighbor-0 : 23
+distanceHypercube : 413.229
+distanceTrue : 275.151
+tHypercube : 6.6e-05
+tTrue : 0.049451
+
+Nearest neighbor-1 : 26
+distanceHypercube : 423.528
+distanceTrue : 287.503
+tHypercube : 6.6e-05
+tTrue : 0.049451
+
+Nearest neighbor-2 : 38
+distanceHypercube : 430.2
+distanceTrue : 293.82
+tHypercube : 6.6e-05
+tTrue : 0.049451
+
+
+Checking in radius 10000 from query :
+
+  Element : 23, distance from query : 413.229
+  Element : 26, distance from query : 423.528
+  Element : 38, distance from query : 430.2
+  Element : 36, distance from query : 439.339
+  Element : 43, distance from query : 442.12
+  Element : 77, distance from query : 450.856
+  Element : 48, distance from query : 458.584
+  Element : 44, distance from query : 459.548
+  Element : 40, distance from query : 471.524
+  Element : 20, distance from query : 583.392
+  Element : 12, distance from query : 585.206
+
+===============================================================================
+
+Query : 7
+Nearest neighbor-0 : 108
+distanceHypercube : 341.577
+distanceTrue : 246.609
+tHypercube : 5.7e-05
+tTrue : 0.040524
+
+Nearest neighbor-1 : 103
+distanceHypercube : 391.101
+distanceTrue : 252.816
+tHypercube : 5.7e-05
+tTrue : 0.040524
+
+Nearest neighbor-2 : 85
+distanceHypercube : 419.383
+distanceTrue : 255.805
+tHypercube : 5.7e-05
+tTrue : 0.040524
+
+
+Checking in radius 10000 from query :
+
+  Element : 108, distance from query : 341.577
+  Element : 103, distance from query : 391.101
+  Element : 85, distance from query : 419.383
+  Element : 50, distance from query : 423.759
+  Element : 46, distance from query : 432.753
+  Element : 42, distance from query : 455.122
+  Element : 39, distance from query : 455.547
+  Element : 55, distance from query : 607.875
+  Element : 91, distance from query : 620.295
+  Element : 105, distance from query : 641.249
+  Element : 104, distance from query : 646.86
+
+===============================================================================
+
+Query : 8
+Nearest neighbor-0 : 37
+distanceHypercube : 253.86
+distanceTrue : 173.948
+tHypercube : 6.5e-05
+tTrue : 0.049804
+
+Nearest neighbor-1 : 45
+distanceHypercube : 262.162
+distanceTrue : 177.727
+tHypercube : 6.5e-05
+tTrue : 0.049804
+
+Nearest neighbor-2 : 99
+distanceHypercube : 268.354
+distanceTrue : 196.403
+tHypercube : 6.5e-05
+tTrue : 0.049804
+
+
+Checking in radius 10000 from query :
+
+  Element : 37, distance from query : 253.86
+  Element : 45, distance from query : 262.162
+  Element : 99, distance from query : 268.354
+  Element : 49, distance from query : 270.682
+  Element : 81, distance from query : 275.249
+  Element : 47, distance from query : 305.344
+  Element : 41, distance from query : 319.845
+  Element : 35, distance from query : 338.641
+  Element : 95, distance from query : 412.392
+  Element : 88, distance from query : 453.043
+  Element : 27, distance from query : 567.137
+
+===============================================================================
+
+Query : 9
+Nearest neighbor-0 : 180
+distanceHypercube : 302.156
+distanceTrue : 248.473
+tHypercube : 5.6e-05
+tTrue : 0.040326
+
+Nearest neighbor-1 : 165
+distanceHypercube : 360.168
+distanceTrue : 256.215
+tHypercube : 5.6e-05
+tTrue : 0.040326
+
+Nearest neighbor-2 : 18
+distanceHypercube : 389.995
+distanceTrue : 259.012
+tHypercube : 5.6e-05
+tTrue : 0.040326
+
+
+Checking in radius 10000 from query :
+
+  Element : 180, distance from query : 302.156
+  Element : 165, distance from query : 360.168
+  Element : 18, distance from query : 389.995
+  Element : 24, distance from query : 415.347
+  Element : 16, distance from query : 418.889
+  Element : 29, distance from query : 426.711
+  Element : 25, distance from query : 602.061
+  Element : 194, distance from query : 614.834
+  Element : 128, distance from query : 631.579
+  Element : 98, distance from query : 635.22
+  Element : 133, distance from query : 635.375
+
+===============================================================================
+
+Query : 10
+Nearest neighbor-0 : 74
+distanceHypercube : 298.364
+distanceTrue : 250.014
+tHypercube : 6.3e-05
+tTrue : 0.040935
+
+Nearest neighbor-1 : 65
+distanceHypercube : 343.315
+distanceTrue : 251.722
+tHypercube : 6.3e-05
+tTrue : 0.040935
+
+Nearest neighbor-2 : 32
+distanceHypercube : 350.3
+distanceTrue : 254.68
+tHypercube : 6.3e-05
+tTrue : 0.040935
+
+
+Checking in radius 10000 from query :
+
+  Element : 74, distance from query : 298.364
+  Element : 65, distance from query : 343.315
+  Element : 32, distance from query : 350.3
+  Element : 78, distance from query : 354.352
+  Element : 76, distance from query : 378.356
+  Element : 8, distance from query : 395.972
+  Element : 64, distance from query : 415.748
+  Element : 17, distance from query : 434.371
+  Element : 28, distance from query : 454.19
+  Element : 6, distance from query : 468.351
+  Element : 14, distance from query : 486.025
+
+===============================================================================
+
+Query : 11
+Nearest neighbor-0 : 26
+distanceHypercube : 409.323
+distanceTrue : 293.883
+tHypercube : 5.5e-05
+tTrue : 0.040362
+
+Nearest neighbor-1 : 38
+distanceHypercube : 427.133
+distanceTrue : 308.914
+tHypercube : 5.5e-05
+tTrue : 0.040362
+
+Nearest neighbor-2 : 43
+distanceHypercube : 431.76
+distanceTrue : 309.307
+tHypercube : 5.5e-05
+tTrue : 0.040362
+
+
+Checking in radius 10000 from query :
+
+  Element : 26, distance from query : 409.323
+  Element : 38, distance from query : 427.133
+  Element : 43, distance from query : 431.76
+  Element : 23, distance from query : 454.364
+  Element : 36, distance from query : 467.962
+  Element : 48, distance from query : 481.136
+  Element : 40, distance from query : 483.274
+  Element : 44, distance from query : 487.314
+  Element : 77, distance from query : 502.818
+  Element : 20, distance from query : 598.895
+  Element : 12, distance from query : 606.25
+
+===============================================================================
+
+Query : 12
+Nearest neighbor-0 : 62
+distanceHypercube : 241.646
+distanceTrue : 172.163
+tHypercube : 5.4e-05
+tTrue : 0.041033
+
+Nearest neighbor-1 : 60
+distanceHypercube : 256.453
+distanceTrue : 206.608
+tHypercube : 5.4e-05
+tTrue : 0.041033
+
+Nearest neighbor-2 : 3
+distanceHypercube : 274.663
+distanceTrue : 224.484
+tHypercube : 5.4e-05
+tTrue : 0.041033
+
+
+Checking in radius 10000 from query :
+
+  Element : 62, distance from query : 241.646
+  Element : 60, distance from query : 256.453
+  Element : 3, distance from query : 274.663
+  Element : 54, distance from query : 293.363
+  Element : 75, distance from query : 294.576
+  Element : 5, distance from query : 300.067
+  Element : 7, distance from query : 301.294
+  Element : 53, distance from query : 307.223
+  Element : 51, distance from query : 322.87
+  Element : 52, distance from query : 384.997
+  Element : 66, distance from query : 398.122
+
+===============================================================================
+
+Query : 13
+Nearest neighbor-0 : 95
+distanceHypercube : 332.515
+distanceTrue : 238.55
+tHypercube : 5.6e-05
+tTrue : 0.040243
+
+Nearest neighbor-1 : 49
+distanceHypercube : 370.127
+distanceTrue : 250.072
+tHypercube : 5.6e-05
+tTrue : 0.040243
+
+Nearest neighbor-2 : 27
+distanceHypercube : 372.375
+distanceTrue : 251.239
+tHypercube : 5.6e-05
+tTrue : 0.040243
+
+
+Checking in radius 10000 from query :
+
+  Element : 95, distance from query : 332.515
+  Element : 49, distance from query : 370.127
+  Element : 27, distance from query : 372.375
+  Element : 45, distance from query : 381.122
+  Element : 99, distance from query : 382.919
+  Element : 37, distance from query : 389.459
+  Element : 81, distance from query : 390.672
+  Element : 47, distance from query : 391.597
+  Element : 41, distance from query : 437.979
+  Element : 35, distance from query : 456.74
+  Element : 88, distance from query : 488.867
+
+===============================================================================
+
+Query : 14
+Nearest neighbor-0 : 121
+distanceHypercube : 291.913
+distanceTrue : 244.677
+tHypercube : 6e-05
+tTrue : 0.043558
+
+Nearest neighbor-1 : 172
+distanceHypercube : 305.493
+distanceTrue : 256.739
+tHypercube : 6e-05
+tTrue : 0.043558
+
+Nearest neighbor-2 : 156
+distanceHypercube : 326.285
+distanceTrue : 259.675
+tHypercube : 6e-05
+tTrue : 0.043558
+
+
+Checking in radius 10000 from query :
+
+  Element : 121, distance from query : 291.913
+  Element : 172, distance from query : 305.493
+  Element : 156, distance from query : 326.285
+  Element : 229, distance from query : 331.634
+  Element : 123, distance from query : 333.963
+  Element : 151, distance from query : 340.081
+  Element : 127, distance from query : 359.561
+  Element : 140, distance from query : 368.726
+  Element : 130, distance from query : 391.962
+  Element : 170, distance from query : 415.118
+  Element : 68, distance from query : 479.222
+
+===============================================================================
+
+Query : 15
+Nearest neighbor-0 : 66
+distanceHypercube : 391.553
+distanceTrue : 273.317
+tHypercube : 5.6e-05
+tTrue : 0.040252
+
+Nearest neighbor-1 : 60
+distanceHypercube : 392.228
+distanceTrue : 278.307
+tHypercube : 5.6e-05
+tTrue : 0.040252
+
+Nearest neighbor-2 : 51
+distanceHypercube : 394.976
+distanceTrue : 282.74
+tHypercube : 5.6e-05
+tTrue : 0.040252
+
+
+Checking in radius 10000 from query :
+
+  Element : 66, distance from query : 391.553
+  Element : 60, distance from query : 392.228
+  Element : 51, distance from query : 394.976
+  Element : 75, distance from query : 399.542
+  Element : 62, distance from query : 405.078
+  Element : 52, distance from query : 414.394
+  Element : 3, distance from query : 417.127
+  Element : 54, distance from query : 431.452
+  Element : 7, distance from query : 434.257
+  Element : 5, distance from query : 434.821
+  Element : 53, distance from query : 445.674
+
+===============================================================================
+
+Query : 16
+Nearest neighbor-0 : 3
+distanceHypercube : 262.168
+distanceTrue : 253.683
+tHypercube : 6.8e-05
+tTrue : 0.040192
+
+Nearest neighbor-1 : 75
+distanceHypercube : 319.078
+distanceTrue : 254.823
+tHypercube : 6.8e-05
+tTrue : 0.040192
+
+Nearest neighbor-2 : 7
+distanceHypercube : 324.882
+distanceTrue : 256.753
+tHypercube : 6.8e-05
+tTrue : 0.040192
+
+
+Checking in radius 10000 from query :
+
+  Element : 3, distance from query : 262.168
+  Element : 75, distance from query : 319.078
+  Element : 7, distance from query : 324.882
+  Element : 5, distance from query : 360.946
+  Element : 54, distance from query : 364.003
+  Element : 62, distance from query : 383.167
+  Element : 60, distance from query : 391.165
+  Element : 53, distance from query : 406
+  Element : 51, distance from query : 419.021
+  Element : 52, distance from query : 421.985
+  Element : 66, distance from query : 468.535
+
+===============================================================================
+
+Query : 17
+Nearest neighbor-0 : 25
+distanceHypercube : 311.207
+distanceTrue : 248.2
+tHypercube : 5.9e-05
+tTrue : 0.040111
+
+Nearest neighbor-1 : 133
+distanceHypercube : 319.703
+distanceTrue : 248.324
+tHypercube : 5.9e-05
+tTrue : 0.040111
+
+Nearest neighbor-2 : 194
+distanceHypercube : 330.702
+distanceTrue : 250.667
+tHypercube : 5.9e-05
+tTrue : 0.040111
+
+
+Checking in radius 10000 from query :
+
+  Element : 25, distance from query : 311.207
+  Element : 133, distance from query : 319.703
+  Element : 194, distance from query : 330.702
+  Element : 128, distance from query : 345.492
+  Element : 98, distance from query : 347.945
+  Element : 29, distance from query : 613.659
+  Element : 18, distance from query : 627.091
+  Element : 180, distance from query : 634.88
+  Element : 16, distance from query : 638.129
+  Element : 24, distance from query : 640.205
+  Element : 165, distance from query : 649.204
+
+===============================================================================
+
+Query : 18
+Nearest neighbor-0 : 108
+distanceHypercube : 267.866
+distanceTrue : 254.635
+tHypercube : 5.6e-05
+tTrue : 0.040214
+
+Nearest neighbor-1 : 103
+distanceHypercube : 356.526
+distanceTrue : 260.852
+tHypercube : 5.6e-05
+tTrue : 0.040214
+
+Nearest neighbor-2 : 50
+distanceHypercube : 378.747
+distanceTrue : 263.279
+tHypercube : 5.6e-05
+tTrue : 0.040214
+
+
+Checking in radius 10000 from query :
+
+  Element : 108, distance from query : 267.866
+  Element : 103, distance from query : 356.526
+  Element : 50, distance from query : 378.747
+  Element : 46, distance from query : 385.852
+  Element : 85, distance from query : 403.399
+  Element : 42, distance from query : 450.953
+  Element : 39, distance from query : 481.269
+  Element : 55, distance from query : 638.61
+  Element : 104, distance from query : 648.556
+  Element : 91, distance from query : 650.853
+  Element : 105, distance from query : 661.961
+
+===============================================================================
+
+Query : 19
+Nearest neighbor-0 : 143
+distanceHypercube : 278.239
+distanceTrue : 266.889
+tHypercube : 5.5e-05
+tTrue : 0.040305
+
+Nearest neighbor-1 : 117
+distanceHypercube : 280.202
+distanceTrue : 268.527
+tHypercube : 5.5e-05
+tTrue : 0.040305
+
+Nearest neighbor-2 : 144
+distanceHypercube : 395.087
+distanceTrue : 274.341
+tHypercube : 5.5e-05
+tTrue : 0.040305
+
+
+Checking in radius 10000 from query :
+
+  Element : 143, distance from query : 278.239
+  Element : 117, distance from query : 280.202
+  Element : 144, distance from query : 395.087
+  Element : 113, distance from query : 412.628
+  Element : 135, distance from query : 413.609
+  Element : 137, distance from query : 601.337
+  Element : 69, distance from query : 621.625
+  Element : 125, distance from query : 622.153
+  Element : 100, distance from query : 632.152
+  Element : 126, distance from query : 640.153
+  Element : 82, distance from query : 641.131
+
+===============================================================================
+
+Query : 20
+Nearest neighbor-0 : 108
+distanceHypercube : 236.901
+distanceTrue : 224.751
+tHypercube : 5.3e-05
+tTrue : 0.040099
+
+Nearest neighbor-1 : 103
+distanceHypercube : 309.966
+distanceTrue : 230.213
+tHypercube : 5.3e-05
+tTrue : 0.040099
+
+Nearest neighbor-2 : 46
+distanceHypercube : 385.014
+distanceTrue : 233.495
+tHypercube : 5.3e-05
+tTrue : 0.040099
+
+
+Checking in radius 10000 from query :
+
+  Element : 108, distance from query : 236.901
+  Element : 103, distance from query : 309.966
+  Element : 46, distance from query : 385.014
+  Element : 50, distance from query : 388.537
+  Element : 85, distance from query : 414.588
+  Element : 42, distance from query : 461.195
+  Element : 39, distance from query : 461.556
+  Element : 91, distance from query : 631.646
+  Element : 55, distance from query : 636.109
+  Element : 104, distance from query : 649.862
+  Element : 105, distance from query : 653.8
+
+===============================================================================
+
+Query : 21
+Nearest neighbor-0 : 21
+distanceHypercube : 341.088
+distanceTrue : 192.984
+tHypercube : 5.7e-05
+tTrue : 0.040546
+
+Nearest neighbor-1 : 9
+distanceHypercube : 356.423
+distanceTrue : 193.249
+tHypercube : 5.7e-05
+tTrue : 0.040546
+
+Nearest neighbor-2 : 30
+distanceHypercube : 356.922
+distanceTrue : 196.008
+tHypercube : 5.7e-05
+tTrue : 0.040546
+
+
+Checking in radius 10000 from query :
+
+  Element : 21, distance from query : 341.088
+  Element : 9, distance from query : 356.423
+  Element : 30, distance from query : 356.922
+  Element : 19, distance from query : 357.718
+  Element : 13, distance from query : 364.115
+  Element : 1, distance from query : 367.372
+  Element : 11, distance from query : 375.269
+  Element : 10, distance from query : 444.921
+  Element : 15, distance from query : 455.085
+  Element : 4, distance from query : 460.801
+  Element : 2, distance from query : 462.369
+
+===============================================================================
+
+Query : 22
+Nearest neighbor-0 : 10
+distanceHypercube : 291.383
+distanceTrue : 80.8455
+tHypercube : 6.8e-05
+tTrue : 0.041043
+
+Nearest neighbor-1 : 2
+distanceHypercube : 312.89
+distanceTrue : 87.7325
+tHypercube : 6.8e-05
+tTrue : 0.041043
+
+Nearest neighbor-2 : 4
+distanceHypercube : 317.932
+distanceTrue : 207.302
+tHypercube : 6.8e-05
+tTrue : 0.041043
+
+
+Checking in radius 10000 from query :
+
+  Element : 10, distance from query : 291.383
+  Element : 2, distance from query : 312.89
+  Element : 4, distance from query : 317.932
+  Element : 13, distance from query : 324.504
+  Element : 1, distance from query : 327.855
+  Element : 15, distance from query : 334.516
+  Element : 19, distance from query : 342.845
+  Element : 11, distance from query : 350.097
+  Element : 21, distance from query : 353.273
+  Element : 9, distance from query : 357.927
+  Element : 30, distance from query : 366.941
+
+===============================================================================
+
+Query : 23
+Nearest neighbor-0 : 2
+distanceHypercube : 254.947
+distanceTrue : 173.052
+tHypercube : 9.1e-05
+tTrue : 0.04691
+
+Nearest neighbor-1 : 15
+distanceHypercube : 273.732
+distanceTrue : 175.642
+tHypercube : 9.1e-05
+tTrue : 0.04691
+
+Nearest neighbor-2 : 4
+distanceHypercube : 283.102
+distanceTrue : 182.642
+tHypercube : 9.1e-05
+tTrue : 0.04691
+
+
+Checking in radius 10000 from query :
+
+  Element : 2, distance from query : 254.947
+  Element : 15, distance from query : 273.732
+  Element : 4, distance from query : 283.102
+  Element : 11, distance from query : 321.671
+  Element : 10, distance from query : 322.85
+  Element : 30, distance from query : 323.92
+  Element : 9, distance from query : 329.393
+  Element : 19, distance from query : 334.994
+  Element : 1, distance from query : 344.353
+  Element : 21, distance from query : 363.703
+  Element : 13, distance from query : 406.496
+
+===============================================================================
+
+Query : 24
+Nearest neighbor-0 : 180
+distanceHypercube : 391.331
+distanceTrue : 253.941
+tHypercube : 5.8e-05
+tTrue : 0.041274
+
+Nearest neighbor-1 : 24
+distanceHypercube : 421.19
+distanceTrue : 254.876
+tHypercube : 5.8e-05
+tTrue : 0.041274
+
+Nearest neighbor-2 : 16
+distanceHypercube : 428.481
+distanceTrue : 256.677
+tHypercube : 5.8e-05
+tTrue : 0.041274
+
+
+Checking in radius 10000 from query :
+
+  Element : 180, distance from query : 391.331
+  Element : 24, distance from query : 421.19
+  Element : 16, distance from query : 428.481
+  Element : 165, distance from query : 446.315
+  Element : 18, distance from query : 461.441
+  Element : 29, distance from query : 498.809
+  Element : 25, distance from query : 663.427
+  Element : 194, distance from query : 669.99
+  Element : 133, distance from query : 676.905
+  Element : 128, distance from query : 681.277
+  Element : 98, distance from query : 682.515
+
+===============================================================================
+
+Query : 25
+Nearest neighbor-0 : 80
+distanceHypercube : 282.94
+distanceTrue : 154.227
+tHypercube : 5.8e-05
+tTrue : 0.040911
+
+Nearest neighbor-1 : 59
+distanceHypercube : 290.229
+distanceTrue : 156.547
+tHypercube : 5.8e-05
+tTrue : 0.040911
+
+Nearest neighbor-2 : 22
+distanceHypercube : 323.656
+distanceTrue : 191.186
+tHypercube : 5.8e-05
+tTrue : 0.040911
+
+
+Checking in radius 10000 from query :
+
+  Element : 80, distance from query : 282.94
+  Element : 59, distance from query : 290.229
+  Element : 22, distance from query : 323.656
+  Element : 31, distance from query : 335.187
+  Element : 72, distance from query : 369.743
+  Element : 34, distance from query : 375.576
+  Element : 56, distance from query : 383.767
+  Element : 57, distance from query : 407.908
+  Element : 73, distance from query : 411.479
+  Element : 101, distance from query : 414.132
+  Element : 89, distance from query : 423.719
+
+===============================================================================
+
+Query : 26
+Nearest neighbor-0 : 10
+distanceHypercube : 372.378
+distanceTrue : 271.61
+tHypercube : 5.5e-05
+tTrue : 0.042629
+
+Nearest neighbor-1 : 1
+distanceHypercube : 409.365
+distanceTrue : 286.568
+tHypercube : 5.5e-05
+tTrue : 0.042629
+
+Nearest neighbor-2 : 15
+distanceHypercube : 419.838
+distanceTrue : 288.806
+tHypercube : 5.5e-05
+tTrue : 0.042629
+
+
+Checking in radius 10000 from query :
+
+  Element : 10, distance from query : 372.378
+  Element : 1, distance from query : 409.365
+  Element : 15, distance from query : 419.838
+  Element : 21, distance from query : 422.652
+  Element : 2, distance from query : 423.113
+  Element : 4, distance from query : 427.804
+  Element : 30, distance from query : 434.054
+  Element : 9, distance from query : 436.501
+  Element : 19, distance from query : 445.118
+  Element : 11, distance from query : 461.13
+  Element : 13, distance from query : 476.254
+
+===============================================================================
+
+Query : 27
+Nearest neighbor-0 : 22
+distanceHypercube : 295.579
+distanceTrue : 183.442
+tHypercube : 5.6e-05
+tTrue : 0.040446
+
+Nearest neighbor-1 : 80
+distanceHypercube : 312.21
+distanceTrue : 199.702
+tHypercube : 5.6e-05
+tTrue : 0.040446
+
+Nearest neighbor-2 : 31
+distanceHypercube : 315.084
+distanceTrue : 220.018
+tHypercube : 5.6e-05
+tTrue : 0.040446
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 295.579
+  Element : 80, distance from query : 312.21
+  Element : 31, distance from query : 315.084
+  Element : 59, distance from query : 317.951
+  Element : 34, distance from query : 357.073
+  Element : 72, distance from query : 374.241
+  Element : 56, distance from query : 382.577
+  Element : 73, distance from query : 392.177
+  Element : 101, distance from query : 393.298
+  Element : 89, distance from query : 403.17
+  Element : 57, distance from query : 406.644
+
+===============================================================================
+
+Query : 28
+Nearest neighbor-0 : 57
+distanceHypercube : 266.543
+distanceTrue : 175.516
+tHypercube : 6.6e-05
+tTrue : 0.049482
+
+Nearest neighbor-1 : 89
+distanceHypercube : 285.177
+distanceTrue : 200.888
+tHypercube : 6.6e-05
+tTrue : 0.049482
+
+Nearest neighbor-2 : 101
+distanceHypercube : 286.522
+distanceTrue : 212.549
+tHypercube : 6.6e-05
+tTrue : 0.049482
+
+
+Checking in radius 10000 from query :
+
+  Element : 57, distance from query : 266.543
+  Element : 89, distance from query : 285.177
+  Element : 101, distance from query : 286.522
+  Element : 31, distance from query : 378.428
+  Element : 22, distance from query : 387.684
+  Element : 80, distance from query : 411.277
+  Element : 72, distance from query : 412.395
+  Element : 59, distance from query : 424.437
+  Element : 56, distance from query : 444.643
+  Element : 34, distance from query : 504.594
+  Element : 73, distance from query : 513.701
+
+===============================================================================
+
+Query : 29
+Nearest neighbor-0 : 20
+distanceHypercube : 373.468
+distanceTrue : 224.86
+tHypercube : 5.7e-05
+tTrue : 0.041107
+
+Nearest neighbor-1 : 12
+distanceHypercube : 376.927
+distanceTrue : 229.828
+tHypercube : 5.7e-05
+tTrue : 0.041107
+
+Nearest neighbor-2 : 40
+distanceHypercube : 613.853
+distanceTrue : 230.378
+tHypercube : 5.7e-05
+tTrue : 0.041107
+
+
+Checking in radius 10000 from query :
+
+  Element : 20, distance from query : 373.468
+  Element : 12, distance from query : 376.927
+  Element : 40, distance from query : 613.853
+  Element : 43, distance from query : 626.584
+  Element : 77, distance from query : 635.093
+  Element : 36, distance from query : 635.135
+  Element : 26, distance from query : 650.558
+  Element : 44, distance from query : 655.218
+  Element : 23, distance from query : 656.229
+  Element : 48, distance from query : 660.756
+  Element : 38, distance from query : 687.181
+
+===============================================================================
+
+Query : 30
+Nearest neighbor-0 : 113
+distanceHypercube : 403.946
+distanceTrue : 125.379
+tHypercube : 8.7e-05
+tTrue : 0.04852
+
+Nearest neighbor-1 : 144
+distanceHypercube : 448.364
+distanceTrue : 167.821
+tHypercube : 8.7e-05
+tTrue : 0.04852
+
+Nearest neighbor-2 : 135
+distanceHypercube : 458.155
+distanceTrue : 170.868
+tHypercube : 8.7e-05
+tTrue : 0.04852
+
+
+Checking in radius 10000 from query :
+
+  Element : 113, distance from query : 403.946
+  Element : 144, distance from query : 448.364
+  Element : 135, distance from query : 458.155
+  Element : 117, distance from query : 496.859
+  Element : 143, distance from query : 522.889
+  Element : 137, distance from query : 679.264
+  Element : 125, distance from query : 680.515
+  Element : 126, distance from query : 695.219
+  Element : 82, distance from query : 701.955
+  Element : 100, distance from query : 705.473
+  Element : 69, distance from query : 706.339
+
+===============================================================================
+
+Query : 31
+Nearest neighbor-0 : 59
+distanceHypercube : 309.5
+distanceTrue : 265.377
+tHypercube : 5.9e-05
+tTrue : 0.040454
+
+Nearest neighbor-1 : 80
+distanceHypercube : 309.752
+distanceTrue : 267.007
+tHypercube : 5.9e-05
+tTrue : 0.040454
+
+Nearest neighbor-2 : 22
+distanceHypercube : 339.561
+distanceTrue : 272.206
+tHypercube : 5.9e-05
+tTrue : 0.040454
+
+
+Checking in radius 10000 from query :
+
+  Element : 59, distance from query : 309.5
+  Element : 80, distance from query : 309.752
+  Element : 22, distance from query : 339.561
+  Element : 31, distance from query : 353.473
+  Element : 57, distance from query : 356.477
+  Element : 101, distance from query : 378.182
+  Element : 89, distance from query : 383.908
+  Element : 73, distance from query : 407.573
+  Element : 72, distance from query : 437.13
+  Element : 56, distance from query : 462.519
+  Element : 34, distance from query : 463.571
+
+===============================================================================
+
+Query : 32
+Nearest neighbor-0 : 62
+distanceHypercube : 359.356
+distanceTrue : 109.192
+tHypercube : 6e-05
+tTrue : 0.040227
+
+Nearest neighbor-1 : 60
+distanceHypercube : 363.376
+distanceTrue : 126.953
+tHypercube : 6e-05
+tTrue : 0.040227
+
+Nearest neighbor-2 : 7
+distanceHypercube : 392.826
+distanceTrue : 175.773
+tHypercube : 6e-05
+tTrue : 0.040227
+
+
+Checking in radius 10000 from query :
+
+  Element : 62, distance from query : 359.356
+  Element : 60, distance from query : 363.376
+  Element : 7, distance from query : 392.826
+  Element : 51, distance from query : 395.498
+  Element : 3, distance from query : 406.819
+  Element : 5, distance from query : 410.01
+  Element : 53, distance from query : 416.855
+  Element : 66, distance from query : 434.303
+  Element : 75, distance from query : 436.46
+  Element : 54, distance from query : 463.249
+  Element : 52, distance from query : 469.075
+
+===============================================================================
+
+Query : 33
+Nearest neighbor-0 : 104
+distanceHypercube : 320.663
+distanceTrue : 187.563
+tHypercube : 5.6e-05
+tTrue : 0.039842
+
+Nearest neighbor-1 : 105
+distanceHypercube : 404.615
+distanceTrue : 232.768
+tHypercube : 5.6e-05
+tTrue : 0.039842
+
+Nearest neighbor-2 : 55
+distanceHypercube : 413.044
+distanceTrue : 236.244
+tHypercube : 5.6e-05
+tTrue : 0.039842
+
+
+Checking in radius 10000 from query :
+
+  Element : 104, distance from query : 320.663
+  Element : 105, distance from query : 404.615
+  Element : 55, distance from query : 413.044
+  Element : 91, distance from query : 450.434
+  Element : 85, distance from query : 580.616
+  Element : 39, distance from query : 616.414
+  Element : 103, distance from query : 625.747
+  Element : 46, distance from query : 629.649
+  Element : 50, distance from query : 631.721
+  Element : 108, distance from query : 640.401
+  Element : 42, distance from query : 647.345
+
+===============================================================================
+
+Query : 34
+Nearest neighbor-0 : 137
+distanceHypercube : 455.022
+distanceTrue : 328.279
+tHypercube : 7.3e-05
+tTrue : 0.041166
+
+Nearest neighbor-1 : 82
+distanceHypercube : 476.831
+distanceTrue : 340.103
+tHypercube : 7.3e-05
+tTrue : 0.041166
+
+Nearest neighbor-2 : 100
+distanceHypercube : 482.426
+distanceTrue : 348.505
+tHypercube : 7.3e-05
+tTrue : 0.041166
+
+
+Checking in radius 10000 from query :
+
+  Element : 137, distance from query : 455.022
+  Element : 82, distance from query : 476.831
+  Element : 100, distance from query : 482.426
+  Element : 126, distance from query : 509.02
+  Element : 69, distance from query : 511.797
+  Element : 125, distance from query : 525.208
+  Element : 144, distance from query : 607.736
+  Element : 135, distance from query : 629.728
+  Element : 117, distance from query : 640.372
+  Element : 113, distance from query : 640.697
+  Element : 143, distance from query : 644.632
+
+===============================================================================
+
+Query : 35
+Nearest neighbor-0 : 22
+distanceHypercube : 310.048
+distanceTrue : 248.554
+tHypercube : 8.9e-05
+tTrue : 0.040354
+
+Nearest neighbor-1 : 59
+distanceHypercube : 338.506
+distanceTrue : 262.463
+tHypercube : 8.9e-05
+tTrue : 0.040354
+
+Nearest neighbor-2 : 31
+distanceHypercube : 343.454
+distanceTrue : 272.189
+tHypercube : 8.9e-05
+tTrue : 0.040354
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 310.048
+  Element : 59, distance from query : 338.506
+  Element : 31, distance from query : 343.454
+  Element : 80, distance from query : 348.393
+  Element : 73, distance from query : 360.691
+  Element : 89, distance from query : 391.715
+  Element : 101, distance from query : 393.914
+  Element : 72, distance from query : 399.443
+  Element : 56, distance from query : 403.324
+  Element : 57, distance from query : 409.597
+  Element : 34, distance from query : 440.829
+
+===============================================================================
+
+Query : 36
+Nearest neighbor-0 : 26
+distanceHypercube : 410.461
+distanceTrue : 120.975
+tHypercube : 6.9e-05
+tTrue : 0.04576
+
+Nearest neighbor-1 : 23
+distanceHypercube : 422.516
+distanceTrue : 140.353
+tHypercube : 6.9e-05
+tTrue : 0.04576
+
+Nearest neighbor-2 : 43
+distanceHypercube : 437.116
+distanceTrue : 179.597
+tHypercube : 6.9e-05
+tTrue : 0.04576
+
+
+Checking in radius 10000 from query :
+
+  Element : 26, distance from query : 410.461
+  Element : 23, distance from query : 422.516
+  Element : 43, distance from query : 437.116
+  Element : 44, distance from query : 467.703
+  Element : 40, distance from query : 479.747
+  Element : 38, distance from query : 482.357
+  Element : 77, distance from query : 494.873
+  Element : 48, distance from query : 508.084
+  Element : 36, distance from query : 526.033
+  Element : 12, distance from query : 587.312
+  Element : 20, distance from query : 591.339
+
+===============================================================================
+
+Query : 37
+Nearest neighbor-0 : 23
+distanceHypercube : 360.931
+distanceTrue : 111.459
+tHypercube : 5.5e-05
+tTrue : 0.039817
+
+Nearest neighbor-1 : 26
+distanceHypercube : 363.215
+distanceTrue : 140.136
+tHypercube : 5.5e-05
+tTrue : 0.039817
+
+Nearest neighbor-2 : 43
+distanceHypercube : 384.636
+distanceTrue : 159.909
+tHypercube : 5.5e-05
+tTrue : 0.039817
+
+
+Checking in radius 10000 from query :
+
+  Element : 23, distance from query : 360.931
+  Element : 26, distance from query : 363.215
+  Element : 43, distance from query : 384.636
+  Element : 36, distance from query : 403.738
+  Element : 77, distance from query : 412.897
+  Element : 48, distance from query : 417.519
+  Element : 44, distance from query : 419.093
+  Element : 38, distance from query : 436.696
+  Element : 40, distance from query : 453.449
+  Element : 20, distance from query : 606.947
+  Element : 12, distance from query : 609.984
+
+===============================================================================
+
+Query : 38
+Nearest neighbor-0 : 39
+distanceHypercube : 446.836
+distanceTrue : 166.856
+tHypercube : 5.7e-05
+tTrue : 0.041638
+
+Nearest neighbor-1 : 42
+distanceHypercube : 454.712
+distanceTrue : 247.869
+tHypercube : 5.7e-05
+tTrue : 0.041638
+
+Nearest neighbor-2 : 103
+distanceHypercube : 474.045
+distanceTrue : 298.412
+tHypercube : 5.7e-05
+tTrue : 0.041638
+
+
+Checking in radius 10000 from query :
+
+  Element : 39, distance from query : 446.836
+  Element : 42, distance from query : 454.712
+  Element : 103, distance from query : 474.045
+  Element : 108, distance from query : 478.711
+  Element : 50, distance from query : 484.005
+  Element : 46, distance from query : 485.001
+  Element : 85, distance from query : 516.567
+  Element : 91, distance from query : 582.851
+  Element : 105, distance from query : 619.628
+  Element : 55, distance from query : 620.044
+  Element : 104, distance from query : 628.795
+
+===============================================================================
+
+Query : 39
+Nearest neighbor-0 : 59
+distanceHypercube : 403.356
+distanceTrue : 156.359
+tHypercube : 5.7e-05
+tTrue : 0.041128
+
+Nearest neighbor-1 : 22
+distanceHypercube : 403.926
+distanceTrue : 159.245
+tHypercube : 5.7e-05
+tTrue : 0.041128
+
+Nearest neighbor-2 : 73
+distanceHypercube : 404.156
+distanceTrue : 162.034
+tHypercube : 5.7e-05
+tTrue : 0.041128
+
+
+Checking in radius 10000 from query :
+
+  Element : 59, distance from query : 403.356
+  Element : 22, distance from query : 403.926
+  Element : 73, distance from query : 404.156
+  Element : 31, distance from query : 416.366
+  Element : 80, distance from query : 417.663
+  Element : 101, distance from query : 444.506
+  Element : 72, distance from query : 447.836
+  Element : 56, distance from query : 459.071
+  Element : 89, distance from query : 464.167
+  Element : 57, distance from query : 464.396
+  Element : 34, distance from query : 487.085
+
+===============================================================================
+
+Query : 40
+Nearest neighbor-0 : 14
+distanceHypercube : 284.327
+distanceTrue : 193.977
+tHypercube : 5.9e-05
+tTrue : 0.04064
+
+Nearest neighbor-1 : 6
+distanceHypercube : 309.569
+distanceTrue : 202.262
+tHypercube : 5.9e-05
+tTrue : 0.04064
+
+Nearest neighbor-2 : 76
+distanceHypercube : 335.501
+distanceTrue : 207.538
+tHypercube : 5.9e-05
+tTrue : 0.04064
+
+
+Checking in radius 10000 from query :
+
+  Element : 14, distance from query : 284.327
+  Element : 6, distance from query : 309.569
+  Element : 76, distance from query : 335.501
+  Element : 8, distance from query : 373.087
+  Element : 32, distance from query : 431.634
+  Element : 78, distance from query : 473.19
+  Element : 64, distance from query : 482.529
+  Element : 74, distance from query : 494.596
+  Element : 65, distance from query : 530.154
+  Element : 17, distance from query : 548.451
+  Element : 28, distance from query : 570.146
+
+===============================================================================
+
+Query : 41
+Nearest neighbor-0 : 24
+distanceHypercube : 341.988
+distanceTrue : 153.564
+tHypercube : 5.7e-05
+tTrue : 0.040104
+
+Nearest neighbor-1 : 16
+distanceHypercube : 342.685
+distanceTrue : 185.373
+tHypercube : 5.7e-05
+tTrue : 0.040104
+
+Nearest neighbor-2 : 18
+distanceHypercube : 419.496
+distanceTrue : 188.197
+tHypercube : 5.7e-05
+tTrue : 0.040104
+
+
+Checking in radius 10000 from query :
+
+  Element : 24, distance from query : 341.988
+  Element : 16, distance from query : 342.685
+  Element : 18, distance from query : 419.496
+  Element : 29, distance from query : 442.349
+  Element : 180, distance from query : 448.157
+  Element : 165, distance from query : 455.868
+  Element : 25, distance from query : 632.862
+  Element : 98, distance from query : 634.903
+  Element : 133, distance from query : 641.832
+  Element : 194, distance from query : 648.057
+  Element : 128, distance from query : 659.27
+
+===============================================================================
+
+Query : 42
+Nearest neighbor-0 : 50
+distanceHypercube : 248.564
+distanceTrue : 200.494
+tHypercube : 5.3e-05
+tTrue : 0.04024
+
+Nearest neighbor-1 : 46
+distanceHypercube : 275.976
+distanceTrue : 202.667
+tHypercube : 5.3e-05
+tTrue : 0.04024
+
+Nearest neighbor-2 : 85
+distanceHypercube : 331.937
+distanceTrue : 203.605
+tHypercube : 5.3e-05
+tTrue : 0.04024
+
+
+Checking in radius 10000 from query :
+
+  Element : 50, distance from query : 248.564
+  Element : 46, distance from query : 275.976
+  Element : 85, distance from query : 331.937
+  Element : 42, distance from query : 354.364
+  Element : 39, distance from query : 378.075
+  Element : 108, distance from query : 396.874
+  Element : 103, distance from query : 477.881
+  Element : 55, distance from query : 633.353
+  Element : 91, distance from query : 651.62
+  Element : 104, distance from query : 666.419
+  Element : 105, distance from query : 674.077
+
+===============================================================================
+
+Query : 43
+Nearest neighbor-0 : 1
+distanceHypercube : 345.141
+distanceTrue : 236.772
+tHypercube : 5.6e-05
+tTrue : 0.040598
+
+Nearest neighbor-1 : 10
+distanceHypercube : 359.562
+distanceTrue : 245.41
+tHypercube : 5.6e-05
+tTrue : 0.040598
+
+Nearest neighbor-2 : 11
+distanceHypercube : 389.077
+distanceTrue : 247.911
+tHypercube : 5.6e-05
+tTrue : 0.040598
+
+
+Checking in radius 10000 from query :
+
+  Element : 1, distance from query : 345.141
+  Element : 10, distance from query : 359.562
+  Element : 11, distance from query : 389.077
+  Element : 19, distance from query : 395.972
+  Element : 9, distance from query : 397.765
+  Element : 30, distance from query : 405.989
+  Element : 2, distance from query : 410.03
+  Element : 15, distance from query : 411.415
+  Element : 21, distance from query : 412.142
+  Element : 4, distance from query : 420.806
+  Element : 13, distance from query : 449.731
+
+===============================================================================
+
+Query : 44
+Nearest neighbor-0 : 30
+distanceHypercube : 346.347
+distanceTrue : 165.339
+tHypercube : 5.5e-05
+tTrue : 0.040571
+
+Nearest neighbor-1 : 9
+distanceHypercube : 351.107
+distanceTrue : 193.634
+tHypercube : 5.5e-05
+tTrue : 0.040571
+
+Nearest neighbor-2 : 21
+distanceHypercube : 351.96
+distanceTrue : 272.384
+tHypercube : 5.5e-05
+tTrue : 0.040571
+
+
+Checking in radius 10000 from query :
+
+  Element : 30, distance from query : 346.347
+  Element : 9, distance from query : 351.107
+  Element : 21, distance from query : 351.96
+  Element : 2, distance from query : 356.836
+  Element : 10, distance from query : 359.107
+  Element : 15, distance from query : 362.427
+  Element : 19, distance from query : 363.592
+  Element : 4, distance from query : 370.854
+  Element : 13, distance from query : 372.914
+  Element : 11, distance from query : 374.318
+  Element : 1, distance from query : 397.768
+
+===============================================================================
+
+Query : 45
+Nearest neighbor-0 : 108
+distanceHypercube : 447.639
+distanceTrue : 256.353
+tHypercube : 5.5e-05
+tTrue : 0.040391
+
+Nearest neighbor-1 : 103
+distanceHypercube : 468.547
+distanceTrue : 257.08
+tHypercube : 5.5e-05
+tTrue : 0.040391
+
+Nearest neighbor-2 : 39
+distanceHypercube : 510.503
+distanceTrue : 260.085
+tHypercube : 5.5e-05
+tTrue : 0.040391
+
+
+Checking in radius 10000 from query :
+
+  Element : 108, distance from query : 447.639
+  Element : 103, distance from query : 468.547
+  Element : 39, distance from query : 510.503
+  Element : 85, distance from query : 530.174
+  Element : 46, distance from query : 547.72
+  Element : 50, distance from query : 550.04
+  Element : 42, distance from query : 559.121
+  Element : 91, distance from query : 643.68
+  Element : 55, distance from query : 666.234
+  Element : 104, distance from query : 666.738
+  Element : 105, distance from query : 668.666
+
+===============================================================================
+
+Query : 46
+Nearest neighbor-0 : 30
+distanceHypercube : 341.549
+distanceTrue : 261.362
+tHypercube : 5.2e-05
+tTrue : 0.040032
+
+Nearest neighbor-1 : 9
+distanceHypercube : 356.674
+distanceTrue : 265.663
+tHypercube : 5.2e-05
+tTrue : 0.040032
+
+Nearest neighbor-2 : 21
+distanceHypercube : 358.965
+distanceTrue : 266.15
+tHypercube : 5.2e-05
+tTrue : 0.040032
+
+
+Checking in radius 10000 from query :
+
+  Element : 30, distance from query : 341.549
+  Element : 9, distance from query : 356.674
+  Element : 21, distance from query : 358.965
+  Element : 19, distance from query : 368.387
+  Element : 11, distance from query : 379.645
+  Element : 10, distance from query : 431.099
+  Element : 1, distance from query : 433.773
+  Element : 13, distance from query : 455.755
+  Element : 15, distance from query : 462.7
+  Element : 2, distance from query : 463.981
+  Element : 4, distance from query : 466.074
+
+===============================================================================
+
+Query : 47
+Nearest neighbor-0 : 26
+distanceHypercube : 491.945
+distanceTrue : 99.6293
+tHypercube : 5.2e-05
+tTrue : 0.040202
+
+Nearest neighbor-1 : 40
+distanceHypercube : 518.973
+distanceTrue : 215.715
+tHypercube : 5.2e-05
+tTrue : 0.040202
+
+Nearest neighbor-2 : 43
+distanceHypercube : 526.393
+distanceTrue : 224.007
+tHypercube : 5.2e-05
+tTrue : 0.040202
+
+
+Checking in radius 10000 from query :
+
+  Element : 26, distance from query : 491.945
+  Element : 40, distance from query : 518.973
+  Element : 43, distance from query : 526.393
+  Element : 23, distance from query : 541.731
+  Element : 38, distance from query : 559.393
+  Element : 44, distance from query : 574.04
+  Element : 48, distance from query : 581.244
+  Element : 36, distance from query : 583.041
+  Element : 77, distance from query : 609.532
+  Element : 12, distance from query : 651.975
+  Element : 20, distance from query : 653.113
+
+===============================================================================
+
+Query : 48
+Nearest neighbor-0 : 22
+distanceHypercube : 551.102
+distanceTrue : 294.394
+tHypercube : 5.5e-05
+tTrue : 0.039606
+
+Nearest neighbor-1 : 34
+distanceHypercube : 554.67
+distanceTrue : 312.92
+tHypercube : 5.5e-05
+tTrue : 0.039606
+
+Nearest neighbor-2 : 31
+distanceHypercube : 558.668
+distanceTrue : 314.474
+tHypercube : 5.5e-05
+tTrue : 0.039606
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 551.102
+  Element : 34, distance from query : 554.67
+  Element : 31, distance from query : 558.668
+  Element : 89, distance from query : 581.593
+  Element : 101, distance from query : 585.9
+  Element : 57, distance from query : 593.381
+  Element : 56, distance from query : 599.471
+  Element : 59, distance from query : 602.929
+  Element : 73, distance from query : 608.443
+  Element : 72, distance from query : 608.7
+  Element : 80, distance from query : 611.162
+
+===============================================================================
+
+Query : 49
+Nearest neighbor-0 : 22
+distanceHypercube : 407.281
+distanceTrue : 155.763
+tHypercube : 6.5e-05
+tTrue : 0.04965
+
+Nearest neighbor-1 : 31
+distanceHypercube : 431.225
+distanceTrue : 215.634
+tHypercube : 6.5e-05
+tTrue : 0.04965
+
+Nearest neighbor-2 : 56
+distanceHypercube : 446.896
+distanceTrue : 265.311
+tHypercube : 6.5e-05
+tTrue : 0.04965
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 407.281
+  Element : 31, distance from query : 431.225
+  Element : 56, distance from query : 446.896
+  Element : 72, distance from query : 455.437
+  Element : 59, distance from query : 467.192
+  Element : 89, distance from query : 473.697
+  Element : 80, distance from query : 474.034
+  Element : 101, distance from query : 476.947
+  Element : 73, distance from query : 509.402
+  Element : 57, distance from query : 510.651
+  Element : 34, distance from query : 523.95
+
+===============================================================================
+
+Query : 50
+Nearest neighbor-0 : 60
+distanceHypercube : 296.875
+distanceTrue : 128.783
+tHypercube : 5.6e-05
+tTrue : 0.039834
+
+Nearest neighbor-1 : 52
+distanceHypercube : 310.622
+distanceTrue : 172.398
+tHypercube : 5.6e-05
+tTrue : 0.039834
+
+Nearest neighbor-2 : 75
+distanceHypercube : 322.583
+distanceTrue : 215.016
+tHypercube : 5.6e-05
+tTrue : 0.039834
+
+
+Checking in radius 10000 from query :
+
+  Element : 60, distance from query : 296.875
+  Element : 52, distance from query : 310.622
+  Element : 75, distance from query : 322.583
+  Element : 62, distance from query : 332.854
+  Element : 3, distance from query : 342.285
+  Element : 66, distance from query : 346.638
+  Element : 7, distance from query : 354.538
+  Element : 51, distance from query : 382.246
+  Element : 5, distance from query : 396.193
+  Element : 53, distance from query : 403.754
+  Element : 54, distance from query : 435.792
+
+===============================================================================
+
+Query : 51
+Nearest neighbor-0 : 10
+distanceHypercube : 416.894
+distanceTrue : 181.141
+tHypercube : 6.2e-05
+tTrue : 0.040878
+
+Nearest neighbor-1 : 21
+distanceHypercube : 418.104
+distanceTrue : 199.605
+tHypercube : 6.2e-05
+tTrue : 0.040878
+
+Nearest neighbor-2 : 30
+distanceHypercube : 419.97
+distanceTrue : 219.816
+tHypercube : 6.2e-05
+tTrue : 0.040878
+
+
+Checking in radius 10000 from query :
+
+  Element : 10, distance from query : 416.894
+  Element : 21, distance from query : 418.104
+  Element : 30, distance from query : 419.97
+  Element : 9, distance from query : 426.934
+  Element : 19, distance from query : 429.278
+  Element : 11, distance from query : 438.439
+  Element : 13, distance from query : 448.555
+  Element : 1, distance from query : 459.154
+  Element : 2, distance from query : 470.403
+  Element : 4, distance from query : 471.898
+  Element : 15, distance from query : 477.699
+
+===============================================================================
+
+Query : 52
+Nearest neighbor-0 : 31
+distanceHypercube : 355.003
+distanceTrue : 130.813
+tHypercube : 5.6e-05
+tTrue : 0.041147
+
+Nearest neighbor-1 : 22
+distanceHypercube : 366.745
+distanceTrue : 200.4
+tHypercube : 5.6e-05
+tTrue : 0.041147
+
+Nearest neighbor-2 : 59
+distanceHypercube : 376.991
+distanceTrue : 219.825
+tHypercube : 5.6e-05
+tTrue : 0.041147
+
+
+Checking in radius 10000 from query :
+
+  Element : 31, distance from query : 355.003
+  Element : 22, distance from query : 366.745
+  Element : 59, distance from query : 376.991
+  Element : 80, distance from query : 385.256
+  Element : 34, distance from query : 389.908
+  Element : 73, distance from query : 411.398
+  Element : 56, distance from query : 422.703
+  Element : 72, distance from query : 440.719
+  Element : 89, distance from query : 480.222
+  Element : 101, distance from query : 488.962
+  Element : 57, distance from query : 508.403
+
+===============================================================================
+
+Query : 53
+Nearest neighbor-0 : 20
+distanceHypercube : 361.653
+distanceTrue : 198.776
+tHypercube : 0.000102
+tTrue : 0.040598
+
+Nearest neighbor-1 : 12
+distanceHypercube : 371.98
+distanceTrue : 220.749
+tHypercube : 0.000102
+tTrue : 0.040598
+
+Nearest neighbor-2 : 43
+distanceHypercube : 614.673
+distanceTrue : 221.671
+tHypercube : 0.000102
+tTrue : 0.040598
+
+
+Checking in radius 10000 from query :
+
+  Element : 20, distance from query : 361.653
+  Element : 12, distance from query : 371.98
+  Element : 43, distance from query : 614.673
+  Element : 77, distance from query : 617.111
+  Element : 40, distance from query : 627.94
+  Element : 23, distance from query : 634.31
+  Element : 44, distance from query : 647.192
+  Element : 26, distance from query : 648.789
+  Element : 36, distance from query : 665.862
+  Element : 48, distance from query : 671.839
+  Element : 38, distance from query : 690.325
+
+===============================================================================
+
+Query : 54
+Nearest neighbor-0 : 24
+distanceHypercube : 330.672
+distanceTrue : 194.178
+tHypercube : 5.6e-05
+tTrue : 0.040562
+
+Nearest neighbor-1 : 16
+distanceHypercube : 333.858
+distanceTrue : 227.82
+tHypercube : 5.6e-05
+tTrue : 0.040562
+
+Nearest neighbor-2 : 165
+distanceHypercube : 397.472
+distanceTrue : 233.122
+tHypercube : 5.6e-05
+tTrue : 0.040562
+
+
+Checking in radius 10000 from query :
+
+  Element : 24, distance from query : 330.672
+  Element : 16, distance from query : 333.858
+  Element : 165, distance from query : 397.472
+  Element : 180, distance from query : 417.803
+  Element : 18, distance from query : 463.24
+  Element : 29, distance from query : 491.167
+  Element : 194, distance from query : 636.905
+  Element : 25, distance from query : 659.122
+  Element : 98, distance from query : 663.714
+  Element : 128, distance from query : 670.275
+  Element : 133, distance from query : 679.354
+
+===============================================================================
+
+Query : 55
+Nearest neighbor-0 : 34
+distanceHypercube : 634.464
+distanceTrue : 159.308
+tHypercube : 5.9e-05
+tTrue : 0.040461
+
+Nearest neighbor-1 : 101
+distanceHypercube : 635.916
+distanceTrue : 164.241
+tHypercube : 5.9e-05
+tTrue : 0.040461
+
+Nearest neighbor-2 : 56
+distanceHypercube : 637.883
+distanceTrue : 164.627
+tHypercube : 5.9e-05
+tTrue : 0.040461
+
+
+Checking in radius 10000 from query :
+
+  Element : 34, distance from query : 634.464
+  Element : 101, distance from query : 635.916
+  Element : 56, distance from query : 637.883
+  Element : 89, distance from query : 638.027
+  Element : 22, distance from query : 639.79
+  Element : 72, distance from query : 639.881
+  Element : 31, distance from query : 647.605
+  Element : 80, distance from query : 650.085
+  Element : 59, distance from query : 650.431
+  Element : 73, distance from query : 658.251
+  Element : 57, distance from query : 669.054
+
+===============================================================================
+
+Query : 56
+Nearest neighbor-0 : 48
+distanceHypercube : 339.729
+distanceTrue : 184.043
+tHypercube : 5.2e-05
+tTrue : 0.042445
+
+Nearest neighbor-1 : 38
+distanceHypercube : 355.391
+distanceTrue : 197.474
+tHypercube : 5.2e-05
+tTrue : 0.042445
+
+Nearest neighbor-2 : 26
+distanceHypercube : 430.38
+distanceTrue : 197.914
+tHypercube : 5.2e-05
+tTrue : 0.042445
+
+
+Checking in radius 10000 from query :
+
+  Element : 48, distance from query : 339.729
+  Element : 38, distance from query : 355.391
+  Element : 26, distance from query : 430.38
+  Element : 43, distance from query : 434.563
+  Element : 36, distance from query : 438.479
+  Element : 40, distance from query : 451.843
+  Element : 23, distance from query : 501.521
+  Element : 77, distance from query : 557.432
+  Element : 44, distance from query : 575.023
+  Element : 20, distance from query : 641.198
+  Element : 12, distance from query : 643.877
+
+===============================================================================
+
+Query : 57
+Nearest neighbor-0 : 30
+distanceHypercube : 273.267
+distanceTrue : 190.735
+tHypercube : 5.7e-05
+tTrue : 0.040554
+
+Nearest neighbor-1 : 9
+distanceHypercube : 281.185
+distanceTrue : 209.062
+tHypercube : 5.7e-05
+tTrue : 0.040554
+
+Nearest neighbor-2 : 10
+distanceHypercube : 292.45
+distanceTrue : 210.713
+tHypercube : 5.7e-05
+tTrue : 0.040554
+
+
+Checking in radius 10000 from query :
+
+  Element : 30, distance from query : 273.267
+  Element : 9, distance from query : 281.185
+  Element : 10, distance from query : 292.45
+  Element : 11, distance from query : 293.733
+  Element : 19, distance from query : 295.425
+  Element : 2, distance from query : 297.629
+  Element : 4, distance from query : 306.023
+  Element : 21, distance from query : 310.472
+  Element : 15, distance from query : 327.921
+  Element : 1, distance from query : 341.465
+  Element : 13, distance from query : 373.773
+
+===============================================================================
+
+Query : 58
+Nearest neighbor-0 : 108
+distanceHypercube : 325.629
+distanceTrue : 167.147
+tHypercube : 5.4e-05
+tTrue : 0.040348
+
+Nearest neighbor-1 : 103
+distanceHypercube : 371.966
+distanceTrue : 211.688
+tHypercube : 5.4e-05
+tTrue : 0.040348
+
+Nearest neighbor-2 : 46
+distanceHypercube : 380.26
+distanceTrue : 220.518
+tHypercube : 5.4e-05
+tTrue : 0.040348
+
+
+Checking in radius 10000 from query :
+
+  Element : 108, distance from query : 325.629
+  Element : 103, distance from query : 371.966
+  Element : 46, distance from query : 380.26
+  Element : 50, distance from query : 382.592
+  Element : 39, distance from query : 431.928
+  Element : 85, distance from query : 436.185
+  Element : 42, distance from query : 464.529
+  Element : 91, distance from query : 634.992
+  Element : 55, distance from query : 648.667
+  Element : 104, distance from query : 651.147
+  Element : 105, distance from query : 663.439
+
+===============================================================================
+
+Query : 59
+Nearest neighbor-0 : 13
+distanceHypercube : 409.398
+distanceTrue : 65.7419
+tHypercube : 5.4e-05
+tTrue : 0.040522
+
+Nearest neighbor-1 : 21
+distanceHypercube : 417.174
+distanceTrue : 281.768
+tHypercube : 5.4e-05
+tTrue : 0.040522
+
+Nearest neighbor-2 : 9
+distanceHypercube : 424.658
+distanceTrue : 302.607
+tHypercube : 5.4e-05
+tTrue : 0.040522
+
+
+Checking in radius 10000 from query :
+
+  Element : 13, distance from query : 409.398
+  Element : 21, distance from query : 417.174
+  Element : 9, distance from query : 424.658
+  Element : 30, distance from query : 426.835
+  Element : 19, distance from query : 437.46
+  Element : 11, distance from query : 445.978
+  Element : 10, distance from query : 449.07
+  Element : 1, distance from query : 449.505
+  Element : 4, distance from query : 451.485
+  Element : 15, distance from query : 453.071
+  Element : 2, distance from query : 453.608
+
+===============================================================================
+
+Query : 60
+Nearest neighbor-0 : 99
+distanceHypercube : 224.375
+distanceTrue : 114.416
+tHypercube : 5.6e-05
+tTrue : 0.040343
+
+Nearest neighbor-1 : 81
+distanceHypercube : 247.208
+distanceTrue : 117.149
+tHypercube : 5.6e-05
+tTrue : 0.040343
+
+Nearest neighbor-2 : 37
+distanceHypercube : 256.431
+distanceTrue : 125.18
+tHypercube : 5.6e-05
+tTrue : 0.040343
+
+
+Checking in radius 10000 from query :
+
+  Element : 99, distance from query : 224.375
+  Element : 81, distance from query : 247.208
+  Element : 37, distance from query : 256.431
+  Element : 49, distance from query : 257.82
+  Element : 45, distance from query : 258.687
+  Element : 47, distance from query : 326.737
+  Element : 41, distance from query : 415.002
+  Element : 35, distance from query : 432.428
+  Element : 95, distance from query : 438.667
+  Element : 88, distance from query : 508.606
+  Element : 27, distance from query : 602.043
+
+===============================================================================
+
+Query : 61
+Nearest neighbor-0 : 12
+distanceHypercube : 348.072
+distanceTrue : 170.309
+tHypercube : 6.5e-05
+tTrue : 0.05106
+
+Nearest neighbor-1 : 20
+distanceHypercube : 353.287
+distanceTrue : 264.023
+tHypercube : 6.5e-05
+tTrue : 0.05106
+
+Nearest neighbor-2 : 40
+distanceHypercube : 597.971
+distanceTrue : 265.339
+tHypercube : 6.5e-05
+tTrue : 0.05106
+
+
+Checking in radius 10000 from query :
+
+  Element : 12, distance from query : 348.072
+  Element : 20, distance from query : 353.287
+  Element : 40, distance from query : 597.971
+  Element : 77, distance from query : 626.756
+  Element : 36, distance from query : 626.847
+  Element : 23, distance from query : 626.991
+  Element : 43, distance from query : 628.955
+  Element : 26, distance from query : 631.283
+  Element : 44, distance from query : 631.97
+  Element : 48, distance from query : 644.884
+  Element : 38, distance from query : 658.961
+
+===============================================================================
+
+Query : 62
+Nearest neighbor-0 : 24
+distanceHypercube : 341.084
+distanceTrue : 140.357
+tHypercube : 5.4e-05
+tTrue : 0.039978
+
+Nearest neighbor-1 : 16
+distanceHypercube : 342.031
+distanceTrue : 151.993
+tHypercube : 5.4e-05
+tTrue : 0.039978
+
+Nearest neighbor-2 : 18
+distanceHypercube : 458.243
+distanceTrue : 242.295
+tHypercube : 5.4e-05
+tTrue : 0.039978
+
+
+Checking in radius 10000 from query :
+
+  Element : 24, distance from query : 341.084
+  Element : 16, distance from query : 342.031
+  Element : 18, distance from query : 458.243
+  Element : 29, distance from query : 474.107
+  Element : 180, distance from query : 492.675
+  Element : 165, distance from query : 534.189
+  Element : 194, distance from query : 628.033
+  Element : 25, distance from query : 673.742
+  Element : 128, distance from query : 688.399
+  Element : 98, distance from query : 688.86
+  Element : 133, distance from query : 692.667
+
+===============================================================================
+
+Query : 63
+Nearest neighbor-0 : 73
+distanceHypercube : 368.39
+distanceTrue : 131.651
+tHypercube : 5.3e-05
+tTrue : 0.041055
+
+Nearest neighbor-1 : 59
+distanceHypercube : 411.989
+distanceTrue : 182.058
+tHypercube : 5.3e-05
+tTrue : 0.041055
+
+Nearest neighbor-2 : 80
+distanceHypercube : 430.217
+distanceTrue : 193.22
+tHypercube : 5.3e-05
+tTrue : 0.041055
+
+
+Checking in radius 10000 from query :
+
+  Element : 73, distance from query : 368.39
+  Element : 59, distance from query : 411.989
+  Element : 80, distance from query : 430.217
+  Element : 22, distance from query : 437.35
+  Element : 31, distance from query : 452.897
+  Element : 56, distance from query : 484.627
+  Element : 72, distance from query : 488.285
+  Element : 34, distance from query : 490.861
+  Element : 101, distance from query : 534.847
+  Element : 89, distance from query : 536.073
+  Element : 57, distance from query : 543.916
+
+===============================================================================
+
+Query : 64
+Nearest neighbor-0 : 14
+distanceHypercube : 313.731
+distanceTrue : 94.9158
+tHypercube : 5.7e-05
+tTrue : 0.041
+
+Nearest neighbor-1 : 6
+distanceHypercube : 331.744
+distanceTrue : 124.226
+tHypercube : 5.7e-05
+tTrue : 0.041
+
+Nearest neighbor-2 : 76
+distanceHypercube : 334.494
+distanceTrue : 133.503
+tHypercube : 5.7e-05
+tTrue : 0.041
+
+
+Checking in radius 10000 from query :
+
+  Element : 14, distance from query : 313.731
+  Element : 6, distance from query : 331.744
+  Element : 76, distance from query : 334.494
+  Element : 8, distance from query : 393.526
+  Element : 32, distance from query : 397.901
+  Element : 74, distance from query : 475.376
+  Element : 78, distance from query : 481.205
+  Element : 64, distance from query : 489.098
+  Element : 17, distance from query : 526.97
+  Element : 65, distance from query : 527.037
+  Element : 28, distance from query : 546.176
+
+===============================================================================
+
+Query : 65
+Nearest neighbor-0 : 64
+distanceHypercube : 454.667
+distanceTrue : 138.275
+tHypercube : 5.4e-05
+tTrue : 0.040491
+
+Nearest neighbor-1 : 6
+distanceHypercube : 456.652
+distanceTrue : 226.824
+tHypercube : 5.4e-05
+tTrue : 0.040491
+
+Nearest neighbor-2 : 76
+distanceHypercube : 457.518
+distanceTrue : 240.697
+tHypercube : 5.4e-05
+tTrue : 0.040491
+
+
+Checking in radius 10000 from query :
+
+  Element : 64, distance from query : 454.667
+  Element : 6, distance from query : 456.652
+  Element : 76, distance from query : 457.518
+  Element : 8, distance from query : 464.65
+  Element : 14, distance from query : 464.685
+  Element : 74, distance from query : 492.844
+  Element : 65, distance from query : 497.07
+  Element : 32, distance from query : 509.633
+  Element : 78, distance from query : 519.133
+  Element : 17, distance from query : 563.388
+  Element : 28, distance from query : 563.951
+
+===============================================================================
+
+Query : 66
+Nearest neighbor-0 : 46
+distanceHypercube : 272.116
+distanceTrue : 173.381
+tHypercube : 5.7e-05
+tTrue : 0.040528
+
+Nearest neighbor-1 : 50
+distanceHypercube : 274.394
+distanceTrue : 219.861
+tHypercube : 5.7e-05
+tTrue : 0.040528
+
+Nearest neighbor-2 : 42
+distanceHypercube : 377.73
+distanceTrue : 224.194
+tHypercube : 5.7e-05
+tTrue : 0.040528
+
+
+Checking in radius 10000 from query :
+
+  Element : 46, distance from query : 272.116
+  Element : 50, distance from query : 274.394
+  Element : 42, distance from query : 377.73
+  Element : 39, distance from query : 383.644
+  Element : 108, distance from query : 409.33
+  Element : 85, distance from query : 434.93
+  Element : 103, distance from query : 447.227
+  Element : 91, distance from query : 637.348
+  Element : 104, distance from query : 658.284
+  Element : 55, distance from query : 660.065
+  Element : 105, distance from query : 672.424
+
+===============================================================================
+
+Query : 67
+Nearest neighbor-0 : 91
+distanceHypercube : 460.554
+distanceTrue : 200.866
+tHypercube : 5.2e-05
+tTrue : 0.045933
+
+Nearest neighbor-1 : 55
+distanceHypercube : 461.164
+distanceTrue : 225.699
+tHypercube : 5.2e-05
+tTrue : 0.045933
+
+Nearest neighbor-2 : 105
+distanceHypercube : 483.254
+distanceTrue : 230.048
+tHypercube : 5.2e-05
+tTrue : 0.045933
+
+
+Checking in radius 10000 from query :
+
+  Element : 91, distance from query : 460.554
+  Element : 55, distance from query : 461.164
+  Element : 105, distance from query : 483.254
+  Element : 104, distance from query : 496.242
+  Element : 85, distance from query : 611.59
+  Element : 39, distance from query : 620.554
+  Element : 42, distance from query : 626.72
+  Element : 108, distance from query : 656.245
+  Element : 46, distance from query : 658.147
+  Element : 50, distance from query : 662.426
+  Element : 103, distance from query : 669.226
+
+===============================================================================
+
+Query : 68
+Nearest neighbor-0 : 36
+distanceHypercube : 356.063
+distanceTrue : 224.225
+tHypercube : 5.6e-05
+tTrue : 0.05077
+
+Nearest neighbor-1 : 38
+distanceHypercube : 366.819
+distanceTrue : 244.238
+tHypercube : 5.6e-05
+tTrue : 0.05077
+
+Nearest neighbor-2 : 48
+distanceHypercube : 385.677
+distanceTrue : 251.036
+tHypercube : 5.6e-05
+tTrue : 0.05077
+
+
+Checking in radius 10000 from query :
+
+  Element : 36, distance from query : 356.063
+  Element : 38, distance from query : 366.819
+  Element : 48, distance from query : 385.677
+  Element : 40, distance from query : 402.762
+  Element : 77, distance from query : 447.744
+  Element : 23, distance from query : 453.169
+  Element : 26, distance from query : 455.451
+  Element : 43, distance from query : 486.245
+  Element : 44, distance from query : 488.997
+  Element : 20, distance from query : 574.841
+  Element : 12, distance from query : 576.682
+
+===============================================================================
+
+Query : 69
+Nearest neighbor-0 : 13
+distanceHypercube : 283.447
+distanceTrue : 201.311
+tHypercube : 9.7e-05
+tTrue : 0.041797
+
+Nearest neighbor-1 : 21
+distanceHypercube : 331.89
+distanceTrue : 201.336
+tHypercube : 9.7e-05
+tTrue : 0.041797
+
+Nearest neighbor-2 : 19
+distanceHypercube : 339.314
+distanceTrue : 202.771
+tHypercube : 9.7e-05
+tTrue : 0.041797
+
+
+Checking in radius 10000 from query :
+
+  Element : 13, distance from query : 283.447
+  Element : 21, distance from query : 331.89
+  Element : 19, distance from query : 339.314
+  Element : 1, distance from query : 345.106
+  Element : 9, distance from query : 347.435
+  Element : 30, distance from query : 352.578
+  Element : 11, distance from query : 361.813
+  Element : 15, distance from query : 425.894
+  Element : 4, distance from query : 431.595
+  Element : 2, distance from query : 436.531
+  Element : 10, distance from query : 449.114
+
+===============================================================================
+
+Query : 70
+Nearest neighbor-0 : 22
+distanceHypercube : 371.054
+distanceTrue : 266.813
+tHypercube : 5.6e-05
+tTrue : 0.040953
+
+Nearest neighbor-1 : 73
+distanceHypercube : 377.101
+distanceTrue : 268.537
+tHypercube : 5.6e-05
+tTrue : 0.040953
+
+Nearest neighbor-2 : 59
+distanceHypercube : 388.071
+distanceTrue : 276.109
+tHypercube : 5.6e-05
+tTrue : 0.040953
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 371.054
+  Element : 73, distance from query : 377.101
+  Element : 59, distance from query : 388.071
+  Element : 80, distance from query : 395.162
+  Element : 57, distance from query : 401.899
+  Element : 101, distance from query : 404.219
+  Element : 72, distance from query : 405.596
+  Element : 56, distance from query : 406.307
+  Element : 31, distance from query : 413.096
+  Element : 89, distance from query : 414.572
+  Element : 34, distance from query : 477.119
+
+===============================================================================
+
+Query : 71
+Nearest neighbor-0 : 22
+distanceHypercube : 384.025
+distanceTrue : 46.8188
+tHypercube : 7.2e-05
+tTrue : 0.049225
+
+Nearest neighbor-1 : 73
+distanceHypercube : 388.277
+distanceTrue : 80.3679
+tHypercube : 7.2e-05
+tTrue : 0.049225
+
+Nearest neighbor-2 : 59
+distanceHypercube : 398.24
+distanceTrue : 100.772
+tHypercube : 7.2e-05
+tTrue : 0.049225
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 384.025
+  Element : 73, distance from query : 388.277
+  Element : 59, distance from query : 398.24
+  Element : 31, distance from query : 406.989
+  Element : 80, distance from query : 418.666
+  Element : 56, distance from query : 441.487
+  Element : 34, distance from query : 450.294
+  Element : 72, distance from query : 458.17
+  Element : 89, distance from query : 502.313
+  Element : 101, distance from query : 508.994
+  Element : 57, distance from query : 530.455
+
+===============================================================================
+
+Query : 72
+Nearest neighbor-0 : 20
+distanceHypercube : 501.071
+distanceTrue : 193.675
+tHypercube : 5.6e-05
+tTrue : 0.040612
+
+Nearest neighbor-1 : 12
+distanceHypercube : 502.573
+distanceTrue : 205.701
+tHypercube : 5.6e-05
+tTrue : 0.040612
+
+Nearest neighbor-2 : 40
+distanceHypercube : 589.024
+distanceTrue : 222.8
+tHypercube : 5.6e-05
+tTrue : 0.040612
+
+
+Checking in radius 10000 from query :
+
+  Element : 20, distance from query : 501.071
+  Element : 12, distance from query : 502.573
+  Element : 40, distance from query : 589.024
+  Element : 77, distance from query : 598.108
+  Element : 26, distance from query : 600.27
+  Element : 43, distance from query : 603.854
+  Element : 23, distance from query : 607.454
+  Element : 44, distance from query : 619.885
+  Element : 36, distance from query : 628.602
+  Element : 48, distance from query : 644.57
+  Element : 38, distance from query : 648.119
+
+===============================================================================
+
+Query : 73
+Nearest neighbor-0 : 52
+distanceHypercube : 363.38
+distanceTrue : 303.211
+tHypercube : 5.6e-05
+tTrue : 0.041711
+
+Nearest neighbor-1 : 75
+distanceHypercube : 366.55
+distanceTrue : 320.128
+tHypercube : 5.6e-05
+tTrue : 0.041711
+
+Nearest neighbor-2 : 7
+distanceHypercube : 386.66
+distanceTrue : 320.729
+tHypercube : 5.6e-05
+tTrue : 0.041711
+
+
+Checking in radius 10000 from query :
+
+  Element : 52, distance from query : 363.38
+  Element : 75, distance from query : 366.55
+  Element : 7, distance from query : 386.66
+  Element : 3, distance from query : 393.784
+  Element : 66, distance from query : 409.152
+  Element : 51, distance from query : 425.111
+  Element : 60, distance from query : 440.388
+  Element : 53, distance from query : 444.326
+  Element : 62, distance from query : 446.133
+  Element : 5, distance from query : 447.473
+  Element : 54, distance from query : 482.516
+
+===============================================================================
+
+Query : 74
+Nearest neighbor-0 : 64
+distanceHypercube : 433.012
+distanceTrue : 230.458
+tHypercube : 5.6e-05
+tTrue : 0.043846
+
+Nearest neighbor-1 : 76
+distanceHypercube : 434.062
+distanceTrue : 289.491
+tHypercube : 5.6e-05
+tTrue : 0.043846
+
+Nearest neighbor-2 : 6
+distanceHypercube : 441.617
+distanceTrue : 289.595
+tHypercube : 5.6e-05
+tTrue : 0.043846
+
+
+Checking in radius 10000 from query :
+
+  Element : 64, distance from query : 433.012
+  Element : 76, distance from query : 434.062
+  Element : 6, distance from query : 441.617
+  Element : 32, distance from query : 444.564
+  Element : 14, distance from query : 448.061
+  Element : 65, distance from query : 460.619
+  Element : 8, distance from query : 461.41
+  Element : 74, distance from query : 469.634
+  Element : 78, distance from query : 540.405
+  Element : 17, distance from query : 552.349
+  Element : 28, distance from query : 555.993
+
+===============================================================================
+
+Query : 75
+Nearest neighbor-0 : 80
+distanceHypercube : 269.813
+distanceTrue : 131.095
+tHypercube : 5.7e-05
+tTrue : 0.040927
+
+Nearest neighbor-1 : 59
+distanceHypercube : 277.782
+distanceTrue : 220.02
+tHypercube : 5.7e-05
+tTrue : 0.040927
+
+Nearest neighbor-2 : 22
+distanceHypercube : 282.866
+distanceTrue : 220.504
+tHypercube : 5.7e-05
+tTrue : 0.040927
+
+
+Checking in radius 10000 from query :
+
+  Element : 80, distance from query : 269.813
+  Element : 59, distance from query : 277.782
+  Element : 22, distance from query : 282.866
+  Element : 31, distance from query : 289.955
+  Element : 101, distance from query : 345.675
+  Element : 57, distance from query : 348.24
+  Element : 34, distance from query : 354.089
+  Element : 89, distance from query : 357.2
+  Element : 73, distance from query : 360.437
+  Element : 72, distance from query : 381.206
+  Element : 56, distance from query : 389.835
+
+===============================================================================
+
+Query : 76
+Nearest neighbor-0 : 20
+distanceHypercube : 433.733
+distanceTrue : 212.061
+tHypercube : 7e-05
+tTrue : 0.049691
+
+Nearest neighbor-1 : 12
+distanceHypercube : 447.41
+distanceTrue : 254.769
+tHypercube : 7e-05
+tTrue : 0.049691
+
+Nearest neighbor-2 : 40
+distanceHypercube : 483.286
+distanceTrue : 294.258
+tHypercube : 7e-05
+tTrue : 0.049691
+
+
+Checking in radius 10000 from query :
+
+  Element : 20, distance from query : 433.733
+  Element : 12, distance from query : 447.41
+  Element : 40, distance from query : 483.286
+  Element : 36, distance from query : 560.588
+  Element : 26, distance from query : 576.141
+  Element : 43, distance from query : 578.035
+  Element : 77, distance from query : 590.004
+  Element : 48, distance from query : 593.234
+  Element : 23, distance from query : 604.219
+  Element : 38, distance from query : 614.435
+  Element : 44, distance from query : 615.784
+
+===============================================================================
+
+Query : 77
+Nearest neighbor-0 : 36
+distanceHypercube : 372.21
+distanceTrue : 251.257
+tHypercube : 5.4e-05
+tTrue : 0.040634
+
+Nearest neighbor-1 : 48
+distanceHypercube : 373.411
+distanceTrue : 255.996
+tHypercube : 5.4e-05
+tTrue : 0.040634
+
+Nearest neighbor-2 : 38
+distanceHypercube : 383.313
+distanceTrue : 280.836
+tHypercube : 5.4e-05
+tTrue : 0.040634
+
+
+Checking in radius 10000 from query :
+
+  Element : 36, distance from query : 372.21
+  Element : 48, distance from query : 373.411
+  Element : 38, distance from query : 383.313
+  Element : 40, distance from query : 389.6
+  Element : 26, distance from query : 423.118
+  Element : 23, distance from query : 452.706
+  Element : 77, distance from query : 453.883
+  Element : 43, distance from query : 460.118
+  Element : 44, distance from query : 463.891
+  Element : 12, distance from query : 624.203
+  Element : 20, distance from query : 624.928
+
+===============================================================================
+
+Query : 78
+Nearest neighbor-0 : 12
+distanceHypercube : 436.465
+distanceTrue : 293.716
+tHypercube : 5.5e-05
+tTrue : 0.043639
+
+Nearest neighbor-1 : 20
+distanceHypercube : 446.052
+distanceTrue : 298.88
+tHypercube : 5.5e-05
+tTrue : 0.043639
+
+Nearest neighbor-2 : 77
+distanceHypercube : 547.285
+distanceTrue : 306.738
+tHypercube : 5.5e-05
+tTrue : 0.043639
+
+
+Checking in radius 10000 from query :
+
+  Element : 12, distance from query : 436.465
+  Element : 20, distance from query : 446.052
+  Element : 77, distance from query : 547.285
+  Element : 44, distance from query : 557.089
+  Element : 23, distance from query : 559.816
+  Element : 40, distance from query : 614.958
+  Element : 26, distance from query : 620.664
+  Element : 43, distance from query : 622.032
+  Element : 36, distance from query : 669.55
+  Element : 48, distance from query : 675.965
+  Element : 38, distance from query : 682.806
+
+===============================================================================
+
+Query : 79
+Nearest neighbor-0 : 18
+distanceHypercube : 357.297
+distanceTrue : 226.868
+tHypercube : 8.8e-05
+tTrue : 0.041064
+
+Nearest neighbor-1 : 24
+distanceHypercube : 387.169
+distanceTrue : 245.516
+tHypercube : 8.8e-05
+tTrue : 0.041064
+
+Nearest neighbor-2 : 180
+distanceHypercube : 387.651
+distanceTrue : 254.876
+tHypercube : 8.8e-05
+tTrue : 0.041064
+
+
+Checking in radius 10000 from query :
+
+  Element : 18, distance from query : 357.297
+  Element : 24, distance from query : 387.169
+  Element : 180, distance from query : 387.651
+  Element : 16, distance from query : 388.812
+  Element : 29, distance from query : 408.557
+  Element : 165, distance from query : 449.315
+  Element : 25, distance from query : 651.32
+  Element : 194, distance from query : 659.585
+  Element : 128, distance from query : 670.624
+  Element : 98, distance from query : 670.832
+  Element : 133, distance from query : 673.982
+
+===============================================================================
+
+Query : 80
+Nearest neighbor-0 : 99
+distanceHypercube : 253.132
+distanceTrue : 148.165
+tHypercube : 5.6e-05
+tTrue : 0.040567
+
+Nearest neighbor-1 : 81
+distanceHypercube : 267.795
+distanceTrue : 160.415
+tHypercube : 5.6e-05
+tTrue : 0.040567
+
+Nearest neighbor-2 : 37
+distanceHypercube : 275.541
+distanceTrue : 161.369
+tHypercube : 5.6e-05
+tTrue : 0.040567
+
+
+Checking in radius 10000 from query :
+
+  Element : 99, distance from query : 253.132
+  Element : 81, distance from query : 267.795
+  Element : 37, distance from query : 275.541
+  Element : 45, distance from query : 277.444
+  Element : 49, distance from query : 284.241
+  Element : 47, distance from query : 332.215
+  Element : 41, distance from query : 396.191
+  Element : 35, distance from query : 415.288
+  Element : 95, distance from query : 439.046
+  Element : 88, distance from query : 540.03
+  Element : 27, distance from query : 594.88
+
+===============================================================================
+
+Query : 81
+Nearest neighbor-0 : 64
+distanceHypercube : 578.476
+distanceTrue : 146.311
+tHypercube : 5.7e-05
+tTrue : 0.040814
+
+Nearest neighbor-1 : 65
+distanceHypercube : 584.033
+distanceTrue : 230.894
+tHypercube : 5.7e-05
+tTrue : 0.040814
+
+Nearest neighbor-2 : 76
+distanceHypercube : 593.287
+distanceTrue : 281.068
+tHypercube : 5.7e-05
+tTrue : 0.040814
+
+
+Checking in radius 10000 from query :
+
+  Element : 64, distance from query : 578.476
+  Element : 65, distance from query : 584.033
+  Element : 76, distance from query : 593.287
+  Element : 74, distance from query : 598.278
+  Element : 14, distance from query : 600.211
+  Element : 6, distance from query : 607.737
+  Element : 8, distance from query : 620.365
+  Element : 28, distance from query : 620.915
+  Element : 17, distance from query : 626.55
+  Element : 32, distance from query : 628.8
+  Element : 78, distance from query : 668.965
+
+===============================================================================
+
+Query : 82
+Nearest neighbor-0 : 89
+distanceHypercube : 382.33
+distanceTrue : 276.819
+tHypercube : 5.7e-05
+tTrue : 0.041288
+
+Nearest neighbor-1 : 57
+distanceHypercube : 390.616
+distanceTrue : 295.41
+tHypercube : 5.7e-05
+tTrue : 0.041288
+
+Nearest neighbor-2 : 101
+distanceHypercube : 394.473
+distanceTrue : 297.303
+tHypercube : 5.7e-05
+tTrue : 0.041288
+
+
+Checking in radius 10000 from query :
+
+  Element : 89, distance from query : 382.33
+  Element : 57, distance from query : 390.616
+  Element : 101, distance from query : 394.473
+  Element : 22, distance from query : 398.835
+  Element : 31, distance from query : 409.722
+  Element : 72, distance from query : 454.893
+  Element : 59, distance from query : 456.648
+  Element : 56, distance from query : 457.392
+  Element : 80, distance from query : 459.274
+  Element : 34, distance from query : 470.749
+  Element : 73, distance from query : 544.199
+
+===============================================================================
+
+Query : 83
+Nearest neighbor-0 : 180
+distanceHypercube : 394.728
+distanceTrue : 271.982
+tHypercube : 5.7e-05
+tTrue : 0.040288
+
+Nearest neighbor-1 : 165
+distanceHypercube : 406.11
+distanceTrue : 273.892
+tHypercube : 5.7e-05
+tTrue : 0.040288
+
+Nearest neighbor-2 : 18
+distanceHypercube : 414.934
+distanceTrue : 278.718
+tHypercube : 5.7e-05
+tTrue : 0.040288
+
+
+Checking in radius 10000 from query :
+
+  Element : 180, distance from query : 394.728
+  Element : 165, distance from query : 406.11
+  Element : 18, distance from query : 414.934
+  Element : 29, distance from query : 435.125
+  Element : 24, distance from query : 446.295
+  Element : 16, distance from query : 449.827
+  Element : 133, distance from query : 594.756
+  Element : 25, distance from query : 606.042
+  Element : 98, distance from query : 610.841
+  Element : 128, distance from query : 616.24
+  Element : 194, distance from query : 630.561
+
+===============================================================================
+
+Query : 84
+Nearest neighbor-0 : 13
+distanceHypercube : 324.615
+distanceTrue : 181.607
+tHypercube : 5.7e-05
+tTrue : 0.044701
+
+Nearest neighbor-1 : 21
+distanceHypercube : 370.632
+distanceTrue : 196.987
+tHypercube : 5.7e-05
+tTrue : 0.044701
+
+Nearest neighbor-2 : 19
+distanceHypercube : 375.28
+distanceTrue : 237.668
+tHypercube : 5.7e-05
+tTrue : 0.044701
+
+
+Checking in radius 10000 from query :
+
+  Element : 13, distance from query : 324.615
+  Element : 21, distance from query : 370.632
+  Element : 19, distance from query : 375.28
+  Element : 9, distance from query : 379.036
+  Element : 30, distance from query : 382.233
+  Element : 11, distance from query : 384.481
+  Element : 10, distance from query : 398.01
+  Element : 1, distance from query : 400.429
+  Element : 4, distance from query : 408.104
+  Element : 2, distance from query : 412.953
+  Element : 15, distance from query : 417.958
+
+===============================================================================
+
+Query : 85
+Nearest neighbor-0 : 113
+distanceHypercube : 324.162
+distanceTrue : 192.678
+tHypercube : 5.4e-05
+tTrue : 0.04118
+
+Nearest neighbor-1 : 135
+distanceHypercube : 373.158
+distanceTrue : 233.846
+tHypercube : 5.4e-05
+tTrue : 0.04118
+
+Nearest neighbor-2 : 117
+distanceHypercube : 413.166
+distanceTrue : 248.363
+tHypercube : 5.4e-05
+tTrue : 0.04118
+
+
+Checking in radius 10000 from query :
+
+  Element : 113, distance from query : 324.162
+  Element : 135, distance from query : 373.158
+  Element : 117, distance from query : 413.166
+  Element : 143, distance from query : 435.738
+  Element : 144, distance from query : 436.12
+  Element : 137, distance from query : 637.389
+  Element : 126, distance from query : 643.808
+  Element : 125, distance from query : 656.095
+  Element : 69, distance from query : 661.343
+  Element : 82, distance from query : 663.952
+  Element : 100, distance from query : 665.31
+
+===============================================================================
+
+Query : 86
+Nearest neighbor-0 : 59
+distanceHypercube : 541.853
+distanceTrue : 285.107
+tHypercube : 5.6e-05
+tTrue : 0.040016
+
+Nearest neighbor-1 : 56
+distanceHypercube : 544.405
+distanceTrue : 305.612
+tHypercube : 5.6e-05
+tTrue : 0.040016
+
+Nearest neighbor-2 : 31
+distanceHypercube : 546.436
+distanceTrue : 330.97
+tHypercube : 5.6e-05
+tTrue : 0.040016
+
+
+Checking in radius 10000 from query :
+
+  Element : 59, distance from query : 541.853
+  Element : 56, distance from query : 544.405
+  Element : 31, distance from query : 546.436
+  Element : 80, distance from query : 547.566
+  Element : 22, distance from query : 549.85
+  Element : 73, distance from query : 555.349
+  Element : 72, distance from query : 563.521
+  Element : 34, distance from query : 564.07
+  Element : 89, distance from query : 574.373
+  Element : 101, distance from query : 577.463
+  Element : 57, distance from query : 605.824
+
+===============================================================================
+
+Query : 87
+Nearest neighbor-0 : 36
+distanceHypercube : 393.618
+distanceTrue : 224.907
+tHypercube : 5.2e-05
+tTrue : 0.040227
+
+Nearest neighbor-1 : 40
+distanceHypercube : 444.287
+distanceTrue : 255.282
+tHypercube : 5.2e-05
+tTrue : 0.040227
+
+Nearest neighbor-2 : 77
+distanceHypercube : 455.112
+distanceTrue : 265.055
+tHypercube : 5.2e-05
+tTrue : 0.040227
+
+
+Checking in radius 10000 from query :
+
+  Element : 36, distance from query : 393.618
+  Element : 40, distance from query : 444.287
+  Element : 77, distance from query : 455.112
+  Element : 23, distance from query : 458.196
+  Element : 48, distance from query : 458.856
+  Element : 38, distance from query : 462.839
+  Element : 26, distance from query : 463.074
+  Element : 44, distance from query : 487.656
+  Element : 43, distance from query : 501.083
+  Element : 20, distance from query : 581.515
+  Element : 12, distance from query : 583.683
+
+===============================================================================
+
+Query : 88
+Nearest neighbor-0 : 22
+distanceHypercube : 554.928
+distanceTrue : 123.56
+tHypercube : 5.9e-05
+tTrue : 0.04755
+
+Nearest neighbor-1 : 31
+distanceHypercube : 575.814
+distanceTrue : 216.025
+tHypercube : 5.9e-05
+tTrue : 0.04755
+
+Nearest neighbor-2 : 73
+distanceHypercube : 582.277
+distanceTrue : 217.936
+tHypercube : 5.9e-05
+tTrue : 0.04755
+
+
+Checking in radius 10000 from query :
+
+  Element : 22, distance from query : 554.928
+  Element : 31, distance from query : 575.814
+  Element : 73, distance from query : 582.277
+  Element : 34, distance from query : 595.789
+  Element : 59, distance from query : 604.095
+  Element : 56, distance from query : 607.208
+  Element : 80, distance from query : 621.13
+  Element : 72, distance from query : 621.313
+  Element : 89, distance from query : 625.93
+  Element : 101, distance from query : 629.955
+  Element : 57, distance from query : 645.84
+
+===============================================================================
+
+Query : 89
+Nearest neighbor-0 : 48
+distanceHypercube : 352.877
+distanceTrue : 75.08
+tHypercube : 6.2e-05
+tTrue : 0.049082
+
+Nearest neighbor-1 : 38
+distanceHypercube : 387.834
+distanceTrue : 135.052
+tHypercube : 6.2e-05
+tTrue : 0.049082
+
+Nearest neighbor-2 : 36
+distanceHypercube : 414.167
+distanceTrue : 154.418
+tHypercube : 6.2e-05
+tTrue : 0.049082
+
+
+Checking in radius 10000 from query :
+
+  Element : 48, distance from query : 352.877
+  Element : 38, distance from query : 387.834
+  Element : 36, distance from query : 414.167
+  Element : 26, distance from query : 419.675
+  Element : 40, distance from query : 427.057
+  Element : 43, distance from query : 452.147
+  Element : 23, distance from query : 477.451
+  Element : 77, distance from query : 480.606
+  Element : 44, distance from query : 512.54
+  Element : 20, distance from query : 627.155
+  Element : 12, distance from query : 629.864
+
+===============================================================================
+
+Query : 90
+Nearest neighbor-0 : 47
+distanceHypercube : 224.453
+distanceTrue : 114.534
+tHypercube : 6.4e-05
+tTrue : 0.048514
+
+Nearest neighbor-1 : 81
+distanceHypercube : 232.478
+distanceTrue : 157.34
+tHypercube : 6.4e-05
+tTrue : 0.048514
+
+Nearest neighbor-2 : 37
+distanceHypercube : 253.837
+distanceTrue : 191.523
+tHypercube : 6.4e-05
+tTrue : 0.048514
+
+
+Checking in radius 10000 from query :
+
+  Element : 47, distance from query : 224.453
+  Element : 81, distance from query : 232.478
+  Element : 37, distance from query : 253.837
+  Element : 99, distance from query : 255.801
+  Element : 45, distance from query : 270.383
+  Element : 41, distance from query : 294.983
+  Element : 49, distance from query : 301.604
+  Element : 35, distance from query : 317.392
+  Element : 95, distance from query : 396.645
+  Element : 88, distance from query : 499.073
+  Element : 27, distance from query : 560.155
+
+===============================================================================
+
+Query : 91
+Nearest neighbor-0 : 104
+distanceHypercube : 163.141
+distanceTrue : 50.4579
+tHypercube : 6.6e-05
+tTrue : 0.049827
+
+Nearest neighbor-1 : 105
+distanceHypercube : 231.985
+distanceTrue : 60.663
+tHypercube : 6.6e-05
+tTrue : 0.049827
+
+Nearest neighbor-2 : 55
+distanceHypercube : 331.272
+distanceTrue : 156.234
+tHypercube : 6.6e-05
+tTrue : 0.049827
+
+
+Checking in radius 10000 from query :
+
+  Element : 104, distance from query : 163.141
+  Element : 105, distance from query : 231.985
+  Element : 55, distance from query : 331.272
+  Element : 91, distance from query : 364.63
+  Element : 39, distance from query : 650.175
+  Element : 103, distance from query : 660.735
+  Element : 108, distance from query : 661.628
+  Element : 85, distance from query : 666.223
+  Element : 42, distance from query : 671.04
+  Element : 50, distance from query : 681.236
+  Element : 46, distance from query : 682.897
+
+===============================================================================
+
+Query : 92
+Nearest neighbor-0 : 117
+distanceHypercube : 395.852
+distanceTrue : 298.027
+tHypercube : 6.6e-05
+tTrue : 0.049668
+
+Nearest neighbor-1 : 143
+distanceHypercube : 400.336
+distanceTrue : 308.971
+tHypercube : 6.6e-05
+tTrue : 0.049668
+
+Nearest neighbor-2 : 135
+distanceHypercube : 499.782
+distanceTrue : 314.189
+tHypercube : 6.6e-05
+tTrue : 0.049668
+
+
+Checking in radius 10000 from query :
+
+  Element : 117, distance from query : 395.852
+  Element : 143, distance from query : 400.336
+  Element : 135, distance from query : 499.782
+  Element : 144, distance from query : 526.473
+  Element : 113, distance from query : 527.631
+  Element : 137, distance from query : 621.582
+  Element : 125, distance from query : 633.274
+  Element : 100, distance from query : 636.201
+  Element : 82, distance from query : 637.973
+  Element : 126, distance from query : 648.063
+  Element : 69, distance from query : 650.782
+
+===============================================================================
+
+Query : 93
+Nearest neighbor-0 : 72
+distanceHypercube : 413.298
+distanceTrue : 141.464
+tHypercube : 6.8e-05
+tTrue : 0.049539
+
+Nearest neighbor-1 : 56
+distanceHypercube : 414.254
+distanceTrue : 245.21
+tHypercube : 6.8e-05
+tTrue : 0.049539
+
+Nearest neighbor-2 : 73
+distanceHypercube : 414.615
+distanceTrue : 293.626
+tHypercube : 6.8e-05
+tTrue : 0.049539
+
+
+Checking in radius 10000 from query :
+
+  Element : 72, distance from query : 413.298
+  Element : 56, distance from query : 414.254
+  Element : 73, distance from query : 414.615
+  Element : 59, distance from query : 434.527
+  Element : 80, distance from query : 443.299
+  Element : 34, distance from query : 444.761
+  Element : 22, distance from query : 452.148
+  Element : 31, distance from query : 452.525
+  Element : 101, distance from query : 461.066
+  Element : 89, distance from query : 470.348
+  Element : 57, distance from query : 504.478
+
+===============================================================================
+
+Query : 94
+Nearest neighbor-0 : 14
+distanceHypercube : 342.875
+distanceTrue : 234.774
+tHypercube : 5.8e-05
+tTrue : 0.040214
+
+Nearest neighbor-1 : 6
+distanceHypercube : 343.892
+distanceTrue : 258.339
+tHypercube : 5.8e-05
+tTrue : 0.040214
+
+Nearest neighbor-2 : 76
+distanceHypercube : 347.474
+distanceTrue : 259.917
+tHypercube : 5.8e-05
+tTrue : 0.040214
+
+
+Checking in radius 10000 from query :
+
+  Element : 14, distance from query : 342.875
+  Element : 6, distance from query : 343.892
+  Element : 76, distance from query : 347.474
+  Element : 8, distance from query : 384.673
+  Element : 64, distance from query : 404.036
+  Element : 32, distance from query : 423.565
+  Element : 78, distance from query : 465.775
+  Element : 74, distance from query : 473.654
+  Element : 65, distance from query : 479.06
+  Element : 17, distance from query : 516.538
+  Element : 28, distance from query : 534.872
+
+===============================================================================
+
+Query : 95
+Nearest neighbor-0 : 56
+distanceHypercube : 404.894
+distanceTrue : 160.571
+tHypercube : 5.4e-05
+tTrue : 0.039864
+
+Nearest neighbor-1 : 73
+distanceHypercube : 423.888
+distanceTrue : 236.377
+tHypercube : 5.4e-05
+tTrue : 0.039864
+
+Nearest neighbor-2 : 72
+distanceHypercube : 436.47
+distanceTrue : 245.982
+tHypercube : 5.4e-05
+tTrue : 0.039864
+
+
+Checking in radius 10000 from query :
+
+  Element : 56, distance from query : 404.894
+  Element : 73, distance from query : 423.888
+  Element : 72, distance from query : 436.47
+  Element : 59, distance from query : 468.151
+  Element : 22, distance from query : 469.876
+  Element : 34, distance from query : 470.029
+  Element : 80, distance from query : 484.678
+  Element : 31, distance from query : 488.686
+  Element : 89, distance from query : 540.357
+  Element : 101, distance from query : 542.632
+  Element : 57, distance from query : 589.348
+
+===============================================================================
+
+Query : 96
+Nearest neighbor-0 : 1694
+distanceHypercube : 425.836
+distanceTrue : 305.392
+tHypercube : 7.4e-05
+tTrue : 0.049937
+
+Nearest neighbor-1 : 2280
+distanceHypercube : 431.77
+distanceTrue : 313.359
+tHypercube : 7.4e-05
+tTrue : 0.049937
+
+Nearest neighbor-2 : 1051
+distanceHypercube : 448.04
+distanceTrue : 313.739
+tHypercube : 7.4e-05
+tTrue : 0.049937
+
+
+Checking in radius 10000 from query :
+
+  Element : 1694, distance from query : 425.836
+  Element : 2280, distance from query : 431.77
+  Element : 1051, distance from query : 448.04
+  Element : 1857, distance from query : 450.132
+  Element : 1355, distance from query : 463.084
+  Element : 1581, distance from query : 463.83
+  Element : 626, distance from query : 475.113
+  Element : 1699, distance from query : 480.428
+  Element : 489, distance from query : 483.557
+  Element : 1335, distance from query : 487.976
+  Element : 2277, distance from query : 495.809
+
+===============================================================================
+
+Query : 97
+Nearest neighbor-0 : 24
+distanceHypercube : 389.202
+distanceTrue : 285.79
+tHypercube : 5.5e-05
+tTrue : 0.04069
+
+Nearest neighbor-1 : 16
+distanceHypercube : 391.639
+distanceTrue : 303.557
+tHypercube : 5.5e-05
+tTrue : 0.04069
+
+Nearest neighbor-2 : 18
+distanceHypercube : 477.794
+distanceTrue : 318.366
+tHypercube : 5.5e-05
+tTrue : 0.04069
+
+
+Checking in radius 10000 from query :
+
+  Element : 24, distance from query : 389.202
+  Element : 16, distance from query : 391.639
+  Element : 18, distance from query : 477.794
+  Element : 180, distance from query : 484.408
+  Element : 29, distance from query : 495.123
+  Element : 165, distance from query : 521.214
+  Element : 98, distance from query : 619.808
+  Element : 133, distance from query : 627.184
+  Element : 194, distance from query : 634.725
+  Element : 25, distance from query : 638.489
+  Element : 128, distance from query : 643.426
+
+===============================================================================
+
+Query : 98
+Nearest neighbor-0 : 6
+distanceHypercube : 399.452
+distanceTrue : 233.532
+tHypercube : 5.4e-05
+tTrue : 0.039888
+
+Nearest neighbor-1 : 14
+distanceHypercube : 405.158
+distanceTrue : 303.745
+tHypercube : 5.4e-05
+tTrue : 0.039888
+
+Nearest neighbor-2 : 76
+distanceHypercube : 405.717
+distanceTrue : 304.041
+tHypercube : 5.4e-05
+tTrue : 0.039888
+
+
+Checking in radius 10000 from query :
+
+  Element : 6, distance from query : 399.452
+  Element : 14, distance from query : 405.158
+  Element : 76, distance from query : 405.717
+  Element : 64, distance from query : 441.684
+  Element : 32, distance from query : 442.722
+  Element : 8, distance from query : 446.868
+  Element : 74, distance from query : 486.304
+  Element : 65, distance from query : 489.61
+  Element : 78, distance from query : 511.054
+  Element : 17, distance from query : 552.96
+  Element : 28, distance from query : 562.391
+
+===============================================================================
+
+Query : 99
+Nearest neighbor-0 : 13
+distanceHypercube : 357.688
+distanceTrue : 137.43
+tHypercube : 5.2e-05
+tTrue : 0.039803
+
+Nearest neighbor-1 : 30
+distanceHypercube : 361.63
+distanceTrue : 138.899
+tHypercube : 5.2e-05
+tTrue : 0.039803
+
+Nearest neighbor-2 : 21
+distanceHypercube : 363.304
+distanceTrue : 138.964
+tHypercube : 5.2e-05
+tTrue : 0.039803
+
+
+Checking in radius 10000 from query :
+
+  Element : 13, distance from query : 357.688
+  Element : 30, distance from query : 361.63
+  Element : 21, distance from query : 363.304
+  Element : 9, distance from query : 365.781
+  Element : 19, distance from query : 372.423
+  Element : 11, distance from query : 380.179
+  Element : 1, distance from query : 409.577
+  Element : 15, distance from query : 443.431
+  Element : 4, distance from query : 446.254
+  Element : 2, distance from query : 449.798
+  Element : 10, distance from query : 465.152
+
+===============================================================================
+
+Query : 100
+Nearest neighbor-0 : 14
+distanceHypercube : 393.9
+distanceTrue : 184.613
+tHypercube : 5.6e-05
+tTrue : 0.040371
+
+Nearest neighbor-1 : 6
+distanceHypercube : 398.487
+distanceTrue : 234.885
+tHypercube : 5.6e-05
+tTrue : 0.040371
+
+Nearest neighbor-2 : 76
+distanceHypercube : 427.544
+distanceTrue : 308.608
+tHypercube : 5.6e-05
+tTrue : 0.040371
+
+
+Checking in radius 10000 from query :
+
+  Element : 14, distance from query : 393.9
+  Element : 6, distance from query : 398.487
+  Element : 76, distance from query : 427.544
+  Element : 8, distance from query : 447.635
+  Element : 64, distance from query : 450.006
+  Element : 32, distance from query : 461.581
+  Element : 65, distance from query : 464.829
+  Element : 78, distance from query : 500.096
+  Element : 74, distance from query : 507.563
+  Element : 17, distance from query : 514.155
+  Element : 28, distance from query : 521.793
+
+===============================================================================
+
