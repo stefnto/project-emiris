@@ -8,13 +8,11 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
   this->hashTables = new LSH_HashTable[L];
 
   Data_item::setDistanceFunction(distanceFunction);                                              // computing distance between Data_items is handled by the class Data_item
-
   int itemsRead = this->readItems(dataset_path,points_coordinates);                              // reads and inserts items to points_coordinates
 
   int queriesRead = this->readItems(query_path,queries);
 
-  this->w = avgDistance(this->points_coordinates);                                               // use avgDistance() to generate a 'w' for the 'h' functions
-  // std::cout << "w = " << w << std::endl;
+  this->w = avgDistance(this->points_coordinates) / 2;                                           // use avgDistance() to generate a 'w' for the 'h' functions
 
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();

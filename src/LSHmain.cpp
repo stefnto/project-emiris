@@ -72,8 +72,14 @@ int main(int argc, char *argv[]){
 
 
   LSH_solver solver1(input_file,query_file,output_file,k, l, n, r);
+
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+
+  cout << "Data initialized in " << endtime-sttime << " seconds" << endl;
+
   solver1.solve();
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
+  
   cout << "LSH run in " << endtime - sttime << " seconds" << endl;
 }
