@@ -14,14 +14,16 @@ CLUSTERBINS=$(patsubst src/clustering/%.cpp,bin/clustering/%.o,$(CLUSTERSOURCES)
 all: lsh cube clustering
 
 
-
-lsh: $(LSHBINS) bin/utils/utils.o
+lsh: $(LSHBINS) bin/utils/utils.o bin/mains/LSHmain.o
 	$(CC) -o lsh $^
 
 $(LSHBINS) : bin/lsh/%.o : src/lsh/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
 bin/utils/utils.o : src/utils/utils.cpp
+	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
+
+bin/mains/LSHmain.o: src/mains/LSHmain.cpp
 	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
 
 cube: $(CUBEBINS) bin/utils/utils.o
@@ -43,7 +45,7 @@ $(CLUSTERBINS) : bin/clustering/%.o : src/clustering/%.cpp
 #	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o cube src/Cubemain.cpp src/Cube.cpp src/utils.cpp
 
 LSHdefault:
-	./LSH -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output  -N 3 -R 10000
+	./lsh -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o output  -N 3 -R 10000
 
 clean:
 	rm -f bin/utils/* bin/cube/* bin/lsh/* bin/clustering/*
