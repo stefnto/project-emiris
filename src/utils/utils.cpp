@@ -241,3 +241,66 @@ int avgDistance(std::vector<Data_item*>& points_coordinates){
   }
   return dist;
 }
+
+void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians, int& m_cube, int& k_cube, int& probes_cube){
+
+  std::string num_clust = "number_of_clusters", num_vector_ht = "number_of_vector_hash_tables",
+         num_vector_hf = "number_of_vector_hash_functions", m_hcube = "max_number_M_hypercube",
+         num_hcube_dim = "number_of_hypercube_dimensions", num_probes = "number_of_probes";
+
+  std::ifstream config;
+  std::string tmp;
+  int number;
+
+  config.open(config_file);
+  if (config.is_open()){
+    std::string line;
+
+    while (getline(config, line)){
+      
+      if (line.compare(0, 18, num_clust) == 0){
+        std::stringstream ss(line);
+        while (ss >> tmp){
+          if (std::stringstream(tmp) >> number)
+            k_medians = number;
+        }
+      }
+      else if (line.compare(0, 28, num_vector_ht) == 0){
+        std::stringstream ss(line);
+        while (ss >> tmp){
+          if (std::stringstream(tmp) >> number)
+            l_lsh = number;
+        }
+      }
+      else if(line.compare(0, 31, num_vector_hf) == 0){
+        std::stringstream ss(line);
+        while (ss >> tmp){
+          if (std::stringstream(tmp) >> number)
+            k_lsh = number;
+        }
+      }
+      else if(line.compare(0, 22, m_hcube) == 0){
+        std::stringstream ss(line);
+        while (ss >> tmp){
+          if (std::stringstream(tmp) >> number)
+            m_cube = number;
+        }
+      }
+      else if(line.compare(0, 30, num_hcube_dim) == 0){
+        std::stringstream ss(line);
+        while (ss >> tmp){
+          if (std::stringstream(tmp) >> number)
+            k_cube = number;
+        }
+      }
+      else if (line.compare(0, 16, num_probes) == 0){
+        std::stringstream ss(line);
+        while (ss >> tmp){
+          if (std::stringstream(tmp) >> number)
+            probes_cube = number;
+        }
+      }
+    }
+  }
+
+}

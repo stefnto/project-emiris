@@ -123,4 +123,5 @@ void bruteForceSearch(Data_item *item, std::vector<Data_item*>& points_coordinat
 
 int avgDistance(std::vector<Data_item*>& points_coordinates);
 
+void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians, int& m_cube, int& k_cube, int& probes_cube);
 #endif

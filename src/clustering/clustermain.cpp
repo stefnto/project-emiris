@@ -25,9 +25,7 @@ int main(int argc, char *argv[]){
   int k_medians = 3;
   int m_cube = 10, k_cube = 3, probes_cube = 2;
 
-  string num_clust = "number_of_clusters", num_vector_ht = "number_of_vector_hash_tables",
-         num_vector_hf = "number_of_vector_hash_functions", m_hcube = "max_number_M_hypercube",
-         num_hcube_dim = "number_of_hypercube_dimensions", number_of_probes = "number_of_probes";
+
 
 
   while ((opt = getopt(argc, argv, "i:c:o:m:")) != -1)
@@ -66,15 +64,7 @@ int main(int argc, char *argv[]){
   }
 
 
-  std::ifstream config;
-
-  config.open(config_file);
-  if (config.is_open()){
-    std::string line;
-    while (getline(config, line)){
-      if (num_clust.compare(0, 18, line) == 0)
-    }
-  }
+  readConfig(config_file, k_lsh, l_lsh, k_medians, m_cube, k_cube, probes_cube);
 
 
   cout << "input_file = " << input_file << "\n";
@@ -86,6 +76,7 @@ int main(int argc, char *argv[]){
   cout << "k_cube = " << k_cube << endl;
   cout << "m_cube = " << m_cube << endl;
   cout << "probes_cube = " << probes_cube << endl;
+  cout << "k_medians = " << k_medians << endl;
 
 
 
