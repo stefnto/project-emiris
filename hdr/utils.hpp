@@ -31,7 +31,7 @@ class Data_item{
         Data_item(){};
         Data_item(std::string item_id, std::vector<int> coordinates);
         Data_item(std::string line);
-        ~Data_item() = default;
+        virtual ~Data_item() = default;
         Data_item(Data_item &) = default;
         void set_id(long id);
         long get_id() const;

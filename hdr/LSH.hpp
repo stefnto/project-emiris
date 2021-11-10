@@ -65,7 +65,6 @@ class LSH_solver{
 
 
     void writeResult(LSH_Set*,Data_item*);                                                       //given an ordered set,writes items to output path
-    int readItems(std::string data_path,std::vector<Data_item*>&);              //reads from data path and inserts to vector
     void writeResult(LSH_Set* , Data_item* , std::set<double>&);                //given an ordered set,writes items to output path
 
   public :
