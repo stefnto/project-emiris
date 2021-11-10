@@ -122,4 +122,5 @@ void getNumbersWithHammingDistance(int k, unsigned long long number, int probes,
 void bruteForceSearch(Data_item *item, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances);
 
 int avgDistance(std::vector<Data_item*>& points_coordinates);
+
 #endif

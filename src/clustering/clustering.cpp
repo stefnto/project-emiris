@@ -1,7 +1,7 @@
 #include <clustering.hpp>
 
 clustering::clustering(std::string input_file, std::string config_file, std::string output_file, char method,double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b)){
-    readItems("input/input_small_id.txt",input_data);
+    readItems(input_file, input_data);
     this->distanceFunction = distanceFunction;
 }
 
@@ -18,20 +18,20 @@ centroid* clustering::initpp(){
 
     int t = 1;
     int pos = distribution(generator1);                                  //choosing starting centroid
-    
+
     std::cout << "position of first centroid chosen : " << pos << std::endl;
 
     std::set<std::string> centroid_ids;                                //set containing ids of already chosens points
 
     centroid* centroids = new centroid[k];
-    
+
     centroid_ids.emplace(input_data.at(pos)->getName());                       //placing first elements id to the set of the centroid ids
 
     centroids[0]= input_data.at(pos)->getCoordinates();                        //placing first centroid to the set of the centroids
 
     while (t != k){
-    
-        float prev_sum = 0;                 
+
+        float prev_sum = 0;
 
         using sumAndKey = std::pair<float, clustering_data_item *>;
         using sumAndKeySet = std::set<sumAndKey, bool (*)(const sumAndKey &a, const sumAndKey &b)>;
@@ -62,7 +62,7 @@ centroid* clustering::initpp(){
 
         float x = pickFloat(generator2);
 
-        std::cout << "float picked : " << x << std::endl; 
+        std::cout << "float picked : " << x << std::endl;
 
         sumAndKeySet::iterator current = partial_sums.begin();                            //checking where the picked float belongs p(r-1) < x <= p(r)
 
@@ -85,7 +85,7 @@ void clustering::lloyd(){
     float sum[k];
     int elems[k];
     for (int i = 0; i < k; i++){ sum[i] = 0;elems[i] = 0;}
-     
+
     centroid* centroids = this->initpp();
     int iterations = 0 ;
     int limit = 20;
@@ -94,7 +94,7 @@ void clustering::lloyd(){
     while (true){
         centroid* nextCentroids = new centroid[k];                           //next iteration will use different centroids
         for (int i = 0; i < k; i++) nextCentroids[i].assign(vector_size,0);
-    
+
         for (clustering_data_item* item : input_data){
             float minD = distanceFunction(item->getCoordinates(),centroids[0]);
             int c = 0;
@@ -102,7 +102,7 @@ void clustering::lloyd(){
                 float dist = distanceFunction(item->getCoordinates(), centroids[i]);
                 if (dist < minD){                                                //distance from nearest
                     minD = dist;
-                    c = i;                                                       //centroid with least distance from current element   
+                    c = i;                                                       //centroid with least distance from current element
                 }
             }
             if (item->getCluster() != c) changes++;
@@ -110,7 +110,7 @@ void clustering::lloyd(){
             item->setDistanceFromQuery(minD);
             elems[c]++;
             // create generation of new centroids
-            for (int j = 0 ; j < vector_size; j++)  nextCentroids[c][j] += item->getCoordinates()[j];    
+            for (int j = 0 ; j < vector_size; j++)  nextCentroids[c][j] += item->getCoordinates()[j];
         }
         std::cout <<"changes " << changes << std::endl;
         if (changes < input_data.size()/500) break;
@@ -215,9 +215,9 @@ void clustering::reverseAssignment(){
                 const std::vector<int>& coors = item->getCoordinates();
                 nextCentroids[index][j] += coors[j];
             }
-        } 
+        }
         for (int i = 0 ; i < k ; i++) std::cout <<"population[" << i << "] = " << population[i] << std::endl;
-           
+
 
         if (++iterations == 10 ) break;
         for (int i = 0 ; i < k ; i++){
