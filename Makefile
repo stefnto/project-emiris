@@ -13,8 +13,13 @@ CLUSTERBINS=$(patsubst src/clustering/%.cpp,bin/clustering/%.o,$(CLUSTERSOURCES)
 
 all: lsh cube clustering
 
+<<<<<<< HEAD
 lsh: $(LSHBINS) bin/utils/utils.o
 	$(CC) -o lsh $^
+=======
+LSH: src/LSHmain.cpp src/LSH.cpp src/utils.cpp
+	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o LSH src/LSHmain.cpp src/LSH.cpp src/utils.cpp
+>>>>>>> 60cc996631977b43558318f5736544b7fcb622ec
 
 $(LSHBINS) : bin/lsh/%.o : src/lsh/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
