@@ -15,8 +15,7 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
   int queriesRead = readItems(query_path, queries);
 
   this->w = avgDistance(this->points_coordinates) / 2;                          // use avgDistance() to generate a 'w' for the 'h' functions
-
-  std::cout << "time: " << endtime - sttime << std::endl;
+  
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();
     for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4,w);  //initializing each hash table

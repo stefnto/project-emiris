@@ -154,9 +154,9 @@ Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::
 
     Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
 
-    int itemsRead = this->readItems(dataset_path,points_coordinates);           // reads and inserts items to points_coordinates
+    int itemsRead = readItems(dataset_path,points_coordinates);                 // reads and inserts items to points_coordinates
 
-    int queriesRead = this->readItems(query_path,queries);
+    int queriesRead = readItems(query_path,queries);
 
     int w = avgDistance(this->points_coordinates);
 
@@ -171,24 +171,6 @@ Cube_Solver::~Cube_Solver(){
   // std::cout << "deleted points_coordinates" << std::endl;
   for (Data_item* item : this->queries) delete item;
   // std::cout << "deleted queries" << std::endl;
-}
-
-int Cube_Solver::readItems(std::string dataset_path,std::vector<Data_item*>& container){
-
-  std::ifstream datafile;
-  int counter = 0;
-  datafile.open(dataset_path);
-
-  if (datafile.is_open()){
-    std::string line;
-    while (getline(datafile, line)){
-      counter++;
-      container.emplace_back(new Data_item(line));                              // creates a 'Data_item' and puts it at the end of the vector 'points_coordinates'
-    }
-    datafile.close();
-  }
-
-  return counter;
 }
 
 bool Cube_Solver::solve(){

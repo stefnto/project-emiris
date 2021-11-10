@@ -91,7 +91,9 @@ class hFunction{                                                                
 long mod(long x, long y);
 
 double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b);
+
 float minDist(centroid* centroids,int size);
+
 template <typename T>
 int readItems(std::string dataset_path, std::vector<T *> &container){
     std::ifstream datafile;
