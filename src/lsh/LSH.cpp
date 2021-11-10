@@ -8,25 +8,25 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
   double sttime, endtime;                                                       // to compute total run time
   this->hashTables = new LSH_HashTable[L];
 
-  Data_item::setDistanceFunction(distanceFunction); // computing distance between Data_items is handled by the class Data_item
+  Data_item::setDistanceFunction(distanceFunction);                             // computing distance between Data_items is handled by the class Data_item
 
-  int itemsRead = readItems(dataset_path, points_coordinates); // reads and inserts items to points_coordinates
+  int itemsRead = readItems(dataset_path, points_coordinates);                  // reads and inserts items to points_coordinates
 
   int queriesRead = readItems(query_path, queries);
 
-  this->w = avgDistance(this->points_coordinates); // use avgDistance() to generate a 'w' for the 'h' functions
+  this->w = avgDistance(this->points_coordinates) / 2;                          // use avgDistance() to generate a 'w' for the 'h' functions
 
   std::cout << "time: " << endtime - sttime << std::endl;
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();
-    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4,w);                    //initializing each hash table
+    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4,w);  //initializing each hash table
     for (Data_item* item : points_coordinates){
-       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);                               //insert a pointer pointing to the item on "points_coordinates" in each hashtable, in a 
+       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);               //insert a pointer pointing to the item on "points_coordinates" in each hashtable, in a
     }
   }else std::cout << "dataset_path is empty" << std::endl;
 }
 
-LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k,int L, int N ,int R , double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) ):n(N),r(r),L(L),clusteringData(clusteringData),clusteringMode(1){ 
+LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k,int L, int N ,int R , double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) ):n(N),r(r),L(L),clusteringData(clusteringData),clusteringMode(1){
 
   this->hashTables = new LSH_HashTable[L];
   Data_item::setDistanceFunction(distanceFunction);
@@ -173,11 +173,11 @@ int LSH_HashTable::clusteringRangeSearch(Data_item* query,float radius){
     if ( query->get_id() == item->get_id() ){
       float distanceFromQuery;
       clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
-      if ( c_d_item->getRadius() ){                                               //if radius is set 
+      if ( c_d_item->getRadius() ){                                               //if radius is set
         if (radius == c_d_item->getRadius() && std::stoi(query->getName()) != c_d_item->getCluster() ){
           distanceFromQuery = item->calculateDistance(query);                     //calculating distance from current centroid to item
           if ( distanceFromQuery < c_d_item->getDistanceFromQuery() ) {
-            c_d_item->setDistanceFromQuery(distanceFromQuery); 
+            c_d_item->setDistanceFromQuery(distanceFromQuery);
             c_d_item->setCluster(std::stoi(query->getName()));
             sum++;                                                                //new change made
           }
