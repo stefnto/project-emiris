@@ -77,6 +77,10 @@ int main(int argc, char *argv[]){
 
   Cube_Solver solver1(input_file, query_file, output_file, k, m, probes, n, r);
 
+  endtime=((double) clock())/CLOCKS_PER_SEC;
+
+  cout << "Data initialized in " << endtime-sttime << " seconds" << endl;
+  
   solver1.solve();
 
   endtime=((double) clock())/CLOCKS_PER_SEC;

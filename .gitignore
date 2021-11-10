@@ -31,6 +31,14 @@
 *.out
 *.app
 
+# Output files and Executables
+*.txt
+output*
+lsh
+cube
+clustering
+
+
 test*
 input/*
 output
