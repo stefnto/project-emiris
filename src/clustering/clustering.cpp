@@ -143,25 +143,16 @@ float clustering::silhouette(centroid* centroids){
     for (clustering_data_item* item : input_data) clusters[item->getCluster()].push_back(item);     // firstly we put each element to its cluster
 
     for (int i = 0 ; i <k; i++){                                                                    //we're doing this for all elements but we're iterating through clusters
-        std::cout << i << " i is " << std::endl;
-        float distances[clusters[i].size()][clusters[i].size()];                                    //we're storing the distances we've already found in order not to double calc
+        std::cout << i << " i is " << clusters[i].size() << std::endl;
+        std::cout <<"segfaulto" << std::endl;
         int counter1 = 0 ;
         std::list<clustering_data_item *>::iterator it1 = clusters[i].begin();
         while ( it1 != clusters[i].end() ){
-            int counter2 = 0;
             std::list<clustering_data_item *>::iterator it2 = clusters[i].begin();
             float ai = 0;                                                                          //sum of distances from same cluster
-            while (it2 != it1){                                                                    //adding to the sum already calculated dists
-                ai+=distances[counter2][counter1];
-                it2++;
-            }
-
-            it2++;
-            counter2++;
             
             while ( it2 != clusters[i].end() ){
                 float dist = (*it1)->calculateDistance(*it2);
-                distances[counter1][counter2] = dist;
                 ai+=dist;
                 it2++;
             }
@@ -170,6 +161,7 @@ float clustering::silhouette(centroid* centroids){
             float minD;
             int sec;
             //finding second nearest centroid
+
             if (i == 0 ) {
                 minD = (*it1)->calculateDistance(centroids[1]);
                 sec=1;
@@ -186,10 +178,8 @@ float clustering::silhouette(centroid* centroids){
                     }
                 }
             }
-
             float bi = 0;
             for (clustering_data_item* item : clusters[sec]) bi += (*it1)->calculateDistance(item);
-            
             bi /= clusters[sec].size();
             float max = bi;
             if (ai > bi) max = ai;
@@ -197,6 +187,7 @@ float clustering::silhouette(centroid* centroids){
             (*it1)->setSilhouette(sil);
             total +=sil;
             it1++;
+            counter1++;
         }
     }
     total /= input_data.size();
@@ -216,7 +207,10 @@ void clustering::reverseAssignment(){
         float radius = minCentroidDistance(centroids)/2;
         while (true){
             int sum = 0;
-            for (int i = 0 ; i < k; i++) sum += solver.clusteringRangeSearch(radius,centroids[i],i);
+            for (int i = 0 ; i < k; i++) {
+                Data_item centr_to_di(std::to_string(i),centroids[i]);
+                sum += solver.clusteringRangeSearch(radius,&centr_to_di,i);
+            }
             if (sum < input_data.size() / 100) break;
         }
         int changes = 0;

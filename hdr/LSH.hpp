@@ -72,7 +72,7 @@ class LSH_solver{
     LSH_solver(std::vector<clustering_data_item*>*clusteringData, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
     ~LSH_solver();
     bool solve();                                                                //This function is called to solve NN , kNN and Approximate Range Search.
-    int clusteringRangeSearch(float radius, centroid cent, int id);
+    int clusteringRangeSearch(float radius, Data_item* cent, int id);
     LSH_Set* NNandRS(Data_item *item);                                           //1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbours
     void printQueries() const;
 };

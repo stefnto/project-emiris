@@ -13,8 +13,7 @@ class item_Exception{};
 
 using centroid = std::vector<int>;
 
-
-    class Data_item
+class Data_item
 {
 private:
     std::string name; // is id from input_file

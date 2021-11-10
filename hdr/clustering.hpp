@@ -6,6 +6,7 @@
 #include <LSH.hpp>
 #include <utils.hpp>
 
+
 enum method {classic = 0,lsh,hypercube};
 
 class clustering{
