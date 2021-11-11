@@ -47,18 +47,15 @@ class Cube_HashTable {
 };
 
 
-class Cube_Solver {
+class Cube_Solver: public Solver {
   private:
     int k;
     int m;
     int probes;
-    int n;
-    int r;
     std::vector<Data_item*> points_coordinates;
     std::vector<Data_item*> queries;
     Cube_HashTable* hashTable;
-
-    std::string output_filepath;
+    
   public:
     Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
     ~Cube_Solver();

@@ -43,7 +43,8 @@ int Vertex_point::getBH(){
 
 // Cube_HashTable Methods
 
-Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w): size(buckets_no), k(k), itemDim(dim), w(w){
+Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w)
+  : size(buckets_no), k(k), itemDim(dim), w(w){
 
   this->sets = new std::unordered_map<int, int>[this->k];                       // initialize k unordered_map sets
 
@@ -148,11 +149,11 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
 
 
 // Cube_Solver Methods
-Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b))
-  : k(k), m(m), probes(probes), n(n), r(r), output_filepath(output_file)
+Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b))
+  : Solver(n, r, output_filepath), k(k), m(m), probes(probes)
   {
 
-    Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
+    // Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
 
     int itemsRead = readItems(dataset_path,points_coordinates);                 // reads and inserts items to points_coordinates
 

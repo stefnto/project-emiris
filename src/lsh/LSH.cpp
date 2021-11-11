@@ -15,7 +15,7 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
   int queriesRead = readItems(query_path, queries);
 
   this->w = avgDistance(this->points_coordinates) / 2;                          // use avgDistance() to generate a 'w' for the 'h' functions
-  
+
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();
     for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4,w);  //initializing each hash table
@@ -28,17 +28,24 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
 LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k,int L, int N ,int R , double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) ):n(N),r(r),L(L),clusteringData(clusteringData),clusteringMode(1){
 
   this->hashTables = new LSH_HashTable[L];
+
   Data_item::setDistanceFunction(distanceFunction);
+
   int itemDim = clusteringData->at(0)->get_coordinates_size();
-  for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,clusteringData->size()/4,33);
+
+  for (int i = 0 ; i < L ; i++)
+    hashTables[i].init(itemDim,k,clusteringData->size()/4,33);
+
   for (clustering_data_item* item : *clusteringData){
-      for (int i = 0 ; i < L; i++) hashTables[i].insert(item);
+    for (int i = 0 ; i < L; i++)
+      hashTables[i].insert(item);
   }
 }
 
 int LSH_solver::clusteringRangeSearch(float radius,Data_item* cent,int id){
   int sum = 0;
-  for (int i = 0 ; i < L; i++)sum+= hashTables[i].clusteringRangeSearch(cent,radius);
+  for (int i = 0 ; i < L; i++)
+    sum += hashTables[i].clusteringRangeSearch(cent,radius);
   return sum;
 }
 
@@ -165,27 +172,30 @@ void LSH_HashTable::NearestNeighbours(Data_item* query,LSH_Set* ordSet){
 
 }
 
-int LSH_HashTable::clusteringRangeSearch(Data_item* query,float radius){
-  int index = this->hashingFunction(query);
+int LSH_HashTable::clusteringRangeSearch(Data_item* centroid,float radius){
+  int index = this->hashingFunction(centroid);
   int sum = 0;
   for (Data_item* item : this->buckets[index]){
-    if ( query->get_id() == item->get_id() ){
-      float distanceFromQuery;
-      clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
-      if ( c_d_item->getRadius() ){                                               //if radius is set
-        if (radius == c_d_item->getRadius() && std::stoi(query->getName()) != c_d_item->getCluster() ){
-          distanceFromQuery = item->calculateDistance(query);                     //calculating distance from current centroid to item
-          if ( distanceFromQuery < c_d_item->getDistanceFromQuery() ) {
-            c_d_item->setDistanceFromQuery(distanceFromQuery);
-            c_d_item->setCluster(std::stoi(query->getName()));
+    if ( centroid->get_id() == item->get_id() ){
+
+      float distanceFromCentroid;
+      clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);                      // clustering_data_item* pointing to each data_item in the 'buckets[index]'
+
+      if ( c_d_item->getRadius() ){                                                                     // if radius is set
+        if (radius == c_d_item->getRadius() && std::stoi(centroid->getName()) != c_d_item->getCluster() ){
+
+          distanceFromCentroid = item->calculateDistance(centroid);                                           // calculate distance from current centroid to item
+          if ( distanceFromCentroid < c_d_item->getDistanceFromQuery() ) {
+            c_d_item->setDistanceFromQuery(distanceFromCentroid);
+            c_d_item->setCluster(std::stoi(centroid->getName()));
             sum++;                                                                //new change made
           }
         }
       }else{
         sum++;
-        c_d_item->setCluster(std::stoi(query->getName()));
+        c_d_item->setCluster(std::stoi(centroid->getName()));
         c_d_item->setRadius(radius);
-        c_d_item->setDistanceFromQuery(query);
+        c_d_item->setDistanceFromQuery(centroid);
       }
     }
   }

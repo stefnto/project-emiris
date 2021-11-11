@@ -14,6 +14,28 @@ class item_Exception{};
 
 using centroid = std::vector<int>;
 
+double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b);
+
+class Solver {
+  protected:
+    int n;
+    int r;
+    std::string output_filepath;
+
+  public:
+    Solver(int n, int r, std::string output_filepathdouble, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    virtual ~Solver(){};
+};
+
+class HashTable {
+  protected:
+    int k;
+    unsigned long long size;
+
+  public:
+    HashTable(int k, int size) :k(k), size(size){};
+    virtual ~HashTable(){};
+};
 
 class Data_item{
     private:
@@ -90,7 +112,7 @@ class hFunction{                                                                
 
 long mod(long x, long y);
 
-double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b);
+
 
 float minDist(centroid* centroids,int size);
 

@@ -2,6 +2,8 @@
 #include <sstream>
 
 
+
+
 //Data_item Methods
 
 double (*Data_item::distanceFunction)(const std::vector<int>& a,const std::vector<int>& b ) = nullptr;
@@ -102,6 +104,15 @@ void Data_item::setShorterDistance(double value){
 
 double Data_item::getShorterDistance(){
   return this->shorterDistance;
+}
+
+// Solver Methods
+
+Solver::Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
+  : n(n), r(r), output_filepath(output_filepath){
+
+  Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
+
 }
 
 //hFunction Methods
@@ -257,7 +268,7 @@ void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians,
     std::string line;
 
     while (getline(config, line)){
-      
+
       if (line.compare(0, 18, num_clust) == 0){
         std::stringstream ss(line);
         while (ss >> tmp){
