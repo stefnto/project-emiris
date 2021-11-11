@@ -115,6 +115,13 @@ Solver::Solver(int n, int r, std::string output_filepath, double (*distanceFunct
 
 }
 
+Solver::Solver(int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+  :n(n), r(r), output_filepath(""){
+
+    Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
+
+  }
+
 //hFunction Methods
 
 hFunction::hFunction(int itemSize,int w):w(w){

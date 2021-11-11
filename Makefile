@@ -35,7 +35,7 @@ cube: $(CUBEBINS) bin/utils/utils.o bin/mains/Cubemain.o
 $(CUBEBINS) : bin/cube/%.o : src/cube/%.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
-clustering: $(CLUSTERBINS) bin/utils/utils.o $(LSHBINS) 
+clustering: $(CLUSTERBINS) bin/utils/utils.o $(LSHBINS) $(CUBEBINS) 
 	$(CC) -o clustering $^
 
 $(CLUSTERBINS) : bin/clustering/%.o : src/clustering/%.cpp
@@ -55,4 +55,4 @@ CUBEdefault:
 
 clean:
 	rm -f bin/utils/* bin/cube/* bin/lsh/* bin/clustering/*
-	rm -f lsh cube clustering 
+	rm -f lsh cube clustering

@@ -60,17 +60,18 @@ Cube_HashTable::~Cube_HashTable(){
   delete[] this->sets;
 }
 
-void Cube_HashTable::insertV_points(std::vector<Data_item*>& points_coordinates){
-  int counter = 0;
-  for (int i = 0; i < points_coordinates.size(); i++){
-
-    hcube_points.emplace_back(Vertex_point(this->itemDim));
-
-    unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
-
-    this->buckets[index].emplace_back(points_coordinates[i]);
-  }
-}
+// template <typename T>
+// void Cube_HashTable::insertV_points(std::vector<T *>& points_coordinates){
+//   int counter = 0;
+//   for (int i = 0; i < points_coordinates.size(); i++){
+//
+//     hcube_points.emplace_back(Vertex_point(this->itemDim));
+//
+//     unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
+//
+//     this->buckets[index].emplace_back(points_coordinates[i]);
+//   }
+// }
 
 void Cube_HashTable::empty_buckets(int buckets_no){
   int k=0,j=0;

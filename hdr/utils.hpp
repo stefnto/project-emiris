@@ -23,7 +23,8 @@ class Solver {
     std::string output_filepath;
 
   public:
-    Solver(int n, int r, std::string output_filepathdouble, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    Solver(int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
     virtual ~Solver(){};
 };
 

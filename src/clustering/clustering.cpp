@@ -16,7 +16,7 @@ void clustering::solve(method m){
     }
     else if (m == lsh){
       std::cout << "Running LSH range search algorithm" << std::endl << std::endl;
-      this->reverseAssignment();
+      this->reverseAssignmentLSH();
     }
     else if (m == hypercube){
       std::cout << "Running Hypercube range search algorithm" << std::endl << std::endl;
@@ -292,6 +292,17 @@ float clustering::minCentroidDistance(centroid* centroids){
   return minDist;
 }
 
-void clustering:reverseAssignmentCube(){
-  
+void clustering::reverseAssignmentCube(){
+
 }
+
+
+// Cube_Solver_Clustering Methods
+
+Cube_Solver_Clustering::Cube_Solver_Clustering(std::vector<clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+  : Solver(n, r), k(k), m(m), probes(probes)
+  {
+    this->hashTable = new Cube_HashTable(k, clusteringData[0]->get_coordinates_size(), pow(2,k), clusteringData.size(), 100);
+
+    hashTable->insertV_points(clusteringData);
+  }

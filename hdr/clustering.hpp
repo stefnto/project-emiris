@@ -3,8 +3,9 @@
 #define __clustering__
 
 #include <iostream>
-#include <LSH.hpp>
-#include <utils.hpp>
+#include "utils.hpp"
+#include "LSH.hpp"
+#include "Cube.hpp"
 
 
 enum method {classic = 0,lsh,hypercube};
@@ -42,9 +43,11 @@ class Cube_Solver_Clustering: public Solver {
     int m;
     int probes;
 
+    Cube_HashTable* hashTable;
+
   public:
-    Cube_Solver_Clustering(){};
+    Cube_Solver_Clustering(std::vector<clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
     ~Cube_Solver_Clustering(){};
-}
+};
 
 #endif
