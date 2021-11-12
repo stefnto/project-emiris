@@ -17,7 +17,7 @@
 
 class LSH_Exception{};
 
-using LSH_Set = std::set<Data_item *, bool (*)(const Data_item *a, const Data_item *b)>;
+using LSH_Set = std::set<Data_point* , bool (*)(const Data_point *a, const Data_point *b)>;
 
 class gFunction{                                                                //Σ r_i * h_i
   private:
@@ -29,15 +29,29 @@ class gFunction{                                                                
     gFunction() = default;
     void init(int itemDim, int k, unsigned long long tableSize, int w);
     gFunction(int itemDim, int k, unsigned long long tableSize, int w);         //itemDim = size of vector that contains the coordinates
-    int operator()(Data_item*);                                                 //Hashing Function
+
+    template <typename T>
+    int operator()(T* item){                                           //Hashing Function
+
+        long M = 0xFFFFFFFF - 4;    // 2^32 - 1 - 4
+        long sum = 0 ;
+
+        for (std::pair<int,hFunction> elem : linearCombinationElements)
+          sum += mod( ( elem.first*elem.second(item) ), M );
+
+        sum = mod(sum, M);
+        item->set_ID(sum);   //setting id of the item
+
+        return mod(sum, tableSize);
+    }
 };
 
 class LSH_HashTable: public HashTable {
   private:
     // int size;
-    // int k;                                                                      //Number of H functions used by hashingFunction
+    // int k;                                                                   //Number of H functions used by hashingFunction
     gFunction hashingFunction;
-    std::list<Data_item*>* buckets;                                             //Array of Lists Aka Hash Table;
+    std::list<Data_point*>* buckets;                                             //Array of Lists Aka Hash Table;
 
   public:
     LSH_HashTable(){};
@@ -45,37 +59,38 @@ class LSH_HashTable: public HashTable {
     LSH_HashTable(int itemDim, unsigned long long tableSize, int k, int w);                    //Constructs H and G functions;
     ~LSH_HashTable();
     // LSH_HashTable(LSH_HashTable&) = default;
-    void insert(Data_item* item);
-    void NearestNeighbours(Data_item*,LSH_Set*);
-    int clusteringRangeSearch(Data_item* query,float radius);
+
+    void insert(Data_point* item);
+    void NearestNeighbours(Data_query* query, LSH_Set* ordSet);
+    // int clusteringRangeSearch(Data_item* query,float radius);
 };
 
-class LSH_solver{
+class LSH_solver: public Solver {
   private:
-    LSH_HashTable* hashTables;                                                  //Hash tables using the G hash functions
-    int n;                                                                      //number of Nearest Neighbours we're looking for
-    int r;                                                                      //the search is made inside the R Radius
-    const int L;                                                                //number of HashTables;
-    std::vector<Data_item*> points_coordinates;
-    std::vector<Data_item*> queries;
-    std::string output_filepath;
+    const int l;                                                                // number of HashTables;
     int w;
+
+    std::vector<Data_point*> points_coordinates;
+    std::vector<Data_query*> queries;
+    LSH_HashTable* hashTables;                                                  //Hash tables using the G hash functions
+
 
     //if clustering Mode is on data are used from clusteringData
     // bool clusteringMode = false;
     // std::vector<clustering_data_item*>* clusteringData;
 
 
-    void writeResult(LSH_Set* , Data_item* , std::set<double>&);                                //given an ordered set,writes items to output path
+    void writeResult(LSH_Set* result, Data_query* query, std::set<double>& true_nn);                                //given an ordered set,writes items to output path
 
   public :
     //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
-    LSH_solver(std::string dataset_path, std::string query_path, std::string output_file, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
-    // LSH_solver(std::vector<clustering_data_item*>*clusteringData, int k = 4, int L = 5, int N = 1, int R = 10000, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
+    LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
     ~LSH_solver();
+
     bool solve();                                                                //This function is called to solve NN , kNN and Approximate Range Search.
     // int clusteringRangeSearch(float radius, Data_item* cent, int id);            //We use this function to rangeSearch for points near the centroid given
-    LSH_Set* NNandRS(Data_item *item);                                           //1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbours
+
+    LSH_Set* NNandRS(Data_query *query);                                           // 1-NN , k-NN and Approximate Range Search, returns LSH_Set with nearest neighbors
     void printQueries() const;
 };
 

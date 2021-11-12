@@ -4,11 +4,13 @@
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::string output_filepath, int k, int L, int N, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b)) : n(N), r(r), L(L),output_filepath(output_filepath){
+LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+  : Solver(n, r, output_filepath), l(l)
+  {
   double sttime, endtime;                                                       // to compute total run time
-  this->hashTables = new LSH_HashTable[L];
+  this->hashTables = new LSH_HashTable[l];
 
-  Data_item::setDistanceFunction(distanceFunction);                             // computing distance between Data_items is handled by the class Data_item
+  // Data_item::setDistanceFunction(distanceFunction);                          // computing distance between Data_items is handled by the class Data_item
 
   int itemsRead = readItems(dataset_path, points_coordinates);                  // reads and inserts items to points_coordinates
 
@@ -17,10 +19,14 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
   this->w = avgDistance(this->points_coordinates) / 2;                          // use avgDistance() to generate a 'w' for the 'h' functions
 
   if ( itemsRead ) {
-    int itemDim = points_coordinates.at(0)->get_coordinates_size();
-    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim, itemsRead/4, k, w);  //initializing each hash table
-    for (Data_item* item : points_coordinates){
-       for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);               //insert a pointer pointing to the item on "points_coordinates" in each hashtable, in a
+    int itemDim = points_coordinates[0]->get_coordinates_size();
+
+    for (int i = 0 ; i < l ; i++)
+      hashTables[i].init(itemDim, itemsRead/4, k, w);                           // initialize each hash table
+
+    for (Data_point* item : points_coordinates){
+      for (int i = 0 ; i < l ; i ++)
+        hashTables[i].insert(item);                                             // insert a pointer pointing to the item on "points_coordinates" in each hashtable
     }
   }else std::cout << "dataset_path is empty" << std::endl;
 }
@@ -55,29 +61,34 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
 // }
 
 bool LSH_solver::solve(){
-  LSH_Set *result_approx_NN;
-  std::set<double> result_true_NN;
+  LSH_Set *result_approx_NN;                                                    // ordered set of ANNs for each query
 
-  for (Data_item *query : queries)
+  std::set<double> result_true_NN;                                              // ordered set of true NNs for each query
+
+  for (Data_query *query : queries)
   {
     result_approx_NN = NNandRS(query);
+
     bruteForceSearch(query, this->points_coordinates, this->n, result_true_NN);
+
     writeResult(result_approx_NN, query, result_true_NN);
+
     delete result_approx_NN;
     result_true_NN.clear();
   }
   return true;
 }
 
-LSH_Set* LSH_solver::NNandRS(Data_item* query){
-  auto comp = [](const Data_item* a,const Data_item* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
+LSH_Set* LSH_solver::NNandRS(Data_query* query){
+
+  auto comp = [](const Data_point* a,const Data_point* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
   LSH_Set*  nn = new LSH_Set(comp);                                             // ordered_set that contains NNs
 
   double sttime, endtime;                                                       // to compute total run time
 
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
-  for (int i = 0; i < L; i++)
+  for (int i = 0; i < l; i++)
     this->hashTables[i].NearestNeighbours(query, nn);                           // search NN of query for each hashTable
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
@@ -89,43 +100,45 @@ LSH_Set* LSH_solver::NNandRS(Data_item* query){
 
 void LSH_solver::printQueries() const {
   int i = 1;
-  for (Data_item* item : queries) std::cout << "query" << i++ << " : " << item->getName() << std::endl;
+  for (Data_query* query : queries)
+    std::cout << "query " << i++ << " : " << query->get_item_id() << std::endl;
 }
 
-void LSH_solver::writeResult(LSH_Set *result, Data_item *item, std::set<double> &true_nn){
+void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double> &true_nn){
   std::ofstream output_file;
   output_file.open(output_filepath, std::ofstream::out | std::ofstream::app);
-  output_file << "Query : " << item->getName() << std::endl;
+
+  output_file << "Query : " << query->get_item_id() << std::endl;
+
   if (result->size() == 0){
     output_file << "No elements were found near this query using LSH" << std::endl;
     output_file << "distanceTrue : " << *std::next(true_nn.begin(), 0) << std::endl;
-    output_file << "tTrue : " << item->getBruteForceTime() << std::endl;
-  }else{
+    output_file << "tTrue : " << query->getBruteForceTime() << std::endl;
+  }
+  else {
     auto it = true_nn.begin();
     int counter = 0;
-    for (Data_item *elem : *result)
-    {
+
+    for (Data_point* point : *result){
       if (counter == this->n)
         break;
 
-      output_file << "Nearest neighbor-" << counter << " : " << elem->getName() << std::endl;
-      output_file << "distanceLSH : " << elem->getDistanceFromQuery() << std::endl;
+      output_file << "Nearest neighbor-" << counter << " : " << point->get_item_id() << std::endl;
+      output_file << "distanceLSH : " << point->getDistanceFromQuery() << std::endl;
       output_file << "distanceTrue : " << *std::next(true_nn.begin(), counter) << std::endl;
-      output_file << "tLSH : " << item->getAlgorithmTime() << std::endl;
-      output_file << "tTrue : " << item->getBruteForceTime() << std::endl
-                  << std::endl;
+      output_file << "tLSH : " << query->getAlgorithmTime() << std::endl;
+      output_file << "tTrue : " << query->getBruteForceTime() << std::endl << std::endl;
       counter++;
     }
 
     output_file << std::endl;
 
-    output_file << "Checking in radius " << this->r << " from query :" << std::endl
-                << std::endl;
-    for (Data_item *elem : *result)
-    {
-      float dFromQuery = elem->getDistanceFromQuery();
+    output_file << "Checking in radius " << this->r << " from query :" << std::endl << std::endl;
+    
+    for (Data_point *point : *result){
+      float dFromQuery = point->getDistanceFromQuery();
       if (dFromQuery < this->r)
-        output_file << "  Element : " << elem->getName() << ", distance from query : " << elem->getDistanceFromQuery() << std::endl;
+        output_file << "  Element : " << point->get_item_id() << ", distance from query : " << point->getDistanceFromQuery() << std::endl;
     }
   }
   output_file << std::endl
@@ -142,17 +155,17 @@ LSH_solver::~LSH_solver(){
 }
 
 
-//LSH_HashTable Methods
+// LSH_HashTable Methods
 
 LSH_HashTable::LSH_HashTable(int itemDim, unsigned long long tableSize, int k, int w)
-  : HashTable(k, tableSize), hashingFunction(itemDim, k, tableSize,w){
-  this->buckets = new std::list<Data_item *>[tableSize];
+  : HashTable(k, tableSize), hashingFunction(itemDim, k, tableSize, w){
+  this->buckets = new std::list<Data_point*>[tableSize];
 }
 
 void LSH_HashTable::init(int itemDim, unsigned long long tableSize, int k, int w){
   this->k = k;
   this->size = tableSize;
-  this->buckets = new std::list<Data_item*>[tableSize];
+  this->buckets = new std::list<Data_point*>[tableSize];
 
   this->hashingFunction.init(itemDim, k, tableSize, w);
 }
@@ -161,43 +174,47 @@ LSH_HashTable::~LSH_HashTable(){
   delete[] this->buckets;
 }
 
-void LSH_HashTable::insert(Data_item* item){
+void LSH_HashTable::insert(Data_point* item){
   int index = this->hashingFunction(item);
   this->buckets[index].push_back(item);
 }
 
-void LSH_HashTable::NearestNeighbours(Data_item* query,LSH_Set* ordSet){
+void LSH_HashTable::NearestNeighbours(Data_query* query,LSH_Set* ordSet){
 
   int index = this->hashingFunction(query);
-  for (Data_item* item : this->buckets[index]){
-    if (query->get_id() == item->get_id()){
-      item->setDistanceFromQuery(query);
-      ordSet->insert(item);
+
+  for (Data_point* point : this->buckets[index]){
+    if ( query->get_ID() == point->get_ID() ){
+
+      point->setDistanceFromQuery(query);
+      ordSet->insert(point);
     }
   }
 
 }
 
-int LSH_HashTable::clusteringRangeSearch(Data_item* centroid,float radius){
-  int index = this->hashingFunction(centroid);
-  int sum = 0;
-  for (Data_item* item : this->buckets[index]){
+// int LSH_HashTable::clusteringRangeSearch(Data_item* centroid,float radius){
+//   int index = this->hashingFunction(centroid);
+//   int sum = 0;
+//   for (Data_item* item : this->buckets[index]){
+//
+//     if ( centroid->get_id() == item->get_id() ){
+//
+//       float distanceFromCentroid;
+//       clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
+//
+//       checkRadiusOfItem(centroid, radius, c_d_item, sum);
+//     }
+//   }
+//   return sum;
+// }
 
-    if ( centroid->get_id() == item->get_id() ){
 
-      float distanceFromCentroid;
-      clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
-
-      checkRadiusOfItem(centroid, radius, c_d_item, sum);
-    }
-  }
-  return sum;
-}
-
-//gFunction Methods
+// gFunction Methods
 
 gFunction::gFunction(int itemDim, int k, unsigned long long tableSize, int w): tableSize(tableSize), k(k) {
-    for (int i = 0 ; i < k; i++) linearCombinationElements.push_back(std::pair<int,hFunction>(rGenerator(),hFunction(itemDim,w)));
+    for (int i = 0 ; i < k; i++)
+      linearCombinationElements.push_back( std::pair<int,hFunction>( rGenerator(),hFunction(itemDim, w) ) );
 }
 
 void gFunction::init(int itemDim, int k, unsigned long long tableSize, int w){
@@ -207,19 +224,22 @@ void gFunction::init(int itemDim, int k, unsigned long long tableSize, int w){
       linearCombinationElements.push_back( std::pair<int, hFunction>( rGenerator(), hFunction(itemDim, w) ) );
 }
 
-int gFunction::operator()(Data_item* item){
+// int gFunction::operator()(Data_point* item){
+//
+//     long M = 0xFFFFFFFF - 4;    // 2^32 - 1 - 4
+//     long sum = 0 ;
+//
+//     for (std::pair<int,hFunction> elem : linearCombinationElements)
+//       sum += mod( ( elem.first*elem.second(item) ), M );
+//
+//     sum = mod(sum, M);
+//     item->set_ID(sum);   //setting id of the item
+//
+//     return mod(sum, tableSize);
+// }
 
-    long M = 0xFFFFFFFF - 4;    // 2^32 - 1 - 4
-    long sum = 0 ;
 
-    for (std::pair<int,hFunction> elem : linearCombinationElements) sum += mod((elem.first*elem.second(item)),M);
-    sum = mod(sum,M);
-    item->set_id(sum);   //setting id of the item
-
-    return mod(sum,tableSize);
-}
-
-//general methods
+// Gneral Methods
 
 std::vector<Data_item *> itemGenerator(int amount,int itemSize){
 
@@ -232,8 +252,4 @@ std::vector<Data_item *> itemGenerator(int amount,int itemSize){
   }
   return items;
 
-}
-
-bool LSH_comperator(Data_item* a, Data_item* b){
-  return a->getDistanceFromQuery() < b->getDistanceFromQuery();
 }

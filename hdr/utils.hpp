@@ -16,10 +16,81 @@ using centroid = std::vector<int>;
 
 double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b);
 
+class Data_item;
+class Data_point;
+class Data_query;
+
+class Data_item {
+  protected:
+    std::string item_id;                                                           // is id from input_file
+    std::vector<int> coordinates;
+    static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
+
+  public:
+    Data_item(){};
+    Data_item(std::string line);
+    Data_item(std::string item_id, std::vector<int> coordinates);
+    virtual ~Data_item(){};
+
+    const std::vector<int>& getCoordinates() const;
+    void print_coordinates();
+    int get_coordinates_size();
+    std::string get_item_id() const;
+
+    static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
+    double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
+};
+
+class Data_point: public Data_item {
+  private:
+    long ID;                                                                    // id computed from (Σ r * h) mod M
+    double distanceFromQuery = 0;                                               // distance of item from each query checked at a time
+
+  public:
+    Data_point(){};
+    Data_point(std::string item_id, std::vector<int> coordinates): Data_item(item_id, coordinates){};
+    Data_point(std::string line): Data_item(line){};
+    ~Data_point(){};
+
+    void set_ID(long id);
+    long get_ID() const;
+
+    void setDistanceFromQuery(Data_query* query);
+    void setDistanceFromQuery(float distanceFromQuery);
+    float getDistanceFromQuery() const;
+
+    float calculateDistance(Data_item *item) const {return distanceFunction(item->getCoordinates(), coordinates); }
+    float calculateDistance(const centroid &cent) const { return distanceFunction(coordinates, cent); }
+};
+
+class Data_query: public Data_item {
+  private:
+    long ID;
+    double algorithmTime = 0;
+    double bruteforceTime = 0;
+    double shorterDistance = 0;                                                 // used in brute force method
+
+  public:
+    Data_query(){};
+    Data_query(std::string item_id, std::vector<int> coordinates): Data_item(item_id, coordinates){};
+    Data_query(std::string line): Data_item(line){};
+
+    void set_ID(long id);
+    long get_ID() const;
+
+    void setAlgorithmTime(double time);
+    void setBruteForcetime(double time);
+    void setShorterDistance(double value);
+    double getAlgorithmTime();
+    double getBruteForceTime();
+    double getShorterDistance();
+
+};
+
 class Solver {
   protected:
-    int n;
-    int r;
+    int n;                                                                      // number of Nearest Neighbours we're looking for
+    int r;                                                                      // the search is made inside the r radius
     std::string output_filepath;
 
   public:
@@ -39,96 +110,40 @@ class HashTable {
     virtual ~HashTable(){};
 };
 
-class Data_item {
-  protected:
-    std::string name;                                                           // is id from input_file
-    std::vector<int> coordinates;
-    static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
 
-  private:
-    Data_item(){};
-    Data_item(std::string line);
-    Data_item(std::string name, std::vector<int> coordinates);
-    virtual ~Data_item(){};
 
-    const std::vector<int> &getCoordinates() const;
-    void print_coordinates();
-    int get_coordinates_size();
-    std::string getName() const;
 
-    static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
-    double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
-};
 
-class Data_point: public Data_item {
-    private:
-        long ID;                                                                // id computed from (Σ r * h) mod M
-        double distanceFromQuery = 0;                                           // distance of item from each query checked at a time
-        double algorithmTime = 0;
-        double bruteforceTime = 0;
-        double shorterDistance = 0;                                             // used in brute force method
 
-        // static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
 
-    public:
-        Data_point(){};
-        Data_point(std::string item_id, std::vector<int> coordinates);
-        Data_point(std::string line);
-        ~Data_point(){};
-        Data_item(Data_item &) = default;
-        void set_id(long id);
-        long get_id() const;
-
-        // const std::vector<int> &getCoordinates() const;
-        // void print_coordinates();
-        // int get_coordinates_size();
-        void setDistanceFromQuery(Data_item *query);
-        void setDistanceFromQuery(float dist);
-        float getDistanceFromQuery() const;
-        std::string getItemID() const;
-        void setAlgorithmTime(double time);
-        void setBruteForcetime(double time);
-        void setShorterDistance(double value);
-        double getAlgorithmTime();
-        double getBruteForceTime();
-        double getShorterDistance();
-        // std::string getName() const;
-
-        float calculateDistance(Data_item *item) const {return distanceFunction(item->coordinates, coordinates); }
-        float calculateDistance(const centroid &cent) const { return distanceFunction(coordinates, cent); }
-        // static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
-        // double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
-};
-
-class clustering_data_item : public Data_item {
-    public:
-        clustering_data_item(std::string line):Data_item(line),cluster(-1){}
-        void setCluster(int cluster){this->cluster = cluster;}
-        int getCluster() const {return cluster;}
-        float getRadius() const  {return radius;}
-        void setRadius(float radius) { this->radius = radius;}
-        void findNearestCentroid(centroid* centroids,int size);
-        void setSilhouette(float silhouette){this->silhouette = silhouette;}
-        float getSilhouette() const {return this->silhouette;}
-
-    private:
-        int cluster;
-        float radius= 0 ;
-        float silhouette = 0;
-};
+// class clustering_data_item : public Data_item {
+//     public:
+//         clustering_data_item(std::string line):Data_item(line),cluster(-1){}
+//         void setCluster(int cluster){this->cluster = cluster;}
+//         int getCluster() const {return cluster;}
+//         float getRadius() const  {return radius;}
+//         void setRadius(float radius) { this->radius = radius;}
+//         void findNearestCentroid(centroid* centroids,int size);
+//         void setSilhouette(float silhouette){this->silhouette = silhouette;}
+//         float getSilhouette() const {return this->silhouette;}
+//
+//     private:
+//         int cluster;
+//         float radius= 0 ;
+//         float silhouette = 0;
+// };
 
 
 class hFunction{                                                                // floor( (p*v + t)/ w )
+  private:
+    std::vector<float> v;                                                   //contains vector V
+    float t;
+    const int w;
 
-    private:
-        std::vector<float> v;                                                   //contains vector V
-        float t;
-        const int w;
-
-    public:
-        hFunction(int itemSize,int w = 4);
-        int operator()(const Data_item*);
-        std::vector<float>& getv();
+  public:
+    hFunction(int itemSize, int w);
+    int operator()(const Data_item* item);
+    std::vector<float>& getv();
 };
 
 long mod(long x, long y);
@@ -145,11 +160,11 @@ int readItems(std::string dataset_path, std::vector<T *> &container){
     if (datafile.is_open())
     {
         std::string line;
-        double sttime, endtime; // to compute total run time
+        double sttime, endtime;                                                 // to compute total run time
         sttime = ((double)clock()) / CLOCKS_PER_SEC;
         while (getline(datafile, line)){
             counter++;
-            container.emplace_back(new T(line)); // creates a 'Data_item' and puts it at the end of the vector 'points_coordinates'
+            container.emplace_back(new T(line));                                // put newly constructed 'T' object at the end of container
         }
         endtime = ((double)clock()) / CLOCKS_PER_SEC;
         datafile.close();
@@ -162,9 +177,9 @@ int readItems(std::string dataset_path, std::vector<T *> &container){
 
 void getNumbersWithHammingDistance(int k, unsigned long long number, int probes, std::set<unsigned long long>& set);
 
-void bruteForceSearch(Data_item *item, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances);
+void bruteForceSearch(Data_query *query, std::vector<Data_point*>& points_coordinates, int n, std::set<double>& true_nn_distances);
 
-void checkRadiusOfItem(Data_item* centroid, float radius, clustering_data_item* c_d_item, int& sum);
+// void checkRadiusOfItem(Data_item* centroid, float radius, clustering_data_item* c_d_item, int& sum);
 
 template<typename T>
 int avgDistance(std::vector<T*>& points_coordinates){

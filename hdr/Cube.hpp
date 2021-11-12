@@ -7,7 +7,7 @@
 #include "utils.hpp"
 
 
-using Cube_Set = std::set<Data_item *, bool (*)(const Data_item *a, const Data_item *b)>;
+using Cube_Set = std::set<Data_point *, bool (*)(const Data_point *a, const Data_point *b)>;
 
 
 class Vertex_point {
@@ -17,9 +17,33 @@ class Vertex_point {
     Vertex_point(){};
     Vertex_point(int itemDim);
     ~Vertex_point(){};
-    unsigned long long operator()(Data_item* item, std::vector<hFunction>& hFunc, std::unordered_map<int, int>*& sets);
+
     void bit_concat(int);
     int getBH();
+
+    template <typename T>
+    unsigned long long operator()(T* item, std::vector<hFunction>& hFunc, std::unordered_map<int, int>*& sets){
+      srand(time(NULL));
+
+      int count = 0;
+      for (hFunction h_i : hFunc){
+        int tmp = h_i(item);                                                        // h_i(p)
+        auto search = sets[count].find(tmp);                                        // search in the set for the specific h_i
+
+        if ( search == sets[count].end() ){                                           // an h_i(p) with value 'tmp' doesn't exist
+          int bit = mod( rand()*tmp, 2 );                                             // randomly generate 0 or 1
+          sets[count].insert( {tmp, bit} );                                         // and then map it to the h_i(p) value
+          bit_concat(bit);
+        }
+        else {                                                                      // h_i(p) with value 'tmp' exists
+          bit_concat(search->second);                                               // concat the already generated f_i( h_i(p) ) to the binary_hash
+        }
+
+        count++;
+      }
+      return binary_hash;
+    }
+
 };
 
 
@@ -30,7 +54,7 @@ class Cube_HashTable: public HashTable {
     int itemDim;
     int w;
     std::vector<Vertex_point> hcube_points;                                     // will be size of number of points from input
-    std::list<Data_item*>* buckets;
+    std::list<Data_point*>* buckets;
 
     std::vector<hFunction> hFunc;                                               // vector that holds each h_i for the specific point, k h functions will be generated
 
@@ -60,9 +84,9 @@ class Cube_HashTable: public HashTable {
 
     void empty_buckets(int );
 
-    Cube_Set* NN(Data_item* item, int m, int probes);                           // m is the numebr of NNs that will be checked for the query
+    Cube_Set* NN(Data_query* query, int m, int probes);                           // m is the numebr of NNs that will be checked for the query
 
-    int clusteringRangeSearch(Data_item* centroid,float radius, int m, int probes);
+    // int clusteringRangeSearch(Data_item* centroid,float radius, int m, int probes);
 
 
 };
@@ -72,15 +96,15 @@ class Cube_Solver: public Solver {
     int k;
     int m;
     int probes;
-    std::vector<Data_item*> points_coordinates;
-    std::vector<Data_item*> queries;
+    std::vector<Data_point*> points_coordinates;
+    std::vector<Data_query*> queries;
     Cube_HashTable* hashTable;
 
   public:
     Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
     ~Cube_Solver();
     bool solve();
-    void writeResult(Cube_Set* result, Data_item* item, std::set<double>& true_nn);
+    void writeResult(Cube_Set* result, Data_query* query, std::set<double>& true_nn);
 };
 
 
