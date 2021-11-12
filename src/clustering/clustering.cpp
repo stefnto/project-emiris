@@ -214,7 +214,8 @@ float clustering::silhouette(centroid* centroids){
 }
 
 void clustering::reverseAssignmentLSH(){
-  LSH_solver solver(&input_data, k_lsh, l_lsh, n, r);                           // initialize LSH
+  //LSH_solver solver(&input_data, k_lsh, l_lsh, n, r);                           // initialize LSH
+  LSH_Solver_Clustering solver(input_data, k_lsh, l_lsh, n, r);
   int population[k_medians];
 
   centroid *centroids = this->initpp();                                         // get first generation of centroids
@@ -231,7 +232,7 @@ void clustering::reverseAssignmentLSH(){
     while (true){
       for (int i = 0 ; i < k_medians; i++) {
         Data_item centr_to_di(std::to_string(i),centroids[i]);                  // make the centroid a 'Data_item'
-        changes += solver.clusteringRangeSearch(radius,&centr_to_di,i);
+        changes += solver.clusteringRangeSearch(radius, &centr_to_di);
       }
       if (changes < input_data.size() / 1000)
         break;
@@ -312,7 +313,7 @@ void clustering::reverseAssignmentCube(){
     while (true){
       for (int i = 0 ; i < k_medians; i++) {
         Data_item centr_to_di(std::to_string(i),centroids[i]);                  // make the centroid a 'Data_item'
-        changes += solver.clusteringRangeSearch(radius,&centr_to_di,i);
+        changes += solver.clusteringRangeSearch(radius, &centr_to_di);
       }
       if (changes < input_data.size() / 1000)                                   // if changes to centroids were less than a number
         break;                                                                  // representing a floor, stop loop
@@ -362,6 +363,45 @@ void clustering::reverseAssignmentCube(){
 
 }
 
+// LSH_Solver_Clustering Methods
+
+LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
+  : Solver(n, r), k(k), l(l)
+  {
+
+  this->hashTables = new LSH_HashTable[l];
+
+  // Data_item::setDistanceFunction(distanceFunction);
+
+  int itemDim = clusteringData[0]->get_coordinates_size();
+
+  int w = avgDistance(clusteringData) / 2;
+
+  for (int i = 0 ; i < l ; i++)
+    hashTables[i].init(itemDim, k, clusteringData.size()/8, w);
+
+  for (clustering_data_item* item : clusteringData){
+    for (int i = 0 ; i < l; i++)
+      hashTables[i].insert(item);
+  }
+}
+
+LSH_Solver_Clustering::~LSH_Solver_Clustering(){
+  delete[] this->hashTables;
+  std::cout << "ht deleted" << std::endl;
+}
+
+int LSH_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid){
+  int sum = 0;
+  for (int i = 0 ; i < l; i++){
+    // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
+    sum += hashTables[i].clusteringRangeSearch(centroid, radius);
+  }
+
+  return sum;
+}
+
+
 
 // Cube_Solver_Clustering Methods
 
@@ -375,11 +415,16 @@ Cube_Solver_Clustering::Cube_Solver_Clustering(std::vector<clustering_data_item*
     hashTable->insertV_points(clusteringData);
   }
 
-  int Cube_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid, int id){
-    int sum = 0;
+Cube_Solver_Clustering::~Cube_Solver_Clustering(){
+  delete this->hashTable;
+  std::cout << "ht deleted" << std::endl;
+}
 
-    sum = hashTable->clusteringRangeSearch(centroid, radius, this->m, this->probes);
+int Cube_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid){
+  int sum = 0;
 
-    return sum;
+  sum = hashTable->clusteringRangeSearch(centroid, radius, this->m, this->probes);
 
-  }
+  return sum;
+
+}

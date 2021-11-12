@@ -25,34 +25,34 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
   }else std::cout << "dataset_path is empty" << std::endl;
 }
 
-LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k,int L, int N ,int R , double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) ):n(N),r(r),L(L),clusteringData(clusteringData),clusteringMode(1){
+// LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k,int L, int N ,int R , double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) ):n(N),r(r),L(L),clusteringData(clusteringData),clusteringMode(1){
+//
+//   this->hashTables = new LSH_HashTable[L];
+//
+//   Data_item::setDistanceFunction(distanceFunction);
+//
+//   int itemDim = clusteringData->at(0)->get_coordinates_size();
+//
+//   this->w = avgDistance(*clusteringData) / 2;
+//
+//   for (int i = 0 ; i < L ; i++)
+//     hashTables[i].init(itemDim,k,clusteringData->size()/8, w);
+//
+//   for (clustering_data_item* item : *clusteringData){
+//     for (int i = 0 ; i < L; i++)
+//       hashTables[i].insert(item);
+//   }
+// }
 
-  this->hashTables = new LSH_HashTable[L];
-
-  Data_item::setDistanceFunction(distanceFunction);
-
-  int itemDim = clusteringData->at(0)->get_coordinates_size();
-
-  this->w = avgDistance(*clusteringData) / 2;
-
-  for (int i = 0 ; i < L ; i++)
-    hashTables[i].init(itemDim,k,clusteringData->size()/8, w);
-
-  for (clustering_data_item* item : *clusteringData){
-    for (int i = 0 ; i < L; i++)
-      hashTables[i].insert(item);
-  }
-}
-
-int LSH_solver::clusteringRangeSearch(float radius,Data_item* cent,int id){
-  int sum = 0;
-  for (int i = 0 ; i < L; i++){
-    // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
-    sum += hashTables[i].clusteringRangeSearch(cent,radius);
-  }
-
-  return sum;
-}
+// int LSH_solver::clusteringRangeSearch(float radius,Data_item* cent,int id){
+//   int sum = 0;
+//   for (int i = 0 ; i < L; i++){
+//     // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
+//     sum += hashTables[i].clusteringRangeSearch(cent,radius);
+//   }
+//
+//   return sum;
+// }
 
 bool LSH_solver::solve()
 {

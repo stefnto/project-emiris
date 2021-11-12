@@ -37,6 +37,21 @@ class clustering{
 
 };
 
+class LSH_Solver_Clustering: public Solver {
+  private:
+    int k;
+    int l;
+
+    LSH_HashTable* hashTables;
+    // std::vector<clustering_data_item*>* clusteringData;
+
+  public:
+      LSH_Solver_Clustering(std::vector<clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+      ~LSH_Solver_Clustering();
+      int clusteringRangeSearch(float radius, Data_item* centroid);
+
+};
+
 class Cube_Solver_Clustering: public Solver {
   private:
     int k;
@@ -47,8 +62,8 @@ class Cube_Solver_Clustering: public Solver {
 
   public:
     Cube_Solver_Clustering(std::vector<clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
-    ~Cube_Solver_Clustering(){};
-    int clusteringRangeSearch(float radius, Data_item* centroid, int id);
+    ~Cube_Solver_Clustering();
+    int clusteringRangeSearch(float radius, Data_item* centroid);               // this function is used to rangeSearch for points near the centroid given
 };
 
 
