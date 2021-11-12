@@ -14,14 +14,14 @@ void clustering::solve(method m){
       std::cout << "Running Lloyd algorithm" << std::endl << std::endl;
       this->lloyd();
     }
-    else if (m == lsh){
-      std::cout << "Running LSH range search algorithm" << std::endl << std::endl;
-      this->reverseAssignmentLSH();
-    }
-    else if (m == hypercube){
-      std::cout << "Running Hypercube range search algorithm" << std::endl << std::endl;
-      this->reverseAssignmentCube();
-    }
+    // else if (m == lsh){
+    //   std::cout << "Running LSH range search algorithm" << std::endl << std::endl;
+    //   this->reverseAssignmentLSH();
+    // }
+    // else if (m == hypercube){
+    //   std::cout << "Running Hypercube range search algorithm" << std::endl << std::endl;
+    //   this->reverseAssignmentCube();
+    // }
 }
 
 centroid* clustering::initpp(){
@@ -213,74 +213,74 @@ float clustering::silhouette(centroid* centroids){
   return total;
 }
 
-void clustering::reverseAssignmentLSH(){
-  //LSH_solver solver(&input_data, k_lsh, l_lsh, n, r);                           // initialize LSH
-  LSH_Solver_Clustering solver(input_data, k_lsh, l_lsh, n, r);
-  int population[k_medians];
-
-  centroid *centroids = this->initpp();                                         // get first generation of centroids
-  for (int i = 0; i < k_medians; i++)
-    population[i] = 0;
-  int num_of_centroids = centroids->size();
-  int iterations = 0;
-  std::list<clustering_data_item*> clusters[k_medians];
-  centroid *nextCentroids = new centroid[k_medians];
-
-  while (true){
-    float radius = minCentroidDistance(centroids)/2;
-    int changes = 0;
-    while (true){
-      for (int i = 0 ; i < k_medians; i++) {
-        Data_item centr_to_di(std::to_string(i),centroids[i]);                  // make the centroid a 'Data_item'
-        changes += solver.clusteringRangeSearch(radius, &centr_to_di);
-      }
-      if (changes < input_data.size() / 1000)
-        break;
-      changes = 0;
-      radius *= 2;
-    }
-
-    for (int i = 0; i < k_medians; i++)                                         // fill each position of vector with int = 0
-      nextCentroids[i].assign(num_of_centroids, 0);
-
-    for (clustering_data_item* item : input_data){
-      if (item->getRadius() == 0)
-        item->findNearestCentroid(centroids, k_medians);
-      else
-        item->setRadius(0);
-
-      int index = item->getCluster();
-      population[index]++;
-      for (int j = 0; j < num_of_centroids; j++) {
-        const std::vector<int>& coors = item->getCoordinates();
-        nextCentroids[index][j] += coors[j];
-      }
-    }
-
-
-    if (++iterations == 10 )
-      break;
-
-    for (int i = 0 ; i < k_medians ; i++){
-      for (int j = 0 ; j < num_of_centroids; j++)
-        nextCentroids[i][j] /= population[i];
-      population[i] = 0;
-    }
-    delete[] centroids;
-    centroids = nextCentroids;
-    nextCentroids = new centroid[k_medians];
-  }
-  // float totalSil = silhouette(centroids);
-
-  delete[] nextCentroids;
-  delete[] centroids;
-  std::ofstream output_file;
-  output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
-  for (clustering_data_item *item : input_data)
-    output_file << item->getName() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
-  // output_file << "total silhouette " << totalSil << std::endl;
-  output_file.close();
-}
+// void clustering::reverseAssignmentLSH(){
+//   //LSH_solver solver(&input_data, k_lsh, l_lsh, n, r);                           // initialize LSH
+//   LSH_Solver_Clustering solver(input_data, k_lsh, l_lsh, n, r);
+//   int population[k_medians];
+//
+//   centroid *centroids = this->initpp();                                         // get first generation of centroids
+//   for (int i = 0; i < k_medians; i++)
+//     population[i] = 0;
+//   int num_of_centroids = centroids->size();
+//   int iterations = 0;
+//   std::list<clustering_data_item*> clusters[k_medians];
+//   centroid *nextCentroids = new centroid[k_medians];
+//
+//   while (true){
+//     float radius = minCentroidDistance(centroids)/2;
+//     int changes = 0;
+//     while (true){
+//       for (int i = 0 ; i < k_medians; i++) {
+//         Data_item centr_to_di(std::to_string(i),centroids[i]);                  // make the centroid a 'Data_item'
+//         changes += solver.clusteringRangeSearch(radius, &centr_to_di);
+//       }
+//       if (changes < input_data.size() / 1000)
+//         break;
+//       changes = 0;
+//       radius *= 2;
+//     }
+//
+//     for (int i = 0; i < k_medians; i++)                                         // fill each position of vector with int = 0
+//       nextCentroids[i].assign(num_of_centroids, 0);
+//
+//     for (clustering_data_item* item : input_data){
+//       if (item->getRadius() == 0)
+//         item->findNearestCentroid(centroids, k_medians);
+//       else
+//         item->setRadius(0);
+//
+//       int index = item->getCluster();
+//       population[index]++;
+//       for (int j = 0; j < num_of_centroids; j++) {
+//         const std::vector<int>& coors = item->getCoordinates();
+//         nextCentroids[index][j] += coors[j];
+//       }
+//     }
+//
+//
+//     if (++iterations == 10 )
+//       break;
+//
+//     for (int i = 0 ; i < k_medians ; i++){
+//       for (int j = 0 ; j < num_of_centroids; j++)
+//         nextCentroids[i][j] /= population[i];
+//       population[i] = 0;
+//     }
+//     delete[] centroids;
+//     centroids = nextCentroids;
+//     nextCentroids = new centroid[k_medians];
+//   }
+//   // float totalSil = silhouette(centroids);
+//
+//   delete[] nextCentroids;
+//   delete[] centroids;
+//   std::ofstream output_file;
+//   output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
+//   for (clustering_data_item *item : input_data)
+//     output_file << item->getName() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
+//   // output_file << "total silhouette " << totalSil << std::endl;
+//   output_file.close();
+// }
 
 float clustering::minCentroidDistance(centroid* centroids){
   float minDist = this->distanceFunction(centroids[0],centroids[1]);
@@ -294,137 +294,138 @@ float clustering::minCentroidDistance(centroid* centroids){
   return minDist;
 }
 
-void clustering::reverseAssignmentCube(){
-  Cube_Solver_Clustering solver(input_data, k_cube, m_cube, probes_cube, n, r);             // initialize Cube_Solver_Clustering
-  int population[k_medians];
+// void clustering::reverseAssignmentCube(){
+//   Cube_Solver_Clustering solver(input_data, k_cube, m_cube, probes_cube, n, r);             // initialize Cube_Solver_Clustering
+//   int population[k_medians];
+//
+//   centroid *centroids = this->initpp();                                                     // get first generation of centroids
+//   for (int i = 0; i < k_medians; i++)
+//     population[i] = 0;
+//
+//   int num_of_centroids = centroids->size();
+//   int iterations = 0;
+//   std::list<clustering_data_item*> clusters[k_medians];
+//   centroid *nextCentroids = new centroid[k_medians];
+//
+//   while (true){
+//     float radius = minCentroidDistance(centroids)/2;
+//     int changes = 0;
+//     while (true){
+//       for (int i = 0 ; i < k_medians; i++) {
+//         Data_item centr_to_di(std::to_string(i),centroids[i]);                  // make the centroid a 'Data_item'
+//         changes += solver.clusteringRangeSearch(radius, &centr_to_di);
+//       }
+//       if (changes < input_data.size() / 1000)                                   // if changes to centroids were less than a number
+//         break;                                                                  // representing a floor, stop loop
+//       changes = 0;
+//       radius *= 2;
+//     }
+//
+//     for (int i = 0; i < k_medians; i++)                                         // fill each position of vector with int = 0
+//       nextCentroids[i].assign(num_of_centroids, 0);
+//
+//     for (clustering_data_item* item : input_data){
+//       if (item->getRadius() == 0)
+//         item->findNearestCentroid(centroids, k_medians);
+//       else
+//         item->setRadius(0);
+//
+//       int index = item->getCluster();
+//       population[index]++;
+//       for (int j = 0; j < num_of_centroids; j++) {
+//         const std::vector<int>& coors = item->getCoordinates();
+//         nextCentroids[index][j] += coors[j];
+//       }
+//     }
+//
+//     if (++iterations == 10 )
+//       break;
+//
+//     for (int i = 0 ; i < k_medians ; i++){
+//       for (int j = 0 ; j < num_of_centroids; j++)
+//         nextCentroids[i][j] /= population[i];
+//       population[i] = 0;
+//     }
+//     delete[] centroids;
+//     centroids = nextCentroids;
+//     nextCentroids = new centroid[k_medians];
+//   }
+//   // float totalSil = silhouette(centroids);
+//
+//   delete[] nextCentroids;
+//   delete[] centroids;
+//   std::ofstream output_file;
+//   output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
+//   for (clustering_data_item *item : input_data)
+//     output_file << item->getName() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
+//   // output_file << "total silhouette " << totalSil << std::endl;
+//   output_file.close();
+//
+// }
 
-  centroid *centroids = this->initpp();                                                     // get first generation of centroids
-  for (int i = 0; i < k_medians; i++)
-    population[i] = 0;
-
-  int num_of_centroids = centroids->size();
-  int iterations = 0;
-  std::list<clustering_data_item*> clusters[k_medians];
-  centroid *nextCentroids = new centroid[k_medians];
-
-  while (true){
-    float radius = minCentroidDistance(centroids)/2;
-    int changes = 0;
-    while (true){
-      for (int i = 0 ; i < k_medians; i++) {
-        Data_item centr_to_di(std::to_string(i),centroids[i]);                  // make the centroid a 'Data_item'
-        changes += solver.clusteringRangeSearch(radius, &centr_to_di);
-      }
-      if (changes < input_data.size() / 1000)                                   // if changes to centroids were less than a number
-        break;                                                                  // representing a floor, stop loop
-      changes = 0;
-      radius *= 2;
-    }
-
-    for (int i = 0; i < k_medians; i++)                                         // fill each position of vector with int = 0
-      nextCentroids[i].assign(num_of_centroids, 0);
-
-    for (clustering_data_item* item : input_data){
-      if (item->getRadius() == 0)
-        item->findNearestCentroid(centroids, k_medians);
-      else
-        item->setRadius(0);
-
-      int index = item->getCluster();
-      population[index]++;
-      for (int j = 0; j < num_of_centroids; j++) {
-        const std::vector<int>& coors = item->getCoordinates();
-        nextCentroids[index][j] += coors[j];
-      }
-    }
-
-    if (++iterations == 10 )
-      break;
-
-    for (int i = 0 ; i < k_medians ; i++){
-      for (int j = 0 ; j < num_of_centroids; j++)
-        nextCentroids[i][j] /= population[i];
-      population[i] = 0;
-    }
-    delete[] centroids;
-    centroids = nextCentroids;
-    nextCentroids = new centroid[k_medians];
-  }
-  // float totalSil = silhouette(centroids);
-
-  delete[] nextCentroids;
-  delete[] centroids;
-  std::ofstream output_file;
-  output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
-  for (clustering_data_item *item : input_data)
-    output_file << item->getName() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
-  // output_file << "total silhouette " << totalSil << std::endl;
-  output_file.close();
-
-}
 
 // LSH_Solver_Clustering Methods
 
-LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
-  : Solver(n, r), k(k), l(l)
-  {
-
-  this->hashTables = new LSH_HashTable[l];
-
-  // Data_item::setDistanceFunction(distanceFunction);
-
-  int itemDim = clusteringData[0]->get_coordinates_size();
-
-  int w = avgDistance(clusteringData) / 2;
-
-  for (int i = 0 ; i < l ; i++)
-    hashTables[i].init(itemDim, k, clusteringData.size()/8, w);
-
-  for (clustering_data_item* item : clusteringData){
-    for (int i = 0 ; i < l; i++)
-      hashTables[i].insert(item);
-  }
-}
-
-LSH_Solver_Clustering::~LSH_Solver_Clustering(){
-  delete[] this->hashTables;
-  std::cout << "ht deleted" << std::endl;
-}
-
-int LSH_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid){
-  int sum = 0;
-  for (int i = 0 ; i < l; i++){
-    // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
-    sum += hashTables[i].clusteringRangeSearch(centroid, radius);
-  }
-
-  return sum;
-}
+// LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
+//   : Solver(n, r), k(k), l(l)
+//   {
+//
+//   this->hashTables = new LSH_HashTable[l];
+//
+//   // Data_item::setDistanceFunction(distanceFunction);
+//
+//   int itemDim = clusteringData[0]->get_coordinates_size();
+//
+//   int w = avgDistance(clusteringData) / 2;
+//
+//   for (int i = 0 ; i < l ; i++)
+//     hashTables[i].init(itemDim, k, clusteringData.size()/8, w);
+//
+//   for (clustering_data_item* item : clusteringData){
+//     for (int i = 0 ; i < l; i++)
+//       hashTables[i].insert(item);
+//   }
+// }
+//
+// LSH_Solver_Clustering::~LSH_Solver_Clustering(){
+//   delete[] this->hashTables;
+//   std::cout << "ht deleted" << std::endl;
+// }
+//
+// int LSH_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid){
+//   int sum = 0;
+//   for (int i = 0 ; i < l; i++){
+//     // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
+//     sum += hashTables[i].clusteringRangeSearch(centroid, radius);
+//   }
+//
+//   return sum;
+// }
 
 
 
 // Cube_Solver_Clustering Methods
 
-Cube_Solver_Clustering::Cube_Solver_Clustering(std::vector<clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
-  : Solver(n, r), k(k), m(m), probes(probes)
-  {
-    int w = avgDistance(clusteringData);
-
-    this->hashTable = new Cube_HashTable(k, clusteringData[0]->get_coordinates_size(), pow(2,k), clusteringData.size(), w);
-
-    hashTable->insertV_points(clusteringData);
-  }
-
-Cube_Solver_Clustering::~Cube_Solver_Clustering(){
-  delete this->hashTable;
-  std::cout << "ht deleted" << std::endl;
-}
-
-int Cube_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid){
-  int sum = 0;
-
-  sum = hashTable->clusteringRangeSearch(centroid, radius, this->m, this->probes);
-
-  return sum;
-
-}
+// Cube_Solver_Clustering::Cube_Solver_Clustering(std::vector<clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+//   : Solver(n, r), k(k), m(m), probes(probes)
+//   {
+//     int w = avgDistance(clusteringData);
+//
+//     this->hashTable = new Cube_HashTable(k, clusteringData[0]->get_coordinates_size(), pow(2,k), clusteringData.size(), w);
+//
+//     hashTable->insertV_points(clusteringData);
+//   }
+//
+// Cube_Solver_Clustering::~Cube_Solver_Clustering(){
+//   delete this->hashTable;
+//   std::cout << "ht deleted" << std::endl;
+// }
+//
+// int Cube_Solver_Clustering::clusteringRangeSearch(float radius, Data_item* centroid){
+//   int sum = 0;
+//
+//   sum = hashTable->clusteringRangeSearch(centroid, radius, this->m, this->probes);
+//
+//   return sum;
+//
+// }

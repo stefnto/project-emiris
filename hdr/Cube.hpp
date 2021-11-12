@@ -23,23 +23,25 @@ class Vertex_point {
 };
 
 
-class Cube_HashTable {
+class Cube_HashTable: public HashTable {
   private:
-    unsigned long long size;
-    int k;
+    // unsigned long long size;
+    // int k;
     int itemDim;
     int w;
     std::vector<Vertex_point> hcube_points;                                     // will be size of number of points from input
     std::list<Data_item*>* buckets;
 
     std::vector<hFunction> hFunc;                                               // vector that holds each h_i for the specific point, k h functions will be generated
+
     std::unordered_map<int, int>* sets;                                         // there are k unordered_maps, each for an h_i, i = 0, ... ,k
                                                                                 // first int represents h_i(p) and second int represents f_i( h_i(p) )
                                                                                 // f_i( h_i(p) ) = { 0 , 1 } randomly generated
                                                                                 // if h_i(p_x) = h_i(p_y), j ≠ x, then f_k( h_k(p_x) ) = f_i( h_i(p_y) ), for the already randomly generated f_i( h_i(p_x) )
 
   public:
-    Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w);
+    Cube_HashTable(int k, int dim, unsigned long long buckets_no, int w);
+    // Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w);
     ~Cube_HashTable();
 
     template <typename T>
@@ -58,25 +60,12 @@ class Cube_HashTable {
 
     void empty_buckets(int );
 
-    Cube_Set* NN(Data_item* item, int m, int probes);                           // m is the numebr of NN that will be checked for the query
+    Cube_Set* NN(Data_item* item, int m, int probes);                           // m is the numebr of NNs that will be checked for the query
 
     int clusteringRangeSearch(Data_item* centroid,float radius, int m, int probes);
 
 
 };
-
-// template <typename T>
-// void Cube_HashTable::insertV_points(std::vector<T *>& points_coordinates){
-//   int counter = 0;
-//   for (int i = 0; i < points_coordinates.size(); i++){
-//
-//     hcube_points.emplace_back(Vertex_point(this->itemDim));
-//
-//     unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
-//
-//     this->buckets[index].emplace_back(points_coordinates[i]);
-//   }
-// };
 
 class Cube_Solver: public Solver {
   private:

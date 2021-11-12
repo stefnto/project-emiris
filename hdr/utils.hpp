@@ -34,6 +34,7 @@ class HashTable {
     unsigned long long size;
 
   public:
+    HashTable(){};
     HashTable(int k, int size) :k(k), size(size){};
     virtual ~HashTable(){};
 };

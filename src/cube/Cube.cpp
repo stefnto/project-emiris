@@ -43,8 +43,8 @@ int Vertex_point::getBH(){
 
 // Cube_HashTable Methods
 
-Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w)
-  : size(buckets_no), k(k), itemDim(dim), w(w){
+Cube_HashTable::Cube_HashTable(int k, int dim, unsigned long long buckets_no, int w)
+  : HashTable(k, buckets_no), itemDim(dim), w(w){
 
   this->sets = new std::unordered_map<int, int>[this->k];                       // initialize k unordered_map sets
 
@@ -209,9 +209,10 @@ Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::
 
     int w = avgDistance(this->points_coordinates);
 
-    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), w);
+    this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), w);
+    // this->hashTable = new Cube_HashTable(k, points_coordinates[0]->get_coordinates_size(), pow(2,k), points_coordinates.size(), w);
 
-    hashTable->insertV_points(points_coordinates);
+    hashTable->insertV_points(this->points_coordinates);
 }
 
 Cube_Solver::~Cube_Solver(){

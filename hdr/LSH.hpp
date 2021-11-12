@@ -21,31 +21,31 @@ using LSH_Set = std::set<Data_item *, bool (*)(const Data_item *a, const Data_it
 
 class gFunction{                                                                //Σ r_i * h_i
   private:
-    int tableSize;
+    unsigned long long tableSize;
     int k;
     std::vector<std::pair<int,hFunction>> linearCombinationElements;
     int w;
   public:
     gFunction() = default;
-    void init(int,int,int, int);
-    gFunction(int itemDim,int k,int tableSize, int w);                          //itemDim = size of vector that contains the coordinates
+    void init(int itemDim, int k, unsigned long long tableSize, int w);
+    gFunction(int itemDim, int k, unsigned long long tableSize, int w);         //itemDim = size of vector that contains the coordinates
     int operator()(Data_item*);                                                 //Hashing Function
 };
 
-class LSH_HashTable{
+class LSH_HashTable: public HashTable {
   private:
-    int size;
-    int k;                                                                      //Number of H functions used by hashingFunction
+    // int size;
+    // int k;                                                                      //Number of H functions used by hashingFunction
     gFunction hashingFunction;
     std::list<Data_item*>* buckets;                                             //Array of Lists Aka Hash Table;
 
   public:
-    LSH_HashTable() = default;
-    void init(int,int,int, int);
-    LSH_HashTable(int itemDim, int tableSize, int k, int w);                    //Constructs H and G functions;
+    LSH_HashTable(){};
+    void init(int itemDim, unsigned long long tableSize, int k, int w);
+    LSH_HashTable(int itemDim, unsigned long long tableSize, int k, int w);                    //Constructs H and G functions;
     ~LSH_HashTable();
-    LSH_HashTable(LSH_HashTable&) = default;
-    void insert(Data_item*);
+    // LSH_HashTable(LSH_HashTable&) = default;
+    void insert(Data_item* item);
     void NearestNeighbours(Data_item*,LSH_Set*);
     int clusteringRangeSearch(Data_item* query,float radius);
 };

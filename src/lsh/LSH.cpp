@@ -18,7 +18,7 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
 
   if ( itemsRead ) {
     int itemDim = points_coordinates.at(0)->get_coordinates_size();
-    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim,k,itemsRead/4,w);  //initializing each hash table
+    for (int i = 0 ; i < L ; i++) hashTables[i].init(itemDim, itemsRead/4, k, w);  //initializing each hash table
     for (Data_item* item : points_coordinates){
        for (int i = 0 ; i < L ; i ++) hashTables[i].insert(item);               //insert a pointer pointing to the item on "points_coordinates" in each hashtable, in a
     }
@@ -54,8 +54,7 @@ LSH_solver::LSH_solver(std::string dataset_path,std::string query_path,std::stri
 //   return sum;
 // }
 
-bool LSH_solver::solve()
-{
+bool LSH_solver::solve(){
   LSH_Set *result_approx_NN;
   std::set<double> result_true_NN;
 
@@ -145,15 +144,17 @@ LSH_solver::~LSH_solver(){
 
 //LSH_HashTable Methods
 
-LSH_HashTable::LSH_HashTable(int itemDim, int k, int tableSize,int w) : size(tableSize), k(k), hashingFunction(itemDim, k, tableSize,w){
+LSH_HashTable::LSH_HashTable(int itemDim, unsigned long long tableSize, int k, int w)
+  : HashTable(k, tableSize), hashingFunction(itemDim, k, tableSize,w){
   this->buckets = new std::list<Data_item *>[tableSize];
 }
 
-void LSH_HashTable::init(int itemDim,int k,int tableSize,int w){
+void LSH_HashTable::init(int itemDim, unsigned long long tableSize, int k, int w){
+  this->k = k;
   this->size = tableSize;
   this->buckets = new std::list<Data_item*>[tableSize];
-  this->k = k;
-  this->hashingFunction.init(itemDim,k,tableSize,w);
+
+  this->hashingFunction.init(itemDim, k, tableSize, w);
 }
 
 LSH_HashTable::~LSH_HashTable(){
@@ -195,14 +196,15 @@ int LSH_HashTable::clusteringRangeSearch(Data_item* centroid,float radius){
 
 //gFunction Methods
 
-gFunction::gFunction(int itemDim,int k,int tableSize,int w): k(k), tableSize(tableSize) {
+gFunction::gFunction(int itemDim, int k, unsigned long long tableSize, int w): tableSize(tableSize), k(k) {
     for (int i = 0 ; i < k; i++) linearCombinationElements.push_back(std::pair<int,hFunction>(rGenerator(),hFunction(itemDim,w)));
 }
 
-void gFunction::init(int itemDim,int k,int tableSize,int w){
+void gFunction::init(int itemDim, int k, unsigned long long tableSize, int w){
     this->k = k;
     this->tableSize = tableSize;
-    for (int i = 0; i < k; i++) linearCombinationElements.push_back(std::pair<int, hFunction>(rGenerator(), hFunction(itemDim,w)));
+    for (int i = 0; i < k; i++)
+      linearCombinationElements.push_back( std::pair<int, hFunction>( rGenerator(), hFunction(itemDim, w) ) );
 }
 
 int gFunction::operator()(Data_item* item){
