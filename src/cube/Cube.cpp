@@ -60,19 +60,6 @@ Cube_HashTable::~Cube_HashTable(){
   delete[] this->sets;
 }
 
-// template <typename T>
-// void Cube_HashTable::insertV_points(std::vector<T *>& points_coordinates){
-//   int counter = 0;
-//   for (int i = 0; i < points_coordinates.size(); i++){
-//
-//     hcube_points.emplace_back(Vertex_point(this->itemDim));
-//
-//     unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
-//
-//     this->buckets[index].emplace_back(points_coordinates[i]);
-//   }
-// }
-
 void Cube_HashTable::empty_buckets(int buckets_no){
   int k=0,j=0;
   for (int i = 0; i < buckets_no; i++){
@@ -146,6 +133,66 @@ Cube_Set* Cube_HashTable::NN(Data_item* query, int m, int probes){
   query->setAlgorithmTime( endtime - sttime );
 
   return ordered_set;
+}
+
+int Cube_HashTable::clusteringRangeSearch(Data_item* centroid, float radius, int m, int probes){
+  int sum = 0;
+  int counter = 0;                                                              // if counter == M, NN search is stopped
+  bool m_points_checked = false;                                                // flag to see if m points where checked
+
+  std::set<unsigned long long> ham_dist_numbers;                                // holds the numbers with hamming_distance x from 'index'
+
+  Vertex_point v(this->itemDim);                                                // initialize Vertex_point for the query
+  unsigned long long index = v(centroid, this->hFunc, this->sets);              // get binary_hash of query
+
+  for (Data_item* item: buckets[index]){
+
+    if (counter > m){                                                           // if m points were checked stop
+      m_points_checked = true;
+      break;
+    }
+
+    float distanceFromCentroid;
+    clustering_data_item* c_d_item = dynamic_cast<clustering_data_item *>(item);
+
+    checkRadiusOfItem(centroid, radius, c_d_item, sum);
+
+    counter++;
+  }
+
+  if (m_points_checked)
+    return sum;
+  else {
+
+    getNumbersWithHammingDistance(this->k, index, probes, ham_dist_numbers);
+
+    for (int i = 0; i < probes-1; i++){                                         // check 'probes-1' vertices because 1 vertex has already been checked
+
+      int ham_dist_numbers_index = ( rand() % ham_dist_numbers.size() ) + 1;
+      unsigned long long tmp_index = *std::next(ham_dist_numbers.begin(), ham_dist_numbers_index);  // takes a random index that exists in 'ham_dist_numbers' set
+
+      for (Data_item* item: buckets[tmp_index]){                                // hashes buckets with 'tmp_index' and check all items in said bucket
+
+        if (counter > m){                                                       // if you checked more than M points for NN stop
+          m_points_checked = true;
+          break;
+        }
+
+        float distanceFromCentroid;
+        clustering_data_item* c_d_item = dynamic_cast<clustering_data_item *>(item);
+
+        checkRadiusOfItem(centroid, radius, c_d_item, sum);
+
+        counter++;
+      }
+      ham_dist_numbers.erase(tmp_index);                                        // erase hash from set, so a bucket is not checked twice
+
+      if (m_points_checked)
+        return sum;
+    }
+  }
+
+  return sum;
 }
 
 

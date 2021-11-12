@@ -48,6 +48,8 @@ class Cube_Solver_Clustering: public Solver {
   public:
     Cube_Solver_Clustering(std::vector<clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
     ~Cube_Solver_Clustering(){};
+    int clusteringRangeSearch(float radius, Data_item* centroid, int id);
 };
+
 
 #endif

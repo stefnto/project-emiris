@@ -33,8 +33,10 @@ LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k
 
   int itemDim = clusteringData->at(0)->get_coordinates_size();
 
+  this->w = avgDistance(*clusteringData) / 2;
+
   for (int i = 0 ; i < L ; i++)
-    hashTables[i].init(itemDim,k,clusteringData->size()/4,33);
+    hashTables[i].init(itemDim,k,clusteringData->size()/8, w);
 
   for (clustering_data_item* item : *clusteringData){
     for (int i = 0 ; i < L; i++)
@@ -44,8 +46,11 @@ LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k
 
 int LSH_solver::clusteringRangeSearch(float radius,Data_item* cent,int id){
   int sum = 0;
-  for (int i = 0 ; i < L; i++)
+  for (int i = 0 ; i < L; i++){
+    // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
     sum += hashTables[i].clusteringRangeSearch(cent,radius);
+  }
+
   return sum;
 }
 
@@ -176,27 +181,13 @@ int LSH_HashTable::clusteringRangeSearch(Data_item* centroid,float radius){
   int index = this->hashingFunction(centroid);
   int sum = 0;
   for (Data_item* item : this->buckets[index]){
+
     if ( centroid->get_id() == item->get_id() ){
 
       float distanceFromCentroid;
-      clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);                      // clustering_data_item* pointing to each data_item in the 'buckets[index]'
+      clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
 
-      if ( c_d_item->getRadius() ){                                                                     // if radius is set
-        if (radius == c_d_item->getRadius() && std::stoi(centroid->getName()) != c_d_item->getCluster() ){
-
-          distanceFromCentroid = item->calculateDistance(centroid);                                           // calculate distance from current centroid to item
-          if ( distanceFromCentroid < c_d_item->getDistanceFromQuery() ) {
-            c_d_item->setDistanceFromQuery(distanceFromCentroid);
-            c_d_item->setCluster(std::stoi(centroid->getName()));
-            sum++;                                                                //new change made
-          }
-        }
-      }else{
-        sum++;
-        c_d_item->setCluster(std::stoi(centroid->getName()));
-        c_d_item->setRadius(radius);
-        c_d_item->setDistanceFromQuery(centroid);
-      }
+      checkRadiusOfItem(centroid, radius, c_d_item, sum);
     }
   }
   return sum;

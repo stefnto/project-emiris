@@ -41,27 +41,42 @@ class Cube_HashTable {
   public:
     Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w);
     ~Cube_HashTable();
+
     template <typename T>
-    void insertV_points(std::vector<T*>& points_coordinates);
+    void insertV_points(std::vector<T*>& points_coordinates){
+      int counter = 0;
+      for (int i = 0; i < points_coordinates.size(); i++){
+
+        hcube_points.emplace_back(Vertex_point(this->itemDim));
+
+        unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
+
+        this->buckets[index].emplace_back(points_coordinates[i]);
+      }
+
+    };
+
     void empty_buckets(int );
+
     Cube_Set* NN(Data_item* item, int m, int probes);                           // m is the numebr of NN that will be checked for the query
 
+    int clusteringRangeSearch(Data_item* centroid,float radius, int m, int probes);
 
 
 };
 
-template <typename T>
-void Cube_HashTable::insertV_points(std::vector<T *>& points_coordinates){
-  int counter = 0;
-  for (int i = 0; i < points_coordinates.size(); i++){
-
-    hcube_points.emplace_back(Vertex_point(this->itemDim));
-
-    unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
-
-    this->buckets[index].emplace_back(points_coordinates[i]);
-  }
-};
+// template <typename T>
+// void Cube_HashTable::insertV_points(std::vector<T *>& points_coordinates){
+//   int counter = 0;
+//   for (int i = 0; i < points_coordinates.size(); i++){
+//
+//     hcube_points.emplace_back(Vertex_point(this->itemDim));
+//
+//     unsigned long long index = this->hcube_points[i](points_coordinates[i], this->hFunc, this->sets);
+//
+//     this->buckets[index].emplace_back(points_coordinates[i]);
+//   }
+// };
 
 class Cube_Solver: public Solver {
   private:
