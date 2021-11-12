@@ -1,7 +1,6 @@
 #include "LSH.hpp"
 
 
-
 //LSH_solver Methods
 
 LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
@@ -9,8 +8,6 @@ LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::st
   {
   double sttime, endtime;                                                       // to compute total run time
   this->hashTables = new LSH_HashTable[l];
-
-  // Data_item::setDistanceFunction(distanceFunction);                          // computing distance between Data_items is handled by the class Data_item
 
   int itemsRead = readItems(dataset_path, points_coordinates);                  // reads and inserts items to points_coordinates
 
@@ -31,34 +28,6 @@ LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::st
   }else std::cout << "dataset_path is empty" << std::endl;
 }
 
-// LSH_solver::LSH_solver(std::vector<clustering_data_item *> *clusteringData,int k,int L, int N ,int R , double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) ):n(N),r(r),L(L),clusteringData(clusteringData),clusteringMode(1){
-//
-//   this->hashTables = new LSH_HashTable[L];
-//
-//   Data_item::setDistanceFunction(distanceFunction);
-//
-//   int itemDim = clusteringData->at(0)->get_coordinates_size();
-//
-//   this->w = avgDistance(*clusteringData) / 2;
-//
-//   for (int i = 0 ; i < L ; i++)
-//     hashTables[i].init(itemDim,k,clusteringData->size()/8, w);
-//
-//   for (clustering_data_item* item : *clusteringData){
-//     for (int i = 0 ; i < L; i++)
-//       hashTables[i].insert(item);
-//   }
-// }
-
-// int LSH_solver::clusteringRangeSearch(float radius,Data_item* cent,int id){
-//   int sum = 0;
-//   for (int i = 0 ; i < L; i++){
-//     // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
-//     sum += hashTables[i].clusteringRangeSearch(cent,radius);
-//   }
-//
-//   return sum;
-// }
 
 bool LSH_solver::solve(){
   LSH_Set *result_approx_NN;                                                    // ordered set of ANNs for each query
@@ -79,6 +48,7 @@ bool LSH_solver::solve(){
   return true;
 }
 
+
 LSH_Set* LSH_solver::NNandRS(Data_query* query){
 
   auto comp = [](const Data_point* a,const Data_point* b) -> bool {return a->getDistanceFromQuery() < b->getDistanceFromQuery();};
@@ -98,11 +68,13 @@ LSH_Set* LSH_solver::NNandRS(Data_query* query){
   return nn;
 }
 
+
 void LSH_solver::printQueries() const {
   int i = 1;
   for (Data_query* query : queries)
     std::cout << "query " << i++ << " : " << query->get_item_id() << std::endl;
 }
+
 
 void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double> &true_nn){
   std::ofstream output_file;
@@ -134,7 +106,7 @@ void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double
     output_file << std::endl;
 
     output_file << "Checking in radius " << this->r << " from query :" << std::endl << std::endl;
-    
+
     for (Data_point *point : *result){
       float dFromQuery = point->getDistanceFromQuery();
       if (dFromQuery < this->r)
@@ -146,6 +118,7 @@ void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double
               << std::endl;
 }
 
+
 LSH_solver::~LSH_solver(){
   delete[] this->hashTables;
   for (Data_item* item : this->points_coordinates) delete item;
@@ -155,12 +128,14 @@ LSH_solver::~LSH_solver(){
 }
 
 
+
 // LSH_HashTable Methods
 
 LSH_HashTable::LSH_HashTable(int itemDim, unsigned long long tableSize, int k, int w)
   : HashTable(k, tableSize), hashingFunction(itemDim, k, tableSize, w){
   this->buckets = new std::list<Data_point*>[tableSize];
 }
+
 
 void LSH_HashTable::init(int itemDim, unsigned long long tableSize, int k, int w){
   this->k = k;
@@ -170,14 +145,17 @@ void LSH_HashTable::init(int itemDim, unsigned long long tableSize, int k, int w
   this->hashingFunction.init(itemDim, k, tableSize, w);
 }
 
+
 LSH_HashTable::~LSH_HashTable(){
   delete[] this->buckets;
 }
+
 
 void LSH_HashTable::insert(Data_point* item){
   int index = this->hashingFunction(item);
   this->buckets[index].push_back(item);
 }
+
 
 void LSH_HashTable::NearestNeighbours(Data_query* query,LSH_Set* ordSet){
 
@@ -193,21 +171,6 @@ void LSH_HashTable::NearestNeighbours(Data_query* query,LSH_Set* ordSet){
 
 }
 
-// int LSH_HashTable::clusteringRangeSearch(Data_item* centroid,float radius){
-//   int index = this->hashingFunction(centroid);
-//   int sum = 0;
-//   for (Data_item* item : this->buckets[index]){
-//
-//     if ( centroid->get_id() == item->get_id() ){
-//
-//       float distanceFromCentroid;
-//       clustering_data_item *c_d_item = dynamic_cast<clustering_data_item *>(item);
-//
-//       checkRadiusOfItem(centroid, radius, c_d_item, sum);
-//     }
-//   }
-//   return sum;
-// }
 
 
 // gFunction Methods
@@ -217,6 +180,7 @@ gFunction::gFunction(int itemDim, int k, unsigned long long tableSize, int w): t
       linearCombinationElements.push_back( std::pair<int,hFunction>( rGenerator(),hFunction(itemDim, w) ) );
 }
 
+
 void gFunction::init(int itemDim, int k, unsigned long long tableSize, int w){
     this->k = k;
     this->tableSize = tableSize;
@@ -224,19 +188,6 @@ void gFunction::init(int itemDim, int k, unsigned long long tableSize, int w){
       linearCombinationElements.push_back( std::pair<int, hFunction>( rGenerator(), hFunction(itemDim, w) ) );
 }
 
-// int gFunction::operator()(Data_point* item){
-//
-//     long M = 0xFFFFFFFF - 4;    // 2^32 - 1 - 4
-//     long sum = 0 ;
-//
-//     for (std::pair<int,hFunction> elem : linearCombinationElements)
-//       sum += mod( ( elem.first*elem.second(item) ), M );
-//
-//     sum = mod(sum, M);
-//     item->set_ID(sum);   //setting id of the item
-//
-//     return mod(sum, tableSize);
-// }
 
 
 // Gneral Methods

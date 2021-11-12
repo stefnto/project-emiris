@@ -27,16 +27,16 @@ class Vertex_point {
 
       int count = 0;
       for (hFunction h_i : hFunc){
-        int tmp = h_i(item);                                                        // h_i(p)
-        auto search = sets[count].find(tmp);                                        // search in the set for the specific h_i
+        int tmp = h_i(item);                                                    // h_i(p)
+        auto search = sets[count].find(tmp);                                    // search in the set for the specific h_i
 
-        if ( search == sets[count].end() ){                                           // an h_i(p) with value 'tmp' doesn't exist
-          int bit = mod( rand()*tmp, 2 );                                             // randomly generate 0 or 1
-          sets[count].insert( {tmp, bit} );                                         // and then map it to the h_i(p) value
+        if ( search == sets[count].end() ){                                     // an h_i(p) with value 'tmp' doesn't exist
+          int bit = mod( rand()*tmp, 2 );                                       // randomly generate 0 or 1
+          sets[count].insert( {tmp, bit} );                                     // and then map it to the h_i(p) value
           bit_concat(bit);
         }
-        else {                                                                      // h_i(p) with value 'tmp' exists
-          bit_concat(search->second);                                               // concat the already generated f_i( h_i(p) ) to the binary_hash
+        else {                                                                  // h_i(p) with value 'tmp' exists
+          bit_concat(search->second);                                           // concat the already generated f_i( h_i(p) ) to the binary_hash
         }
 
         count++;
@@ -48,9 +48,7 @@ class Vertex_point {
 
 
 class Cube_HashTable: public HashTable {
-  private:
-    // unsigned long long size;
-    // int k;
+  protected:
     int itemDim;
     int w;
     std::vector<Vertex_point> hcube_points;                                     // will be size of number of points from input
@@ -65,7 +63,6 @@ class Cube_HashTable: public HashTable {
 
   public:
     Cube_HashTable(int k, int dim, unsigned long long buckets_no, int w);
-    // Cube_HashTable(int k, int dim, unsigned long long buckets_no, int points_no, int w);
     ~Cube_HashTable();
 
     template <typename T>
@@ -84,9 +81,7 @@ class Cube_HashTable: public HashTable {
 
     void empty_buckets(int );
 
-    Cube_Set* NN(Data_query* query, int m, int probes);                           // m is the numebr of NNs that will be checked for the query
-
-    // int clusteringRangeSearch(Data_item* centroid,float radius, int m, int probes);
+    Cube_Set* NN(Data_query* query, int m, int probes);                         // m is the numebr of NNs that will be checked for the query
 
 
 };
@@ -105,6 +100,7 @@ class Cube_Solver: public Solver {
     ~Cube_Solver();
     bool solve();
     void writeResult(Cube_Set* result, Data_query* query, std::set<double>& true_nn);
+    
 };
 
 

@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
 
   string input_file,output_file, config_file, method_str;
   int iflag = 1, oflag = 1, cflag = 1, mflag = 1;
-  int k_lsh = 4, l_lsh = 3, n = 1, r = 10000;                                           // default values if not changed
+  int k_lsh = 4, l_lsh = 3, n = 1, r = 10000;                                   // default values if not changed
   int k_medians = 3;
   int m_cube = 10, k_cube = 3, probes_cube = 2;
   method m;
@@ -97,7 +97,7 @@ int main(int argc, char *argv[]){
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
 
-  clustering a(input_file, output_file, k_lsh, l_lsh, n, r, k_medians, m_cube, k_cube, probes_cube);
+  Clustering_Solver a(input_file, output_file, k_lsh, l_lsh, n, r, k_medians, m_cube, k_cube, probes_cube);
 
   a.solve(m);
   endtime=((double) clock())/CLOCKS_PER_SEC;

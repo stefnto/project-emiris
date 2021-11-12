@@ -12,7 +12,6 @@
 
 class item_Exception{};
 
-using centroid = std::vector<int>;
 
 double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b);
 
@@ -22,7 +21,7 @@ class Data_query;
 
 class Data_item {
   protected:
-    std::string item_id;                                                           // is id from input_file
+    std::string item_id;                                                        // is id from input_file
     std::vector<int> coordinates;
     static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
 
@@ -43,7 +42,7 @@ class Data_item {
 
 class Data_point: public Data_item {
   private:
-    long ID;                                                                    // id computed from (Σ r * h) mod M
+    long ID;                                                                    // ID computed from Σ (r * h) mod M
     double distanceFromQuery = 0;                                               // distance of item from each query checked at a time
 
   public:
@@ -59,8 +58,6 @@ class Data_point: public Data_item {
     void setDistanceFromQuery(float distanceFromQuery);
     float getDistanceFromQuery() const;
 
-    float calculateDistance(Data_item *item) const {return distanceFunction(item->getCoordinates(), coordinates); }
-    float calculateDistance(const centroid &cent) const { return distanceFunction(coordinates, cent); }
 };
 
 class Data_query: public Data_item {
@@ -87,6 +84,7 @@ class Data_query: public Data_item {
 
 };
 
+
 class Solver {
   protected:
     int n;                                                                      // number of Nearest Neighbours we're looking for
@@ -98,6 +96,7 @@ class Solver {
     Solver(int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
     virtual ~Solver(){};
 };
+
 
 class HashTable {
   protected:
@@ -111,32 +110,9 @@ class HashTable {
 };
 
 
-
-
-
-
-
-// class clustering_data_item : public Data_item {
-//     public:
-//         clustering_data_item(std::string line):Data_item(line),cluster(-1){}
-//         void setCluster(int cluster){this->cluster = cluster;}
-//         int getCluster() const {return cluster;}
-//         float getRadius() const  {return radius;}
-//         void setRadius(float radius) { this->radius = radius;}
-//         void findNearestCentroid(centroid* centroids,int size);
-//         void setSilhouette(float silhouette){this->silhouette = silhouette;}
-//         float getSilhouette() const {return this->silhouette;}
-//
-//     private:
-//         int cluster;
-//         float radius= 0 ;
-//         float silhouette = 0;
-// };
-
-
 class hFunction{                                                                // floor( (p*v + t)/ w )
   private:
-    std::vector<float> v;                                                   //contains vector V
+    std::vector<float> v;                                                       //contains vector V
     float t;
     const int w;
 
@@ -146,11 +122,9 @@ class hFunction{                                                                
     std::vector<float>& getv();
 };
 
+
 long mod(long x, long y);
 
-
-
-float minDist(centroid* centroids,int size);
 
 template <typename T>
 int readItems(std::string dataset_path, std::vector<T *> &container){
@@ -173,13 +147,15 @@ int readItems(std::string dataset_path, std::vector<T *> &container){
     return counter;
 }
 
-    int rGenerator();
+
+int rGenerator();
+
 
 void getNumbersWithHammingDistance(int k, unsigned long long number, int probes, std::set<unsigned long long>& set);
 
+
 void bruteForceSearch(Data_query *query, std::vector<Data_point*>& points_coordinates, int n, std::set<double>& true_nn_distances);
 
-// void checkRadiusOfItem(Data_item* centroid, float radius, clustering_data_item* c_d_item, int& sum);
 
 template<typename T>
 int avgDistance(std::vector<T*>& points_coordinates){
@@ -204,5 +180,7 @@ int avgDistance(std::vector<T*>& points_coordinates){
   return dist;
 }
 
+
 void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians, int& m_cube, int& k_cube, int& probes_cube);
+
 #endif

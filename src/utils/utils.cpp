@@ -15,7 +15,7 @@ Data_item::Data_item(std::string line){
   ss >> itmID;
   this->item_id = itmID;
   while (ss >> number){
-    this->coordinates.emplace_back(number);           // push each coordinate
+    this->coordinates.emplace_back(number);                                     // push each coordinate
   }
 }
 
@@ -75,6 +75,7 @@ float Data_point::getDistanceFromQuery() const{
 }
 
 
+
 // Data_query Methods
 
 void Data_query::set_ID(long id){
@@ -112,23 +113,6 @@ double Data_query::getShorterDistance(){
 
 
 
-
-// //clustering_data_item
-// void clustering_data_item::findNearestCentroid(centroid* centroids,int size){
-//   float minD = this->calculateDistance(centroids[0]);
-//   int cent = 0;
-//   for (int i = 0; i < size; i++ ){
-//     float dist = this->calculateDistance(centroids[i]);
-//     if (dist < minD){
-//         cent = i;
-//         minD = dist;
-//     }
-//   }
-//   this->setCluster(cent);
-// }
-
-
-
 // Solver Methods
 
 Solver::Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
@@ -145,7 +129,9 @@ Solver::Solver(int n, int r, double (*distanceFunction)(const std::vector<int>& 
 
   }
 
-//hFunction Methods
+
+
+// hFunction Methods
 
 hFunction::hFunction(int itemSize, int w): w(w){
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -181,7 +167,9 @@ std::vector<float>& hFunction::getv(){
   return this->v;
 }
 
-//          General functions
+
+
+// General functions
 
 
 long mod(long x, long y){
@@ -229,7 +217,6 @@ void getNumbersWithHammingDistance(int k, unsigned long long number, int probes,
 }
 
 
-
 void bruteForceSearch(Data_query *query, std::vector<Data_point*>& points_coordinates, int n, std::set<double>& true_nn_distances){
   double sttime, endtime;                                                       // to compute total run time
 
@@ -257,33 +244,6 @@ void bruteForceSearch(Data_query *query, std::vector<Data_point*>& points_coordi
   query->setBruteForcetime( endtime - sttime);
 }
 
-
-// void checkRadiusOfItem(Data_item* centroid, float radius, clustering_data_item* c_d_item, int& sum){
-//
-//   float distanceFromCentroid;
-//
-//   if ( c_d_item->getRadius() ){                                                                               // item was previously checked for a specific radius
-//
-//     // if point has been checked for the same radius but for a different cluster
-//     if (radius == c_d_item->getRadius() && std::stoi(centroid->getName()) != c_d_item->getCluster() ){
-//
-//       distanceFromCentroid = c_d_item->calculateDistance(centroid);                                           // calculate distance from current centroid to item
-//       // std::cout << "Query " << c_d_item->getName() << " dist = " << c_d_item->getDistanceFromQuery() << std::endl;
-//       // std::cout << "distance from centroid = " << distanceFromCentroid << std::endl;
-//       if ( distanceFromCentroid < c_d_item->getDistanceFromQuery() ) {
-//         c_d_item->setDistanceFromQuery(distanceFromCentroid);
-//         c_d_item->setCluster(std::stoi(centroid->getName()));
-//         sum++;                                                                //new change made
-//       }
-//     }
-//   }
-//   else{
-//     sum++;
-//     c_d_item->setCluster(std::stoi(centroid->getName()));
-//     c_d_item->setRadius(radius);
-//     c_d_item->setDistanceFromQuery(centroid);
-//   }
-// }
 
 void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians, int& m_cube, int& k_cube, int& probes_cube){
 
