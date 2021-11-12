@@ -144,7 +144,30 @@ void getNumbersWithHammingDistance(int k, unsigned long long number, int probes,
 
 void bruteForceSearch(Data_item *item, std::vector<Data_item*>& points_coordinates, int n, std::set<double>& true_nn_distances);
 
-int avgDistance(std::vector<Data_item*>& points_coordinates);
+void checkRadiusOfItem(Data_item* centroid, float radius, clustering_data_item* c_d_item, int& sum);
+
+template<typename T>
+int avgDistance(std::vector<T*>& points_coordinates){
+  srand(time(NULL));
+  std::set<int> set;
+  double dist = 0;
+  int num = ( 5 * points_coordinates.size() ) / 1000;                           // for 1000 points check 5 vectors to find mean distance
+                                                                                // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
+  for (int i = 0; i < num; i++){
+    int tmp = rand() % points_coordinates.size();
+
+    auto search = set.find(tmp);
+    if (search == set.end()){
+      set.insert(tmp);
+    }
+
+    for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){  // compute each distance of first point to the other 'set.size() - 1' points
+      dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
+    }
+    dist = dist / set.size();                                                   // get the mean distance
+  }
+  return dist;
+}
 
 void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians, int& m_cube, int& k_cube, int& probes_cube);
 #endif

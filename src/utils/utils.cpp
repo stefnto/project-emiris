@@ -67,6 +67,7 @@ void Data_item::setDistanceFromQuery(float distanceFromQuery){
 const std::vector<int>& Data_item::getCoordinates() const {
   return this->coordinates;
 }
+
 //clustering_data_item
 void clustering_data_item::findNearestCentroid(centroid* centroids,int size){
   float minD = this->calculateDistance(centroids[0]);
@@ -238,26 +239,31 @@ void bruteForceSearch(Data_item *query, std::vector<Data_item*>& points_coordina
 }
 
 
-int avgDistance(std::vector<Data_item*>& points_coordinates){
-  srand(time(NULL));
-  std::set<int> set;
-  double dist = 0;
-  int num = ( 5 * points_coordinates.size() ) / 1000;                           // for 1000 points check 5 vectors to find mean distance
-                                                                                // so for y points in the data set, x = ( 5 * y ) / 1000 number of vectors will be checked for mean distance
-  for (int i = 0; i < num; i++){
-    int tmp = rand() % points_coordinates.size();
+void checkRadiusOfItem(Data_item* centroid, float radius, clustering_data_item* c_d_item, int& sum){
 
-    auto search = set.find(tmp);
-    if (search == set.end()){
-      set.insert(tmp);
-    }
+  float distanceFromCentroid;
 
-    for (std::set<int>::iterator it = std::next(set.begin(), 1); it!=set.end(); ++it){  // compute each distance of first point to the other 'set.size() - 1' points
-      dist += EuclidianDistance(points_coordinates[*set.begin()]->getCoordinates(), points_coordinates[*it]->getCoordinates());
+  if ( c_d_item->getRadius() ){                                                                               // item was previously checked for a specific radius
+
+    // if point has been checked for the same radius but for a different cluster
+    if (radius == c_d_item->getRadius() && std::stoi(centroid->getName()) != c_d_item->getCluster() ){
+
+      distanceFromCentroid = c_d_item->calculateDistance(centroid);                                           // calculate distance from current centroid to item
+      // std::cout << "Query " << c_d_item->getName() << " dist = " << c_d_item->getDistanceFromQuery() << std::endl;
+      // std::cout << "distance from centroid = " << distanceFromCentroid << std::endl;
+      if ( distanceFromCentroid < c_d_item->getDistanceFromQuery() ) {
+        c_d_item->setDistanceFromQuery(distanceFromCentroid);
+        c_d_item->setCluster(std::stoi(centroid->getName()));
+        sum++;                                                                //new change made
+      }
     }
-    dist = dist / set.size();                                                   // get the mean distance
   }
-  return dist;
+  else{
+    sum++;
+    c_d_item->setCluster(std::stoi(centroid->getName()));
+    c_d_item->setRadius(radius);
+    c_d_item->setDistanceFromQuery(centroid);
+  }
 }
 
 void readConfig(std::string config_file, int& k_lsh, int& l_lsh, int& k_medians, int& m_cube, int& k_cube, int& probes_cube){
