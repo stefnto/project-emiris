@@ -8,17 +8,6 @@
 
 double (*Data_item::distanceFunction)(const std::vector<int>& a,const std::vector<int>& b ) = nullptr;
 
-Data_item::Data_item(std::string name, std::vector<int> coordinates):name(name),coordinates(coordinates){}
-
-void Data_item::set_id(long id){
-
-    this->ID = id;
-}
-
-long Data_item::get_id() const{
-  return this->ID;
-}
-
 Data_item::Data_item(std::string line){
   std::stringstream ss(line);
   int number;
@@ -30,6 +19,39 @@ Data_item::Data_item(std::string line){
   }
 }
 
+Data_item::Data_item(std::string name, std::vector<int> coordinates):name(name),coordinates(coordinates){}
+
+const std::vector<int>& Data_item::getCoordinates() const {
+  return this->coordinates;
+}
+
+void Data_item::print_coordinates(){
+  for (int i = 0; i < this->coordinates.size(); i++){
+    std::cout << this->coordinates[i] << " " ;
+  }
+  std::cout << std::endl;
+}
+
+int Data_item::get_coordinates_size(){
+  return this->coordinates.size();
+}
+
+std::string Data_item::getName()const{
+  return this->name;
+}
+
+void Data_item::setDistanceFunction(double (*dFunction)(const std::vector<int>& a, const std::vector<int>& b)){
+      distanceFunction = dFunction;
+}
+
+double (* Data_item::getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b){
+  return this->distanceFunction;
+}
+
+
+
+
+
 void Data_item::setDistanceFromQuery(Data_item* query){
   this->distanceFromQuery = Data_item::distanceFunction(this->coordinates,query->coordinates);
 }
@@ -38,34 +60,19 @@ float Data_item::getDistanceFromQuery() const{
   return this->distanceFromQuery;
 }
 
-void Data_item::setDistanceFunction(double (*dFunction)(const std::vector<int>& a, const std::vector<int>& b)){
-      distanceFunction = dFunction;
-}
 
-std::string Data_item::getName()const{return this->name;}
-double (* Data_item::getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b){
-  return this->distanceFunction;
-}
-
-
-
-void Data_item::print_coordinates(){
-  for (int i = 0; i < this->coordinates.size(); i++){
-    std::cout << this->coordinates[i] << " " ;
-  }
-  std::cout << std::endl;
-}
 void Data_item::setDistanceFromQuery(float distanceFromQuery){
   this->distanceFromQuery = distanceFromQuery;
 }
 
-    int Data_item::get_coordinates_size()
-{
-  return this->coordinates.size();
+
+void Data_item::set_id(long id){
+
+    this->ID = id;
 }
 
-const std::vector<int>& Data_item::getCoordinates() const {
-  return this->coordinates;
+long Data_item::get_id() const{
+  return this->ID;
 }
 
 //clustering_data_item
@@ -112,7 +119,7 @@ double Data_item::getShorterDistance(){
 Solver::Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
   : n(n), r(r), output_filepath(output_filepath){
 
-  Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
+  Data_item::setDistanceFunction(distanceFunction);                             // computing distance between Data_items is handled by the class Data_item
 
 }
 

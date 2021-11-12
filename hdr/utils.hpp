@@ -39,30 +39,49 @@ class HashTable {
     virtual ~HashTable(){};
 };
 
-class Data_item{
+class Data_item {
+  protected:
+    std::string name;                                                           // is id from input_file
+    std::vector<int> coordinates;
+    static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
+
+  private:
+    Data_item(){};
+    Data_item(std::string line);
+    Data_item(std::string name, std::vector<int> coordinates);
+    virtual ~Data_item(){};
+
+    const std::vector<int> &getCoordinates() const;
+    void print_coordinates();
+    int get_coordinates_size();
+    std::string getName() const;
+
+    static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
+    double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
+};
+
+class Data_point: public Data_item {
     private:
-        std::string name;                                                       // is id from input_file
-        std::vector<int> coordinates;
         long ID;                                                                // id computed from (Σ r * h) mod M
         double distanceFromQuery = 0;                                           // distance of item from each query checked at a time
         double algorithmTime = 0;
         double bruteforceTime = 0;
         double shorterDistance = 0;                                             // used in brute force method
 
-        static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
+        // static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
 
     public:
-        Data_item(){};
-        Data_item(std::string item_id, std::vector<int> coordinates);
-        Data_item(std::string line);
-        virtual ~Data_item() = default;
+        Data_point(){};
+        Data_point(std::string item_id, std::vector<int> coordinates);
+        Data_point(std::string line);
+        ~Data_point(){};
         Data_item(Data_item &) = default;
         void set_id(long id);
         long get_id() const;
 
-        const std::vector<int> &getCoordinates() const;
-        void print_coordinates();
-        int get_coordinates_size();
+        // const std::vector<int> &getCoordinates() const;
+        // void print_coordinates();
+        // int get_coordinates_size();
         void setDistanceFromQuery(Data_item *query);
         void setDistanceFromQuery(float dist);
         float getDistanceFromQuery() const;
@@ -73,12 +92,12 @@ class Data_item{
         double getAlgorithmTime();
         double getBruteForceTime();
         double getShorterDistance();
-        std::string getName() const;
+        // std::string getName() const;
 
         float calculateDistance(Data_item *item) const {return distanceFunction(item->coordinates, coordinates); }
         float calculateDistance(const centroid &cent) const { return distanceFunction(coordinates, cent); }
-        static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
-        double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
+        // static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
+        // double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
 };
 
 class clustering_data_item : public Data_item {
