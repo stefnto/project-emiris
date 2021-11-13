@@ -23,6 +23,7 @@ class Data_item {
   protected:
     std::string item_id;                                                        // is id from input_file
     std::vector<int> coordinates;
+    std::vector<long> IDs;
     static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
 
   public:
@@ -36,6 +37,8 @@ class Data_item {
     int get_coordinates_size();
     std::string get_item_id() const;
 
+    void ID_push_back(long id) { IDs.push_back(id); }
+    int getID(int pos) const { return IDs[pos]; }
     static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
     double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
 };
@@ -54,6 +57,7 @@ class Data_point: public Data_item {
     void set_ID(long id);
     long get_ID() const;
 
+
     void setDistanceFromQuery(Data_query* query);
     void setDistanceFromQuery(float distanceFromQuery);
     float getDistanceFromQuery() const;
@@ -62,7 +66,7 @@ class Data_point: public Data_item {
 
 class Data_query: public Data_item {
   private:
-    long ID;
+    long ID;                                                                    // ?
     double algorithmTime = 0;
     double bruteforceTime = 0;
     double shorterDistance = 0;                                                 // used in brute force method
@@ -74,6 +78,7 @@ class Data_query: public Data_item {
 
     void set_ID(long id);
     long get_ID() const;
+
 
     void setAlgorithmTime(double time);
     void setBruteForcetime(double time);

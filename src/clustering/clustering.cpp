@@ -340,7 +340,7 @@ void Clustering_Solver::reverseAssignmentLSH(){
     centroids = nextCentroids;
     nextCentroids = new Centroid[k_medians];
   }
-  // float totalSil = silhouette(centroids);
+   float totalSil = silhouette(centroids);
 
   delete[] nextCentroids;
   delete[] centroids;
@@ -348,8 +348,8 @@ void Clustering_Solver::reverseAssignmentLSH(){
   std::ofstream output_file;
   output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
   for (Clustering_data_item *item : input_data)
-    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
-  // output_file << "total silhouette " << totalSil << std::endl;
+    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() << " silhouette : " << item->getSilhouette() << std::endl;
+   output_file << "total silhouette " << totalSil << std::endl;
   output_file.close();
 }
 
@@ -413,7 +413,7 @@ void Clustering_Solver::reverseAssignmentCube(){
     centroids = nextCentroids;
     nextCentroids = new Centroid[k_medians];
   }
-  // float totalSil = silhouette(centroids);
+   float totalSil = silhouette(centroids);
 
   delete[] nextCentroids;
   delete[] centroids;
@@ -421,8 +421,8 @@ void Clustering_Solver::reverseAssignmentCube(){
   std::ofstream output_file;
   output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
   for (Clustering_data_item *item : input_data)
-    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
-  // output_file << "total silhouette " << totalSil << std::endl;
+    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() << " silhouette : " << item->getSilhouette() << std::endl;
+     output_file << "total silhouette " << totalSil << std::endl;
   output_file.close();
 
 }
@@ -452,14 +452,14 @@ void LSH_HashTable_Clustering::initHT(int itemDim, unsigned long long tableSize,
 }
 
 
-int LSH_HashTable_Clustering::clusteringRangeSearch(Clustering_data_item* centroid, double radius){
+int LSH_HashTable_Clustering::clusteringRangeSearch(Clustering_data_item* centroid, double radius,int index){
 
-  int index = this->hashingFunction(centroid);
+  int pos = this->hashingFunction(centroid);
   int sum = 0;
 
-  for (Data_point* item : this->buckets[index]){
+  for (Data_point* item : this->buckets[pos]){
 
-    if ( centroid->get_ID() == item->get_ID() ){
+    if ( centroid->getID(index) == item->getID(index) ){
 
       double distanceFromCentroid;
       Clustering_data_item* c_d_item = dynamic_cast<Clustering_data_item *>(item);                    // typecast Data_point* to Clustering_data_item*
@@ -549,12 +549,10 @@ LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<Clustering_data_item *>
 
   this->w = avgDistance(clusteringData) / 2;
 
-  for (int i = 0 ; i < l ; i++)
-    hashTables[i].initHT(itemDim, clusteringData.size()/8, k, w);
+  for (int i = 0 ; i < l ; i++) hashTables[i].initHT(itemDim, clusteringData.size()/8, k, w);
 
   for (Clustering_data_item* item : clusteringData){
-    for (int i = 0 ; i < l; i++)
-      hashTables[i].insert(item);
+    for (int i = 0 ; i < l; i++) hashTables[i].insert(item);
   }
 }
 
@@ -569,7 +567,7 @@ int LSH_Solver_Clustering::clusteringRangeSearch(Clustering_data_item* centroid,
   int sum = 0;
   for (int i = 0 ; i < l; i++){
     // std::cout << "checking ht " << i+1 << " with radius = " << radius << std::endl;
-    sum += hashTables[i].clusteringRangeSearch(centroid, radius);
+    sum += hashTables[i].clusteringRangeSearch(centroid, radius,i);
   }
 
   return sum;

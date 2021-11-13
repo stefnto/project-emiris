@@ -89,12 +89,12 @@ class LSH_HashTable_Clustering: public LSH_HashTable {
   public:
     LSH_HashTable_Clustering(){};
     LSH_HashTable_Clustering(int itemDim, unsigned long long tableSize, int k, int w):
-        LSH_HashTable(itemDim, tableSize, k, w){};
+    LSH_HashTable(itemDim, tableSize, k, w){};
     ~LSH_HashTable_Clustering(){};
 
     void initHT(int itemDim, unsigned long long tableSize, int k, int w);
 
-    int clusteringRangeSearch(Clustering_data_item* centroid, double radius);
+    int clusteringRangeSearch(Clustering_data_item* centroid, double radius,int index);
 
 };
 

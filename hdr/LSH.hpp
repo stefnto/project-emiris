@@ -40,6 +40,7 @@ class gFunction{                                                                
 
       sum = mod(sum, M);
       item->set_ID(sum);                                                        //setting id of the item
+      item->ID_push_back(sum);
 
       return mod(sum, tableSize);
     }
@@ -58,7 +59,7 @@ class LSH_HashTable: public HashTable {
     void init(int itemDim, unsigned long long tableSize, int k, int w);
 
     void insert(Data_point* item);
-    void NearestNeighbours(Data_query* query, LSH_Set* ordSet);
+    void NearestNeighbours(Data_query* query, LSH_Set* ordSet,int index);
 
 };
 

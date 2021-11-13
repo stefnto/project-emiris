@@ -13,7 +13,7 @@ LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::st
 
   int queriesRead = readItems(query_path, queries);
 
-  this->w = avgDistance(this->points_coordinates) / 2;                          // use avgDistance() to generate a 'w' for the 'h' functions
+  this->w =  avgDistance(this->points_coordinates) / 2;                          // use avgDistance() to generate a 'w' for the 'h' functions
 
   if ( itemsRead ) {
     int itemDim = points_coordinates[0]->get_coordinates_size();
@@ -59,7 +59,7 @@ LSH_Set* LSH_solver::NNandRS(Data_query* query){
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
   for (int i = 0; i < l; i++)
-    this->hashTables[i].NearestNeighbours(query, nn);                           // search NN of query for each hashTable
+    this->hashTables[i].NearestNeighbours(query, nn,i);                           // search NN of query for each hashTable
 
   endtime=((double) clock())/CLOCKS_PER_SEC;
 
@@ -79,6 +79,8 @@ void LSH_solver::printQueries() const {
 void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double> &true_nn){
   std::ofstream output_file;
   output_file.open(output_filepath, std::ofstream::out | std::ofstream::app);
+
+  output_file << "For w : " << this->w << std::endl;
 
   output_file << "Query : " << query->get_item_id() << std::endl;
 
@@ -157,12 +159,12 @@ void LSH_HashTable::insert(Data_point* item){
 }
 
 
-void LSH_HashTable::NearestNeighbours(Data_query* query,LSH_Set* ordSet){
+void LSH_HashTable::NearestNeighbours(Data_query* query,LSH_Set* ordSet,int index){
 
-  int index = this->hashingFunction(query);
+  int pos = this->hashingFunction(query);
 
-  for (Data_point* point : this->buckets[index]){
-    if ( query->get_ID() == point->get_ID() ){
+  for (Data_point* point : this->buckets[pos]){
+    if ( query->getID(index) == point->getID(index) ){
 
       point->setDistanceFromQuery(query);
       ordSet->insert(point);

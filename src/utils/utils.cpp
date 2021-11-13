@@ -193,7 +193,11 @@ double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b){
 }
 
 int rGenerator(){
-  return rand() % 2000 - 999;
+    //initialize random seed
+    srand(time(NULL));
+
+    char sign = rand() % 10;                    //defines the sign of the number to be returned
+    return rand() * (int)pow(-1,sign);
 }
 
 // fills the referenced set with numbers that have 'hamming_distance' from 'number' that was given
