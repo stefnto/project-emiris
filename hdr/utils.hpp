@@ -46,7 +46,7 @@ class Data_item {
 
 class Data_point: public Data_item {
   private:
-    long ID;                                                                    // ID computed from Σ (r * h) mod M
+    // long ID;                                                                    // ID computed from Σ (r * h) mod M
     double distanceFromQuery = 0;                                               // distance of item from each query checked at a time
 
   public:
@@ -65,7 +65,7 @@ class Data_point: public Data_item {
 
 class Data_query: public Data_item {
   private:
-    long ID;                                                                    // ?
+    // long ID;                                                                    // ?
     double algorithmTime = 0;
     double bruteforceTime = 0;
     double shorterDistance = 0;                                                 // used in brute force method

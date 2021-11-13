@@ -56,6 +56,7 @@ class Clustering_Solver: public Solver {
     int k_lsh, l_lsh;
     int k_medians;                                                              //for k means++
     int m_cube, k_cube, probes_cube;
+    int complete_flag;
 
     std::vector<Clustering_data_item*> input_data;
 
@@ -74,12 +75,12 @@ class Clustering_Solver: public Solver {
 
   public:
     Clustering_Solver(std::string input_file, std::string output_filepath, int k_lsh, int l_lsh, int n, int r, int k_medians, int m_cube,
-              int k_cube, int probes_cube, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
+              int k_cube, int probes_cube, int complete_flag , double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
     ~Clustering_Solver();
     Clustering_Solver(Clustering_Solver&) = default;
     void solve(method m);
 
-
+    void writeResult(method m, Centroid* centroids);
 
 };
 

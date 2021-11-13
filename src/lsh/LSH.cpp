@@ -123,9 +123,9 @@ void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double
 LSH_solver::~LSH_solver(){
   delete[] this->hashTables;
   for (Data_item* item : this->points_coordinates) delete item;
-  std::cout << "deleted points_coordinates" << std::endl;
+  // std::cout << "deleted points_coordinates" << std::endl;
   for (Data_item* item : this->queries) delete item;
-  std::cout << "deleted queries" << std::endl;
+  // std::cout << "deleted queries" << std::endl;
 }
 
 

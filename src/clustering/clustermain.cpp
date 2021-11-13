@@ -20,15 +20,19 @@ int main(int argc, char *argv[]){
   int counter = 0;                                                              // counter used to loop through lines of input_file
 
   string input_file,output_file, config_file, method_str;
-  int iflag = 1, oflag = 1, cflag = 1, mflag = 1;
+  int iflag = 1, oflag = 1, cflag = 1, mflag = 1, complete_flag = 0;
   int k_lsh = 4, l_lsh = 3, n = 1, r = 10000;                                   // default values if not changed
   int k_medians = 3;
   int m_cube = 10, k_cube = 3, probes_cube = 2;
   method m;
 
+  static struct option long_options[] = {
+    {"complete", 0, NULL, 'p'},
+    {0, 0, 0, 0}
+  };
 
 
-  while ((opt = getopt(argc, argv, "i:c:o:m:")) != -1)
+  while ((opt = getopt_long(argc, argv, "i:c:o:m:p:", long_options, NULL)) != -1)
         switch (opt) {
           case 'i':
                   input_file = optarg;
@@ -46,6 +50,10 @@ int main(int argc, char *argv[]){
                   method_str = optarg;
                   mflag--;
                   break;
+          case 'p':
+                  complete_flag++;
+                  break;
+
         }
 
   // options -i, -q, -o are mandatory
@@ -68,12 +76,6 @@ int main(int argc, char *argv[]){
       cout << "Terminating..." << endl;
       exit(1);
     }
-    cout << "m = " << m << endl;
-
-  }
-
-  //check complete
-  if (cflag == 0){
 
   }
 
@@ -97,7 +99,7 @@ int main(int argc, char *argv[]){
   sttime=((double) clock())/CLOCKS_PER_SEC;
 
 
-  Clustering_Solver a(input_file, output_file, k_lsh, l_lsh, n, r, k_medians, m_cube, k_cube, probes_cube);
+  Clustering_Solver a(input_file, output_file, k_lsh, l_lsh, n, r, k_medians, m_cube, k_cube, probes_cube, complete_flag);
 
   a.solve(m);
   endtime=((double) clock())/CLOCKS_PER_SEC;

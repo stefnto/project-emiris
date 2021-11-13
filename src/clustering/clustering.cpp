@@ -24,8 +24,8 @@ void Clustering_data_item::setDistanceFromNearestCentroid(Clustering_data_item* 
 // Clustering_Solver Methods
 
 Clustering_Solver::Clustering_Solver(std::string input_file, std::string output_filepath, int k_lsh, int l_lsh,
-              int n, int r, int k_medians, int m_cube, int k_cube, int probes_cube, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b))
-  : Solver(n, r, output_filepath), k_lsh(k_lsh), l_lsh(l_lsh), k_medians(k_medians), m_cube(m_cube), k_cube(k_cube), probes_cube(probes_cube)
+              int n, int r, int k_medians, int m_cube, int k_cube, int probes_cube, int complete_flag, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b))
+  : Solver(n, r, output_filepath), k_lsh(k_lsh), l_lsh(l_lsh), k_medians(k_medians), m_cube(m_cube), k_cube(k_cube), probes_cube(probes_cube), complete_flag(complete_flag)
 {
     readItems(input_file, input_data);
     this->distanceFunction = distanceFunction;
@@ -192,17 +192,9 @@ void Clustering_Solver::lloyd(){
     centroids = nextCentroids;
   }
 
-   float total = silhouette(centroids);
+   writeResult(classic, centroids);
 
   delete[] centroids;
-
-  std::ofstream output_file;
-  output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
-
-  for (Clustering_data_item* item : input_data)
-    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() << " silhouette : " << item->getSilhouette() << std::endl;
-   output_file << "total silhouette is : " << total << std::endl;
-  output_file.close();
 }
 
 
@@ -340,17 +332,11 @@ void Clustering_Solver::reverseAssignmentLSH(){
     centroids = nextCentroids;
     nextCentroids = new Centroid[k_medians];
   }
-   float totalSil = silhouette(centroids);
+
+   writeResult(lsh, centroids);
 
   delete[] nextCentroids;
   delete[] centroids;
-
-  std::ofstream output_file;
-  output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
-  for (Clustering_data_item *item : input_data)
-    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() << " silhouette : " << item->getSilhouette() << std::endl;
-   output_file << "total silhouette " << totalSil << std::endl;
-  output_file.close();
 }
 
 
@@ -413,17 +399,11 @@ void Clustering_Solver::reverseAssignmentCube(){
     centroids = nextCentroids;
     nextCentroids = new Centroid[k_medians];
   }
-   float totalSil = silhouette(centroids);
+
+  writeResult(hypercube, centroids);
 
   delete[] nextCentroids;
   delete[] centroids;
-
-  std::ofstream output_file;
-  output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
-  for (Clustering_data_item *item : input_data)
-    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() << " silhouette : " << item->getSilhouette() << std::endl;
-     output_file << "total silhouette " << totalSil << std::endl;
-  output_file.close();
 
 }
 
@@ -441,6 +421,77 @@ double Clustering_Solver::minCentroidDistance(Centroid* centroids){
   return minDist;
 }
 
+void Clustering_Solver::writeResult(method m, Centroid* centroids){
+
+  double s_total = silhouette(centroids);
+
+  std::vector<double> silhouettes;
+  for (int i = 0; i < k_medians; i++)
+    silhouettes.push_back( 0.0 );
+
+  std::vector<std::string> clusters[k_medians];
+
+  for (Clustering_data_item* item : input_data){                                // assign every item to the cluster for output
+    int tmp = item->getCluster();
+    clusters[tmp].emplace_back(item->get_item_id());
+    silhouettes[tmp] += item->getSilhouette();                                  // get total silhouette for cluster
+  }
+
+  for (int i = 0; i < silhouettes.size(); i++)
+    silhouettes[i] = silhouettes[i] / clusters[i].size();
+
+  std::ofstream output_file;
+  output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
+
+
+  if ( m == classic)
+    output_file << "Algorithm: LLoyds" << std::endl << std::endl;
+  else if (m == lsh)
+    output_file << "Algorithm: Range Search LSH" << std::endl << std::endl;
+  else if (m == hypercube)
+    output_file << "Algorithm: Range Search Hypercube" << std::endl << std::endl;
+
+  for (int i = 0; i < k_medians; i++){
+    output_file << "Cluster-" << i+1 << " { size: " << clusters[i].size() << ", centroid: ( ";
+    for (int j = 0; j < centroids[i].size(); j++){
+
+      if ( j == centroids[i].size()-1 )
+        output_file << centroids[i][j] << ") }" << std::endl;
+
+      else
+        output_file << centroids[i][j] << ", ";
+    }
+    output_file << std::endl;
+  }
+
+  output_file << "Silhouette: { ";
+  for (int i = 0; i < silhouettes.size(); i++)
+    output_file << silhouettes[i] << ", ";
+
+  output_file << s_total << " }" << std::endl << std::endl;
+
+  // if condition
+  if (this->complete_flag == 1){
+    output_file << std::endl << "Cluster followed by the items assigned in it" << std::endl << std::endl;
+
+    for (int i = 0; i < k_medians; i++){
+
+      output_file << "Cluster-" << i+1 << " { ";
+
+      for (int j = 0; j < clusters[i].size(); j++){
+
+        if ( j == clusters[i].size()-1 )
+          output_file << clusters[i][j] << " }" << std::endl;
+
+          else
+          output_file << clusters[i][j] << ", ";
+        }
+        output_file << std::endl;
+      }
+    }
+
+  output_file.close();
+}
 
 
 // LSH_HashTable_Clustering Methods
@@ -558,7 +609,6 @@ LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<Clustering_data_item *>
 
 LSH_Solver_Clustering::~LSH_Solver_Clustering(){
   delete[] this->hashTables;
-  std::cout << "ht deleted" << std::endl;
 }
 
 
