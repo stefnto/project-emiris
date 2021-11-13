@@ -192,7 +192,7 @@ void Clustering_Solver::lloyd(){
     centroids = nextCentroids;
   }
 
-  // float total = silhouette(centroids);
+   float total = silhouette(centroids);
 
   delete[] centroids;
 
@@ -200,8 +200,8 @@ void Clustering_Solver::lloyd(){
   output_file.open(this->output_filepath, std::ofstream::out | std::ofstream::app);
 
   for (Clustering_data_item* item : input_data)
-    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() /*<< " silhouette : " << item->getSilhouette()*/ << std::endl;
-  // output_file << "total silhouette is : " << total << std::endl;
+    output_file << item->get_item_id() << " belongs to cluster : " << item->getCluster() << " silhouette : " << item->getSilhouette() << std::endl;
+   output_file << "total silhouette is : " << total << std::endl;
   output_file.close();
 }
 
@@ -328,7 +328,7 @@ void Clustering_Solver::reverseAssignmentLSH(){
     }
 
 
-    if (++iterations == 10 )
+    if (++iterations == 15 )
       break;
 
     for (int i = 0 ; i < k_medians ; i++){
@@ -461,7 +461,6 @@ int LSH_HashTable_Clustering::clusteringRangeSearch(Clustering_data_item* centro
 
     if ( centroid->getID(index) == item->getID(index) ){
 
-      double distanceFromCentroid;
       Clustering_data_item* c_d_item = dynamic_cast<Clustering_data_item *>(item);                    // typecast Data_point* to Clustering_data_item*
 
       checkRadiusOfItem(centroid, radius, c_d_item, sum);

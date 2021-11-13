@@ -53,13 +53,13 @@ double (* Data_item::getDistanceFunction())(const std::vector<int>& a,const std:
 
 // Data_point Methods
 
-void Data_point::set_ID(long id){
+/* void Data_point::set_ID(long id){
   this->ID = id;
 }
 
 long Data_point::get_ID() const{
   return this->ID;
-}
+} */
 
 
 void Data_point::setDistanceFromQuery(Data_query* query){
@@ -78,13 +78,13 @@ float Data_point::getDistanceFromQuery() const{
 
 // Data_query Methods
 
-void Data_query::set_ID(long id){
+/* void Data_query::set_ID(long id){
   this->ID = id;
 }
 
 long Data_query::get_ID() const{
   return this->ID;
-}
+} */
 
 
 void Data_query::setAlgorithmTime(double time){

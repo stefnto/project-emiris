@@ -24,6 +24,7 @@ class Data_item {
     std::string item_id;                                                        // is id from input_file
     std::vector<int> coordinates;
     std::vector<long> IDs;
+
     static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
 
   public:
@@ -54,8 +55,6 @@ class Data_point: public Data_item {
     Data_point(std::string line): Data_item(line){};
     ~Data_point(){};
 
-    void set_ID(long id);
-    long get_ID() const;
 
 
     void setDistanceFromQuery(Data_query* query);
@@ -76,8 +75,6 @@ class Data_query: public Data_item {
     Data_query(std::string item_id, std::vector<int> coordinates): Data_item(item_id, coordinates){};
     Data_query(std::string line): Data_item(line){};
 
-    void set_ID(long id);
-    long get_ID() const;
 
 
     void setAlgorithmTime(double time);

@@ -39,7 +39,6 @@ class gFunction{                                                                
         sum += mod( ( elem.first*elem.second(item) ), M );
 
       sum = mod(sum, M);
-      item->set_ID(sum);                                                        //setting id of the item
       item->ID_push_back(sum);
 
       return mod(sum, tableSize);

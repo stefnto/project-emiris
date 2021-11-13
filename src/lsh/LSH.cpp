@@ -80,7 +80,6 @@ void LSH_solver::writeResult(LSH_Set* result, Data_query* query, std::set<double
   std::ofstream output_file;
   output_file.open(output_filepath, std::ofstream::out | std::ofstream::app);
 
-  output_file << "For w : " << this->w << std::endl;
 
   output_file << "Query : " << query->get_item_id() << std::endl;
 
