@@ -1,27 +1,41 @@
 CC=g++
 INCLUDE=hdr
 FLAGZ=-std=c++11
-LSHSOURCES=$(wildcard src/lsh/*.cpp)
+LSHSOURCES=$(wildcard src/algorithms/LSH.cpp)
 # BINS=$(patsubst src/%.cpp,bin/%.o,$(SOURCES))
-LSHBINS=$(patsubst src/lsh/%.cpp,bin/lsh/%.o,$(LSHSOURCES))
-CUBESOURCES=$(wildcard src/cube/*.cpp)
-CUBEBINS=$(patsubst src/cube/%.cpp,bin/cube/%.o,$(CUBESOURCES))
-CLUSTERSOURCES = $(wildcard src/clustering/*.cpp)
-CLUSTERBINS=$(patsubst src/clustering/%.cpp,bin/clustering/%.o,$(CLUSTERSOURCES))
+LSHBINS=$(patsubst src/algorithms/LSH.cpp,bin/LSH.o,$(LSHSOURCES))
+CUBESOURCES=$(wildcard src/algorithms/Cube.cpp)
+CUBEBINS=$(patsubst src/algorithms/Cube.cpp,bin/Cube.o,$(CUBESOURCES))
+CLUSTERSOURCES = $(wildcard src/algorithms/clustering.cpp)
+CLUSTERBINS=$(patsubst src/algorithms/clustering.cpp,bin/clustering.o,$(CLUSTERSOURCES))
 
 
 
 all: lsh cube clustering
 
 
-lsh: $(LSHBINS) bin/utils/utils.o bin/mains/LSHmain.o
+lsh: bin/LSH.o bin/utils/utils.o bin/mains/LSHmain.o
 	$(CC) -o lsh $^
 
-$(LSHBINS) : bin/lsh/%.o : src/lsh/%.cpp
-	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
+cube: bin/Cube.o bin/utils/utils.o bin/mains/Cubemain.o
+	$(CC) -o cube $^
+
+clustering: bin/clustering.o bin/utils/utils.o bin/LSH.o bin/Cube.o bin/mains/clustermain.o
+	$(CC) -o clustering $^
+
+# $(LSHBINS) : bin/LSH.o
 
 bin/utils/utils.o : src/utils/utils.cpp
 	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
+
+bin/LSH.o : src/algorithms/LSH.cpp
+	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
+
+bin/Cube.o : src/algorithms/Cube.cpp
+	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
+
+bin/clustering.o : src/algorithms/clustering.cpp
+	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
 bin/mains/LSHmain.o: src/mains/LSHmain.cpp
 	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
@@ -29,17 +43,20 @@ bin/mains/LSHmain.o: src/mains/LSHmain.cpp
 bin/mains/Cubemain.o: src/mains/Cubemain.cpp
 	$(CC) $(flagz) -c -I $(INCLUDE) $< -o $@
 
-cube: $(CUBEBINS) bin/utils/utils.o bin/mains/Cubemain.o
-	$(CC) -o cube $^
-
-$(CUBEBINS) : bin/cube/%.o : src/cube/%.cpp
+bin/mains/clustermain.o : src/mains/clustermain.cpp
 	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
 
-clustering: $(CLUSTERBINS) bin/utils/utils.o $(LSHBINS) $(CUBEBINS) 
-	$(CC) -o clustering $^
 
-$(CLUSTERBINS) : bin/clustering/%.o : src/clustering/%.cpp
-	$(CC) $(FLAGZ) -c -I $(INCLUDE) $< -o $@
+
+# $(CUBEBINS) : bin/Cube.o
+
+
+
+
+
+# $(CLUSTERBINS) : bin/mains/clustermain.o
+
+
 
 #LSH: src/LSHmain.cpp src/LSH.cpp src/utils.cpp
 #	$(CC) $(FLAGZ) -I $(INCLUDE) -o LSH src/LSHmain.cpp src/LSH.cpp src/utils.cpp
@@ -54,5 +71,5 @@ CUBEdefault:
 	./cube -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o outputC  -N 3 -R 10000
 
 clean:
-	rm -f bin/utils/* bin/cube/* bin/lsh/* bin/clustering/*
+	rm -f bin/mains/* bin/clustering.i bin/LSH.o bin/Cube.o
 	rm -f lsh cube clustering
