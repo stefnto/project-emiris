@@ -59,7 +59,7 @@ class Cube_HashTable: public HashTable {
     std::unordered_map<int, int>* sets;                                         // there are k unordered_maps, each for an h_i, i = 0, ... ,k
                                                                                 // first int represents h_i(p) and second int represents f_i( h_i(p) )
                                                                                 // f_i( h_i(p) ) = { 0 , 1 } randomly generated
-                                                                                // if h_i(p_x) = h_i(p_y), j ≠ x, then f_k( h_k(p_x) ) = f_i( h_i(p_y) ), for the already randomly generated f_i( h_i(p_x) )
+                                                                                // if h_i(p_x) = h_i(p_y), y ≠ x, then f_i( h_i(p_x) ) = f_i( h_i(p_y) ), for the already randomly generated f_i( h_i(p_x) )
 
   public:
     Cube_HashTable(int k, int dim, unsigned long long buckets_no, int w);
@@ -100,7 +100,7 @@ class Cube_Solver: public Solver {
     ~Cube_Solver();
     bool solve();
     void writeResult(Cube_Set* result, Data_query* query, std::set<double>& true_nn);
-    
+
 };
 
 
