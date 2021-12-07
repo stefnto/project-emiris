@@ -176,7 +176,7 @@ void Clustering_Solver::lloyd(){
     }
 
     // std::cout <<"changes " << changes << std::endl;
-    if (changes < input_data.size()/500)
+    if (changes <= input_data.size()/500)
       break;
 
     changes = 0;
@@ -296,7 +296,7 @@ void Clustering_Solver::reverseAssignmentLSH(){
         Clustering_data_item centroid(std::to_string(i), centroids[i]);         // make the centroid a 'Clustering_data_item'
         changes += solver.clusteringRangeSearch(&centroid, radius);             // for each centroid do range search
       }
-      if (changes < input_data.size() / 1000)
+      if (changes <= input_data.size() / 1000)
         break;
       changes = 0;
       radius *= 2;
@@ -364,7 +364,7 @@ void Clustering_Solver::reverseAssignmentCube(){
         Clustering_data_item centroid(std::to_string(i), centroids[i]);         // make the centroid a 'Clustering_data_item'
         changes += solver.clusteringRangeSearch(&centroid, radius);             // for each centroid do range search
       }
-      if (changes < input_data.size() / 1000)                                   // if changes to centroids were less than a number
+      if (changes <= input_data.size() / 1000)                                   // if changes to centroids were less than a number
         break;                                                                  // representing a floor, stop loop
       changes = 0;
       radius *= 2;
