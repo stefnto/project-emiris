@@ -3,14 +3,14 @@
 
 
 
-double (*Data_item::distanceFunction)(const std::vector<int>& a,const std::vector<int>& b ) = nullptr;
+double (*Data_item::distanceFunction)(const std::vector<double>& a,const std::vector<double>& b ) = nullptr;
 
 
 // Data_item Methods
 
 Data_item::Data_item(std::string line){
   std::stringstream ss(line);
-  int number;
+  double number;
   std::string itmID;
   ss >> itmID;
   this->item_id = itmID;
@@ -19,10 +19,10 @@ Data_item::Data_item(std::string line){
   }
 }
 
-Data_item::Data_item(std::string item_id, std::vector<int> coordinates): item_id(item_id),coordinates(coordinates){}
+Data_item::Data_item(std::string item_id, std::vector<double> coordinates): item_id(item_id),coordinates(coordinates){}
 
 
-const std::vector<int>& Data_item::getCoordinates() const {
+const std::vector<double>& Data_item::getCoordinates() const {
   return this->coordinates;
 }
 
@@ -42,11 +42,11 @@ std::string Data_item::get_item_id()const{
 }
 
 
-void Data_item::setDistanceFunction(double (*dFunction)(const std::vector<int>& a, const std::vector<int>& b)){
+void Data_item::setDistanceFunction(double (*dFunction)(const std::vector<double>& a, const std::vector<double>& b)){
       distanceFunction = dFunction;
 }
 
-double (* Data_item::getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b){
+double (* Data_item::getDistanceFunction())(const std::vector<double>& a,const std::vector<double>& b){
   return this->distanceFunction;
 }
 
@@ -99,14 +99,14 @@ double Data_query::getShorterDistance(){
 
 // Solver Methods
 
-Solver::Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
+Solver::Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) )
   : n(n), r(r), output_filepath(output_filepath){
 
   Data_item::setDistanceFunction(distanceFunction);                             // computing distance between Data_items is handled by the class Data_item
 
 }
 
-Solver::Solver(int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+Solver::Solver(int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b))
   :n(n), r(r), output_filepath(""){
 
     Data_item::setDistanceFunction(distanceFunction);                           // computing distance between Data_items is handled by the class Data_item
@@ -131,7 +131,7 @@ hFunction::hFunction(int itemSize, int w): w(w){
 }
 
 int hFunction::operator()(const Data_item* item){
-    std::vector<int>::const_iterator it1 = item->getCoordinates().begin();
+    std::vector<double>::const_iterator it1 = item->getCoordinates().begin();
     std::vector<float>::const_iterator it2 = v.begin();
 
     if( item->getCoordinates().size() != v.size() ) throw item_Exception();
@@ -165,7 +165,7 @@ long mod(long x, long y){
   return x % y;
 }
 
-double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b){
+double EuclidianDistance(const std::vector<double>& a,const std::vector<double>& b){
   if ( a.size() != b.size() )
     return 0;
 
@@ -212,7 +212,7 @@ void bruteForceSearch(Data_query *query, std::vector<Data_point*>& points_coordi
 
   for (Data_point* point: points_coordinates){
 
-    double (* ptr) (const std::vector<int>& a,const std::vector<int>& b) = query->getDistanceFunction();
+    double (* ptr) (const std::vector<double>& a,const std::vector<double>& b) = query->getDistanceFunction();
     double distance = ptr( query->getCoordinates(), point->getCoordinates() );
 
     if (true_nn_distances.size() < n){                                          // if size of set less than n, add the distance

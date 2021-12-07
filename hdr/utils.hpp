@@ -13,7 +13,7 @@
 class item_Exception{};
 
 
-double EuclidianDistance(const std::vector<int>& a,const std::vector<int>& b);
+double EuclidianDistance(const std::vector<double>& a,const std::vector<double>& b);
 
 class Data_item;
 class Data_point;
@@ -22,26 +22,26 @@ class Data_query;
 class Data_item {
   protected:
     std::string item_id;                                                        // is id from input_file
-    std::vector<int> coordinates;
+    std::vector<double> coordinates;
     std::vector<long> IDs;
 
-    static double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b);
+    static double (*distanceFunction)(const std::vector<double> &a, const std::vector<double> &b);
 
   public:
     Data_item(){};
     Data_item(std::string line);
-    Data_item(std::string item_id, std::vector<int> coordinates);
+    Data_item(std::string item_id, std::vector<double> coordinates);
     virtual ~Data_item(){};
 
-    const std::vector<int>& getCoordinates() const;
+    const std::vector<double>& getCoordinates() const;
     void print_coordinates();
     int get_coordinates_size();
     std::string get_item_id() const;
 
     void ID_push_back(long id) { IDs.push_back(id); }
     int getID(int pos) const { return IDs[pos]; }
-    static void setDistanceFunction(double (*distanceFunction)(const std::vector<int> &a, const std::vector<int> &b));
-    double (*getDistanceFunction())(const std::vector<int>& a,const std::vector<int>& b);
+    static void setDistanceFunction(double (*distanceFunction)(const std::vector<double> &a, const std::vector<double> &b));
+    double (*getDistanceFunction())(const std::vector<double>& a,const std::vector<double>& b);
 };
 
 class Data_point: public Data_item {
@@ -51,7 +51,7 @@ class Data_point: public Data_item {
 
   public:
     Data_point(){};
-    Data_point(std::string item_id, std::vector<int> coordinates): Data_item(item_id, coordinates){};
+    Data_point(std::string item_id, std::vector<double> coordinates): Data_item(item_id, coordinates){};
     Data_point(std::string line): Data_item(line){};
     ~Data_point(){};
 
@@ -72,7 +72,7 @@ class Data_query: public Data_item {
 
   public:
     Data_query(){};
-    Data_query(std::string item_id, std::vector<int> coordinates): Data_item(item_id, coordinates){};
+    Data_query(std::string item_id, std::vector<double> coordinates): Data_item(item_id, coordinates){};
     Data_query(std::string line): Data_item(line){};
 
 
@@ -94,8 +94,8 @@ class Solver {
     std::string output_filepath;
 
   public:
-    Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
-    Solver(int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    Solver(int n, int r, std::string output_filepath, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) = EuclidianDistance);
+    Solver(int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) = EuclidianDistance);
     virtual ~Solver(){};
 };
 

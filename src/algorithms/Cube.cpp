@@ -124,7 +124,7 @@ Cube_Set* Cube_HashTable::NN(Data_query* query, int m, int probes){
 
 // Cube_Solver Methods
 
-Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b))
+Cube_Solver::Cube_Solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<double>& a,const std::vector<double>& b))
   : Solver(n, r, output_filepath), k(k), m(m), probes(probes)
   {
     int itemsRead = readItems(dataset_path,points_coordinates);                 // reads and inserts items to points_coordinates

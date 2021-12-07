@@ -24,7 +24,7 @@ void Clustering_data_item::setDistanceFromNearestCentroid(Clustering_data_item* 
 // Clustering_Solver Methods
 
 Clustering_Solver::Clustering_Solver(std::string input_file, std::string output_filepath, int k_lsh, int l_lsh,
-              int n, int r, int k_medians, int m_cube, int k_cube, int probes_cube, int complete_flag, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b))
+              int n, int r, int k_medians, int m_cube, int k_cube, int probes_cube, int complete_flag, double (*distanceFunction)(const std::vector<double>& a,const std::vector<double>& b))
   : Solver(n, r, output_filepath), k_lsh(k_lsh), l_lsh(l_lsh), k_medians(k_medians), m_cube(m_cube), k_cube(k_cube), probes_cube(probes_cube), complete_flag(complete_flag)
 {
     readItems(input_file, input_data);
@@ -88,7 +88,7 @@ Centroid* Clustering_Solver::initpp(){
       if ( centroid_ids.find(item->get_item_id()) == centroid_ids.end() ){                      // if current point has not been chosen as centroid
         int it = 0;
 
-        const std::vector<int> coordinates = item->getCoordinates();
+        const std::vector<double> coordinates = item->getCoordinates();
         double minD = distanceFunction(centroids[0], coordinates);
 
         while ( ++it < t ) {
@@ -314,7 +314,7 @@ void Clustering_Solver::reverseAssignmentLSH(){
       int index = item->getCluster();
       population[index]++;
       for (int j = 0; j < num_of_centroids; j++) {
-        const std::vector<int>& coors = item->getCoordinates();
+        const std::vector<double>& coors = item->getCoordinates();
         nextCentroids[index][j] += coors[j];
       }
     }
@@ -382,7 +382,7 @@ void Clustering_Solver::reverseAssignmentCube(){
       int index = item->getCluster();
       population[index]++;
       for (int j = 0; j < num_of_centroids; j++) {
-        const std::vector<int>& coors = item->getCoordinates();
+        const std::vector<double>& coors = item->getCoordinates();
         nextCentroids[index][j] += coors[j];
       }
     }
@@ -589,7 +589,7 @@ int Cube_HashTable_Clustering::clusteringRangeSearch(Clustering_data_item* centr
 
 // LSH_Solver_Clustering Methods
 
-LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<Clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) )
+LSH_Solver_Clustering::LSH_Solver_Clustering(std::vector<Clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) )
   : Solver(n, r), k(k), l(l)
   {
 
@@ -626,7 +626,7 @@ int LSH_Solver_Clustering::clusteringRangeSearch(Clustering_data_item* centroid,
 
 // Cube_Solver_Clustering Methods
 
-Cube_Solver_Clustering::Cube_Solver_Clustering(std::vector<Clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+Cube_Solver_Clustering::Cube_Solver_Clustering(std::vector<Clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b))
   : Solver(n, r), k(k), m(m), probes(probes)
   {
     int w = avgDistance(clusteringData);

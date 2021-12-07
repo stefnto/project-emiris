@@ -77,7 +77,7 @@ class LSH_solver: public Solver {
   public :
 
     //H functions are constructed inside the LSH_solver constructor and picked by the G functions.
-    LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
+    LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<double>& a,const std::vector<double>& b) = EuclidianDistance);
     ~LSH_solver();
 
     bool solve();                                                               // This function is called to solve NN , kNN and Approximate Range Search.

@@ -10,7 +10,7 @@
 
 enum method {classic = 0,lsh,hypercube};
 
-using Centroid = std::vector<int>;                                              // for each centroid it's coordinates are stored
+using Centroid = std::vector<double>;                                              // for each centroid it's coordinates are stored
 
 class Clustering_data_item;
 
@@ -26,7 +26,7 @@ class Clustering_data_item : public Data_point {
 
   public:
     Clustering_data_item(std::string line):Data_point(line),cluster(-1){}
-    Clustering_data_item(std::string item_id, std::vector<int> coordinates): Data_point(item_id, coordinates), cluster(-1){}
+    Clustering_data_item(std::string item_id, std::vector<double> coordinates): Data_point(item_id, coordinates), cluster(-1){}
 
     void setCluster(int cluster){this->cluster = cluster;}
     int getCluster() const {return cluster;}
@@ -60,7 +60,7 @@ class Clustering_Solver: public Solver {
 
     std::vector<Clustering_data_item*> input_data;
 
-    double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b);
+    double (*distanceFunction)(const std::vector<double>& a,const std::vector<double>& b);
 
     Centroid* initpp();
 
@@ -75,7 +75,7 @@ class Clustering_Solver: public Solver {
 
   public:
     Clustering_Solver(std::string input_file, std::string output_filepath, int k_lsh, int l_lsh, int n, int r, int k_medians, int m_cube,
-              int k_cube, int probes_cube, int complete_flag , double (*distanceFunction)(const std::vector<int>& a,const std::vector<int>& b) = EuclidianDistance);
+              int k_cube, int probes_cube, int complete_flag , double (*distanceFunction)(const std::vector<double>& a,const std::vector<double>& b) = EuclidianDistance);
     ~Clustering_Solver();
     Clustering_Solver(Clustering_Solver&) = default;
     void solve(method m);
@@ -119,7 +119,7 @@ class LSH_Solver_Clustering: public Solver {
     LSH_HashTable_Clustering* hashTables;
 
   public:
-    LSH_Solver_Clustering(std::vector<Clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    LSH_Solver_Clustering(std::vector<Clustering_data_item *>& clusteringData, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) = EuclidianDistance);
     ~LSH_Solver_Clustering();
 
     int clusteringRangeSearch(Clustering_data_item* centroid, double radius);               // this function is used to rangeSearch for points near the centroid given
@@ -135,7 +135,7 @@ class Cube_Solver_Clustering: public Solver {
     Cube_HashTable_Clustering* hashTable;
 
   public:
-    Cube_Solver_Clustering(std::vector<Clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    Cube_Solver_Clustering(std::vector<Clustering_data_item*>& clusteringData, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) = EuclidianDistance);
     ~Cube_Solver_Clustering();
 
     int clusteringRangeSearch(Clustering_data_item* centroid, double radius);               // this function is used to rangeSearch for points near the centroid given

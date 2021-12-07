@@ -96,7 +96,7 @@ class Cube_Solver: public Solver {
     Cube_HashTable* hashTable;
 
   public:
-    Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b) = EuclidianDistance);
+    Cube_Solver(std::string dataset_path, std::string query_path, std::string output_file, int k, int m, int probes, int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b) = EuclidianDistance);
     ~Cube_Solver();
     bool solve();
     void writeResult(Cube_Set* result, Data_query* query, std::set<double>& true_nn);

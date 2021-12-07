@@ -3,7 +3,7 @@
 
 //LSH_solver Methods
 
-LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<int>& a, const std::vector<int>& b))
+LSH_solver::LSH_solver(std::string dataset_path, std::string query_path, std::string output_filepath, int k, int l, int n, int r, double (*distanceFunction)(const std::vector<double>& a, const std::vector<double>& b))
   : Solver(n, r, output_filepath), l(l)
   {
   double sttime, endtime;                                                       // to compute total run time
@@ -198,7 +198,7 @@ std::vector<Data_item *> itemGenerator(int amount,int itemSize){
   std::vector<Data_item*> items;
 
   for (int i = 0 ; i < amount; i++){
-    std::vector<int> co;
+    std::vector<double> co;
     for (int j = 0; j < itemSize; j++) co.push_back(rand() % 201);
     items.push_back( new Data_item("x"+i,co));
   }

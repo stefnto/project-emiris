@@ -65,7 +65,7 @@ bin/mains/clustermain.o : src/mains/clustermain.cpp
 #	$(CC) $(FLAGZ) -I $(INCLUDE) -g -o cube src/Cubemain.cpp src/Cube.cpp src/utils.cpp
 
 LSHdefault:
-	./lsh -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o outputw4  -N 3 -R 10000
+	./lsh -i input/nasdaq2015_2017.csv -q input/curve_query_100.txt -k 5 -L 5 -o outputw4  -N 3 -R 10000
 
 CUBEdefault:
 	./cube -i input/input_small_id.txt -q input/query_small_id.txt -k 5 -L 5 -o outputC  -N 3 -R 10000
